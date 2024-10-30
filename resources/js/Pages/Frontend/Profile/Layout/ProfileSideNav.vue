@@ -30,14 +30,14 @@ function isActiveRoute(routeName) {
                             <!-- nav item -->
                             <li class="nav-item">
                                 <Link :class="['nav-link', isActiveRoute('profile') ? 'active' : '']"
-                                    aria-current="page" :href="route('profile')">
+                                    :href="route('profile')">
                                 <i class="feather-icon icon-shopping-bag me-2"></i>
                                 Your Orders
                                 </Link>
                             </li>
                             <li class="nav-item">
                                 <Link :class="['nav-link', isActiveRoute('profile.wish-list') ? 'active' : '']"
-                                    aria-current="page" :href="route('profile.wish-list')">
+                                    :href="route('profile.wish-list')">
                                 <i class="feather-icon icon-shopping-bag me-2"></i>
                                 Wish Lists
                                 </Link>
@@ -104,25 +104,33 @@ function isActiveRoute(routeName) {
         <div class="offcanvas-body">
             <ul class="nav flex-column nav-pills nav-pills-dark">
                 <!-- nav item -->
-                <li class="nav-item @if (Route::is('profile')) active @endif">
-                    <a class="nav-link active" aria-current="page" :href="route('profile')">
-                        <i class="feather-icon icon-shopping-bag me-2"></i>
-                        Your Orders
-                    </a>
+                <li class="nav-item">
+                    <Link :class="['nav-link', isActiveRoute('profile') ? 'active' : '']" :href="route('profile')">
+                    <i class="feather-icon icon-shopping-bag me-2"></i>
+                    Your Orders
+                    </Link>
                 </li>
-                <!-- nav item -->
-                <li class="nav-item @if (Route::is('profile.setting')) active @endif">
-                    <a class="nav-link" :href="route('profile.setting')">
-                        <i class="feather-icon icon-settings me-2"></i>
-                        Settings
-                    </a>
+                <li class="nav-item">
+                    <Link :class="['nav-link', isActiveRoute('profile.wish-list') ? 'active' : '']"
+                        :href="route('profile.wish-list')">
+                    <i class="feather-icon icon-shopping-bag me-2"></i>
+                    Wish Lists
+                    </Link>
+                </li>
+                <li class="nav-item">
+                    <Link :class="['nav-link', isActiveRoute('profile.setting') ? 'active' : '']"
+                        :href="route('profile.setting')">
+                    <i class="feather-icon icon-settings me-2"></i>
+                    Settings
+                    </Link>
                 </li>
 
-                <li class="nav-item @if (Route::is('profile.address')) active @endif">
-                    <a class="nav-link" :href="route('profile.address')">
-                        <i class="feather-icon icon-map-pin me-2"></i>
-                        Address
-                    </a>
+                <li class="nav-item">
+                    <Link :class="['nav-link', isActiveRoute('profile.address') ? 'active' : '']"
+                        :href="route('profile.address')">
+                    <i class="feather-icon icon-map-pin me-2"></i>
+                    Address
+                    </Link>
                 </li>
                 <!-- <li class="nav-item">
                     <a class="nav-link" href="#">
