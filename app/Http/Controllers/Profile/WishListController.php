@@ -21,28 +21,29 @@ class WishListController extends Controller
 
     public function addWishList(Request $request)
     {
-        $userId = $request->header('id');
-        $productId = $request->input('productID');
-        $wishList = new WishList();
-        $wishList->user_id = $userId;
-        $wishList->product_id = $productId;
-        $wishList->save();
-        return 1;
-
+        $validatedRequest = $request->validate([
+            'user_id' => $request->header('id'),
+            'product_id' => $request->input('product_id'),
+        ]);
+        try {
+            WishList::create($validatedRequest);
+            return back();
+        } catch (\Exception $e) {
+            return back()->withErrors(['message' => 'Something Wrong!']);
+        }
     }
 
     public function removeWishListItem(Request $request)
     {
         $userId = $request->header('id');
-        $productId = $request->input('productID');
-        $wishList = WishList::where('user_id', $userId)->where('product_id', $productId)
+        $wishItem = WishList::where('id', $request->input('wishItem_id'))
+            ->where('user_id', $userId)
             ->first();
-        if ($wishList) {
-            $wishList->delete();
-            return 1;
+        if ($wishItem) {
+            $wishItem->delete();
+            return back();
         } else {
-            return 0;
+            return back()->withErrors(['message' => 'Item not found']);
         }
-
     }
 }

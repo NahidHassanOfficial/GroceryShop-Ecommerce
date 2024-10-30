@@ -6,6 +6,21 @@ defineOptions({
 defineProps({
     products: String,
 })
+import { toast } from 'vue3-toastify';
+import { useForm } from '@inertiajs/vue3';
+
+function removeWishItem(wishItem_id) {
+    const form = useForm({ wishItem_id });
+
+    form.post(route('remove.wish-list.item'), {
+        onSuccess: () => {
+            toast.success("Item Removed");
+        },
+        onError: () => {
+            toast.error(form.errors.message);
+        },
+    });
+}
 </script>
 <template>
     <div class="col-lg-9 col-md-8 col-12">
@@ -96,9 +111,10 @@ defineProps({
                                     </td>
                                 </template>
 
-                                <td class="align-middle text-center">
+                                <td class="align-middle text-center" @click="removeWishItem(wishItem.id)">
                                     <a class="text-muted" data-bs-toggle="tooltip" data-bs-placement="top"
                                         title="Delete">
+                                        {{ wishItem.id }}
                                         <i class="feather-icon icon-trash-2"></i>
                                     </a>
                                 </td>
