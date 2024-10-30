@@ -20,9 +20,8 @@ class UserProfileController extends Controller
     public function userInfo(Request $request)
     {
         $userId = $request->header('id');
-        $user = User::find($userId);
-        // return $user->makeHidden(['id', 'password']);
-        //inertia render
+        $user = User::find($userId)->makeHidden(['id', 'password']);
+
         return Inertia::render('Frontend/Profile/ProfileSetting', ['user' => $user]);
     }
 }
