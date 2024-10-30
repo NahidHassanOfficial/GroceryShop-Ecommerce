@@ -45,8 +45,7 @@ class UserAuthController extends Controller
                 $time = time() + 60 * 60 * 24;
             }
             $token = JWTToken::createToken($email, $user->id, $time);
-            $intendedUrl = $request->session()->pull('intended_url');
-            return redirect()->intended($intendedUrl ?? route('profile'))->cookie('token', $token, $time);
+            return redirect()->intended(route('profile'))->cookie('token', $token, $time);
         } else {
             return back()->withErrors(['message' => 'Invalid Credentials']);
         }
