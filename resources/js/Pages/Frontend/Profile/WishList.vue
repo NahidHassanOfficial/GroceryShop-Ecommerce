@@ -13,6 +13,7 @@ function removeWishItem(wishItem_id) {
     const form = useForm({ wishItem_id });
 
     form.post(route('remove.wish-list.item'), {
+        preserveScroll: true,
         onSuccess: () => {
             toast.success("Item Removed");
         },

@@ -2,6 +2,26 @@
 defineProps({
     products: String,
 })
+
+import { toast } from 'vue3-toastify';
+
+import { useForm } from '@inertiajs/vue3';
+const wishForm = useForm({
+    'product_id': '',
+});
+
+function addToWishList(product_id) {
+    wishForm.product_id = product_id;
+    wishForm.post(route('add.wish-list'), {
+        preserveScroll: true,
+        onSuccess: () => {
+            toast.success("Wish list updated");
+        },
+        onError: () => {
+            toast.error(wishForm.errors.message);
+        },
+    })
+}
 </script>
 <template>
     <section class="my-lg-14 my-8">
@@ -32,11 +52,10 @@ defineProps({
 
                                 <div class="card-product-action">
                                     <a href="#!" class="btn-action" data-bs-toggle="modal"
-                                        data-bs-target="#productViewModal" data-id="{{ product.id }}"
-                                        onclick="productId({{ product.id }})"><i class="bi bi-eye"
-                                            data-bs-toggle="tooltip" data-bs-html="true" title="Quick View"></i></a>
-                                    <a onclick="addProductWishList({{ product.id }})" class="btn-action"
-                                        data-bs-toggle="tooltip" data-bs-html="true" title="Wishlist"><i
+                                        data-bs-target="#productViewModal" data-id="{{ product.id }}"><i
+                                            class="bi bi-eye" data-bs-toggle="tooltip" data-bs-html="true"
+                                            title="Quick View"></i></a>
+                                    <a @click="addToWishList(product.id)" class="btn-action" title="Wishlist"><i
                                             class="bi bi-heart"></i></a>
                                     <a href="#!" class="btn-action" data-bs-toggle="tooltip" data-bs-html="true"
                                         title="Compare"><i class="bi bi-arrow-left-right"></i></a>
@@ -62,7 +81,7 @@ defineProps({
                                 <div><span class="text-dark">{{ product.sale_price }}</span> <span
                                         class="text-decoration-line-through text-muted">{{ product.price }}</span>
                                 </div>
-                                <div><a onclick="addProductCart({{ product.id }})" class="btn btn-primary btn-sm">
+                                <div><a class="btn btn-primary btn-sm">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
                                             viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                                             stroke-linecap="round" stroke-linejoin="round" class="feather feather-plus">

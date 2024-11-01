@@ -22,11 +22,14 @@ class WishListController extends Controller
     public function addWishList(Request $request)
     {
         $validatedRequest = $request->validate([
-            'user_id' => $request->header('id'),
-            'product_id' => $request->input('product_id'),
+            'product_id' => 'required|int',
         ]);
+
         try {
-            WishList::create($validatedRequest);
+            WishList::create([
+                'user_id' => $request->header('id'),
+                'product_id' => $validatedRequest['product_id'],
+            ]);
             return back();
         } catch (\Exception $e) {
             return back()->withErrors(['message' => 'Something Wrong!']);
