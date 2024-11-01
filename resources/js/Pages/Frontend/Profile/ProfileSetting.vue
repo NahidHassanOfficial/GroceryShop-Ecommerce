@@ -1,13 +1,15 @@
 <script setup>
 import { reactive } from 'vue';
 import MasterProfile from './Layout/MasterProfile.vue';
+import AccDeleteConfirmModal from '../Modals/AccDeleteConfirmModal.vue';
+
 defineOptions({
     layout: MasterProfile,
 })
+
 const props = defineProps({
     user: Object,
 })
-
 const userCopy = reactive({ ...props.user });
 
 import { useForm } from '@inertiajs/vue3';
@@ -142,9 +144,12 @@ function updatePassword() {
                     details
                     associated with it.</p>
                 <!-- btn -->
-                <a href="#" class="btn btn-outline-danger">I want to delete my account</a>
+                <a href="#" data-bs-toggle="modal" data-bs-target="#deleteConfirmation" class="btn btn-outline-danger">I
+                    want to
+                    delete my account</a>
             </div>
         </div>
     </div>
+    <AccDeleteConfirmModal />
 
 </template>

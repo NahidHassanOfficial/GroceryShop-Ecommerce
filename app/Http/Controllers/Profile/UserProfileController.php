@@ -72,6 +72,21 @@ class UserProfileController extends Controller
         } catch (\Exception $e) {
             return back()->withErrors(['message' => 'Something Wrong!']);
         }
+    }
 
+    public function profileDelete()
+    {
+        $user_id = request()->header('id');
+        try {
+            $user = User::find($user_id);
+            if ($user->password == request()->input('password')) {
+                $user->delete();
+                return redirect()->route('index')->cookie('token', '', -1);
+            } else {
+                return back()->withErrors(['message' => 'Password validation failed']);
+            }
+        } catch (\Exception $e) {
+            return back()->withErrors(['message' => 'Something Wrong!']);
+        }
     }
 }

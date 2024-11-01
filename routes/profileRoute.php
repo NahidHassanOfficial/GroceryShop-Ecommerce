@@ -25,6 +25,7 @@ Route::group(['middleware' => ['user.auth', 'check.auth']], function () {
 
     Route::post('/profile/setting', [UserProfileController::class, 'updateProfileInfo'])->name('profile.info.update');
     Route::post('/profile/setting/password-update', [UserProfileController::class, 'updateProfilePasswd'])->name('profile.passwd.update');
+    Route::post('/profile/setting/account-delete', [UserProfileController::class, 'profileDelete'])->name('profile.delete');
 
     //api actions cart
     Route::get('/profile/cart/info', [CartController::class, 'cartInfo'])->name('cart.info');
