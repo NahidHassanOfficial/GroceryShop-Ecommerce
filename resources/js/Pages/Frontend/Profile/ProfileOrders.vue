@@ -1,11 +1,17 @@
 <script setup>
+import { onMounted } from 'vue';
 import MasterProfile from './Layout/MasterProfile.vue';
 defineOptions({
     layout: MasterProfile,
 })
 
 //removes backdrop if login from loginmodal
-document.querySelector('.modal-backdrop').remove();
+onMounted(() => {
+    const backdrop = document.querySelector('.modal-backdrop');
+    if (backdrop) {
+        backdrop.remove();
+    }
+})
 </script>
 <template>
 
