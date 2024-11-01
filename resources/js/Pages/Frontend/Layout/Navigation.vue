@@ -1,11 +1,9 @@
 <script setup>
+import { Link } from '@inertiajs/vue3';
 import LocationModal from '../Modals/LocationModal.vue';
 import LoginModal from '../Modals/LoginModal.vue';
 import ProductCartModal from '../Modals/ProductCartModal.vue';
 
-defineProps({
-    isAuth: Boolean,
-})
 </script>
 
 <template>
@@ -113,28 +111,34 @@ defineProps({
             <div class="container">
                 <div class="row w-100 align-items-center g-3">
                     <div class="col-xxl-2 col-lg-3">
-                        <a class="navbar-brand d-none d-lg-block" :href="route('index')">
+                        <Link class="navbar-brand d-none d-lg-block" :href="route('index')">
+                        <img :src="'images/freshcart-logo.svg'" alt="FreshCart - Grocery Shop">
+
+                        </Link>
+                        <div class="d-flex justify-content-between w-100 d-lg-none">
+                            <Link class="navbar-brand" :href="route('index')">
                             <img :src="'images/freshcart-logo.svg'" alt="FreshCart - Grocery Shop">
 
-                        </a>
-                        <div class="d-flex justify-content-between w-100 d-lg-none">
-                            <a class="navbar-brand" :href="route('index')">
-                                <img :src="'images/freshcart-logo.svg'" alt="FreshCart - Grocery Shop">
-
-                            </a>
+                            </Link>
 
                             <div class="d-flex align-items-center lh-1">
 
                                 <div class="list-inline me-2">
                                     <div class="list-inline-item">
 
-                                        <a :href="isAuth ? route('profile') : '#'" class="text-muted"
-                                            :data-bs-toggle="isAuth ? '' : 'modal'"
-                                            :data-bs-target="isAuth ? '' : '#loginModal'"> <svg
-                                                xmlns="http://www.w3.org/2000/svg" width="20" height="20"
-                                                viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                                                stroke-linecap="round" stroke-linejoin="round"
-                                                class="feather feather-user">
+                                        <Link v-if="$page.props.isAuth" :href="route('profile')" class="text-muted">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
+                                            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                            stroke-linecap="round" stroke-linejoin="round" class="feather feather-user">
+                                            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                                            <circle cx="12" cy="7" r="4"></circle>
+                                        </svg>
+                                        </Link>
+                                        <a v-else href="#" class="text-muted" data-bs-toggle="modal"
+                                            data-bs-target="#loginModal"> <svg xmlns="http://www.w3.org/2000/svg"
+                                                width="20" height="20" viewBox="0 0 24 24" fill="none"
+                                                stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                                stroke-linejoin="round" class="feather feather-user">
                                                 <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
                                                 <circle cx="12" cy="7" r="4"></circle>
                                             </svg>
@@ -213,19 +217,25 @@ defineProps({
                                 </svg>
                                 <span
                                     class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-success">
-                                    5
-                                    <span class="visually-hidden">unread messages</span>
+                                    {{ $page.props.wishlistCount }}
                                 </span>
                                 </Link>
                             </div>
                             <div class="list-inline-item">
 
-                                <a :href="isAuth ? route('profile') : '#'" class="text-muted"
-                                    :data-bs-toggle="isAuth ? '' : 'modal'"
-                                    :data-bs-target="isAuth ? '' : '#loginModal'"> <svg
-                                        xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
-                                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                        stroke-linejoin="round" class="feather feather-user">
+                                <Link v-if="$page.props.isAuth" :href="route('profile')" class="text-muted"> <svg
+                                    xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
+                                    fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round" class="feather feather-user">
+                                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                                    <circle cx="12" cy="7" r="4"></circle>
+                                </svg>
+                                </Link>
+                                <a v-else href="#" class="text-muted" data-bs-toggle="modal"
+                                    data-bs-target="#loginModal"> <svg xmlns="http://www.w3.org/2000/svg" width="20"
+                                        height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                        class="feather feather-user">
                                         <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
                                         <circle cx="12" cy="7" r="4"></circle>
                                     </svg>
@@ -337,10 +347,10 @@ defineProps({
                     <div class="d-none d-lg-block">
                         <ul class="navbar-nav ">
                             <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle" :href="route('index')" role="button"
+                                <Link class="nav-link dropdown-toggle" :href="route('index')" role="button"
                                     data-bs-toggle="dropdown" aria-expanded="false">
-                                    Home
-                                </a>
+                                Home
+                                </Link>
                             </li>
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
@@ -430,10 +440,10 @@ defineProps({
                     <div class="d-block d-lg-none">
                         <ul class="navbar-nav ">
                             <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle" :href="route('index')" role="button"
+                                <Link class="nav-link dropdown-toggle" :href="route('index')" role="button"
                                     data-bs-toggle="dropdown" aria-expanded="false">
-                                    Home
-                                </a>
+                                Home
+                                </Link>
 
                             </li>
                             <li class="nav-item dropdown">

@@ -3,6 +3,7 @@
 namespace App\Http\Middleware;
 
 use App\Helper\JWTToken;
+use App\Models\WishList;
 use Closure;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -28,6 +29,9 @@ class CheckJWTAuth
             $decoded = JWTToken::verifyToken($token);
             if ($decoded !== 'unauthorized') {
                 Inertia::share('isAuth', true);
+                $wishlistCount = WishList::where('user_id', $decoded->userID)->count();
+                Inertia::share('wishlistCount', $wishlistCount);
+
                 return $next($request);
             }
 
