@@ -5,7 +5,7 @@ defineOptions({
 })
 
 import { toast } from 'vue3-toastify';
-import { router, useForm } from '@inertiajs/vue3';
+import { useForm } from '@inertiajs/vue3';
 const form = useForm({
     email: '',
     password: '',
