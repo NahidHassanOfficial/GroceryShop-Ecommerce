@@ -42,7 +42,7 @@
                                         <i class="feather-icon icon-arrow-right"></i>
                                     </a>
                                     <!-- btn -->
-                                    <a href="../index.html" class="btn btn-primary ms-2">Back to home</a>
+                                    <a href="{{ route('index') }}" class="btn btn-primary ms-2">Back to home</a>
                                 </div>
                             </div>
                             <div class="col-md-6">

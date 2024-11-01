@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Profile;
 
 use App\Http\Controllers\Controller;
+use App\Models\Order;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
@@ -16,7 +17,12 @@ class UserProfileController extends Controller
     }
     public function userOrders()
     {
-        return Inertia::render('Frontend/Profile/ProfileOrders');
+        $orders =
+        $orders = Order::with(['product:id,name,image,slug', 'product.category:id,name,slug'])
+            ->where('user_id', request()->header('id'))
+            ->get();
+
+        return Inertia::render('Frontend/Profile/ProfileOrders', ['orders' => $orders]);
     }
     public function userInfo(Request $request)
     {
