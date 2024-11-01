@@ -15,9 +15,9 @@ defineOptions({
     <div class="border-bottom shadow-sm">
         <nav class="navbar navbar-light py-2">
             <div class="container justify-content-center justify-content-lg-between">
-                <a class="navbar-brand" :href="route('index')">
-                    <img :src="'images/freshcart-logo.svg'" alt="" class="d-inline-block align-text-top" />
-                </a>
+                <Link class="navbar-brand" :href="route('index')">
+                <img :src="'images/freshcart-logo.svg'" alt="" class="d-inline-block align-text-top" />
+                </Link>
                 <span class="navbar-text">
                     Don't have an account?
                     <Link :href="route('user.register')" class="text-primary link-success">Sign Up
