@@ -5,7 +5,6 @@ import { createInertiaApp, Head, Link } from "@inertiajs/vue3";
 import { ZiggyVue } from "../../vendor/tightenco/ziggy";
 import MasterLayout from "./Pages/Master.vue";
 
-import Toast from "vue3-toastify";
 import "vue3-toastify/dist/index.css";
 
 import $ from "jquery";
@@ -32,9 +31,6 @@ createInertiaApp({
         createApp({ render: () => h(App, props) })
             .use(plugin)
             .use(ZiggyVue)
-            .use(Toast, {
-                autoClose: 3000,
-            })
             .component("Head", Head)
             .component("Link", Link)
             .mount(el);
