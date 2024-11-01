@@ -115,7 +115,6 @@ function removeWishItem(wishItem_id) {
                                 <td class="align-middle text-center" @click="removeWishItem(wishItem.id)">
                                     <a class="text-muted" data-bs-toggle="tooltip" data-bs-placement="top"
                                         title="Delete">
-                                        {{ wishItem.id }}
                                         <i class="feather-icon icon-trash-2"></i>
                                     </a>
                                 </td>

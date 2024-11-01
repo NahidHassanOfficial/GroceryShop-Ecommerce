@@ -12,9 +12,9 @@ class WishListController extends Controller
     public function wishList(Request $request)
     {
         $userId = $request->header('id');
-        $products = WishList::with(['product.category:id,slug'])
+        $products = WishList::with(['product:id,name,category_id,image,price,sale_price,stock,status,slug', 'product.category:id,slug'])
             ->where('user_id', $userId)
-            ->get();
+            ->select('id', 'product_id')->get();
 
         return Inertia::render('Frontend/Profile/WishList', ['products' => $products]);
     }
