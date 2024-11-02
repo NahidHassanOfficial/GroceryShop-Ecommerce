@@ -4,7 +4,7 @@ import LocationModal from '../Modals/LocationModal.vue';
 import LoginModal from '../Modals/LoginModal.vue';
 import ProductCartModal from '../Modals/ProductCartModal.vue';
 
-import { cartList, removeCartItem } from '../Components/Utils/CartWishManage';
+import { cartList, totalAmmount, removeCartItem } from '../Components/Utils/CartWishManage';
 </script>
 
 <template>
@@ -136,7 +136,7 @@ import { cartList, removeCartItem } from '../Components/Utils/CartWishManage';
                                                 d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z">
                                             </path>
                                         </svg>
-                                        <span
+                                        <span v-show="$page.props.wishlistCount"
                                             class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-success">
                                             {{ $page.props.wishlistCount }}
                                         </span>
@@ -176,7 +176,7 @@ import { cartList, removeCartItem } from '../Components/Utils/CartWishManage';
                                                 </line>
                                                 <path d="M16 10a4 4 0 0 1-8 0"></path>
                                             </svg>
-                                            <span
+                                            <span v-show="cartList.length"
                                                 class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-success">
                                                 {{ cartList.length }}
                                                 <span class="visually-hidden">unread messages</span>
@@ -238,7 +238,7 @@ import { cartList, removeCartItem } from '../Components/Utils/CartWishManage';
                                         d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z">
                                     </path>
                                 </svg>
-                                <span
+                                <span v-show="$page.props.wishlistCount"
                                     class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-success">
                                     {{ $page.props.wishlistCount }}
                                 </span>
@@ -276,7 +276,7 @@ import { cartList, removeCartItem } from '../Components/Utils/CartWishManage';
                                         <line x1="3" y1="6" x2="21" y2="6"></line>
                                         <path d="M16 10a4 4 0 0 1-8 0"></path>
                                     </svg>
-                                    <span
+                                    <span v-show="cartList.length"
                                         class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-success">
                                         {{ cartList.length }}
                                         <span class="visually-hidden">unread messages</span>
@@ -567,5 +567,5 @@ import { cartList, removeCartItem } from '../Components/Utils/CartWishManage';
 
     <LocationModal />
     <LoginModal />
-    <ProductCartModal :cartList=cartList :removeCartItem="removeCartItem" />
+    <ProductCartModal :cartList=cartList :totalAmmount="totalAmmount" :removeCartItem="removeCartItem" />
 </template>

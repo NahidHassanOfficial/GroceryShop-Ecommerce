@@ -1,8 +1,16 @@
 <script setup>
+import { cartList } from '../Components/Utils/CartWishManage';
+
 defineProps({
     cartList: Array,
+    totalAmmount: Number,
     removeCartItem: Function
-})
+});
+
+function quantityUpdate(product, incOrDec) {
+    if (incOrDec) product.quantity++;
+    else product.quantity--
+}
 </script>
 
 <template>
@@ -54,19 +62,18 @@ defineProps({
                                     </div>
                                 </div>
                                 <div class="col-3">
-                                    <div class="input-group input-spinner  flex-nowrap justify-content-center  ">
-                                        <input type="button" value="-"
-                                            class="button-minus form-control  text-center flex-xl-none w-xl-30 w-xxl-10 px-0  "
+                                    <div class="input-group input-spinner">
+                                        <input @click="quantityUpdate(product, 0)" type="button" value="-"
+                                            class="button-minus btn btn-sm" :disabled="product.quantity === 1"
                                             data-field="quantity">
-                                        <input type="number" step="1" max="10" :value="product.quantity" name="quantity"
-                                            class="quantity-field form-control text-center flex-xl-none w-xl-30 w-xxl-10 px-0 ">
-                                        <input type="button" value="+"
-                                            class="button-plus form-control  text-center flex-xl-none w-xl-30  w-xxl-10 px-0  "
-                                            data-field="quantity">
+                                        <input type="text" v-model="product.quantity" name="quantity"
+                                            class="quantity-field form-control-sm form-input">
+                                        <input @click="quantityUpdate(product, 1)" type="button" value="+"
+                                            class="button-plus btn btn-sm" data-field="quantity">
                                     </div>
                                 </div>
                                 <div class="col-2 text-end">
-                                    <span class="fw-bold">{{ product.price }}</span>
+                                    <span class="fw-bold">{{ product.price * product.quantity }}</span>
                                 </div>
                             </div>
                         </li>
@@ -77,7 +84,7 @@ defineProps({
 
                     <button class="btn btn-primary btn-lg d-flex justify-content-between align-items-center"
                         type="submit">
-                        Go to Checkout <span class="fw-bold" id="totalAmmount"></span>
+                        Go to Checkout <span class="fw-bold" id="totalAmmount">{{ totalAmmount }}</span>
                     </button>
                 </div>
             </div>
