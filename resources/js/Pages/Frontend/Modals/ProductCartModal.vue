@@ -1,5 +1,8 @@
 <script setup>
-
+defineProps({
+    cartList: Array,
+    removeCartItem: Function
+})
 </script>
 
 <template>
@@ -20,16 +23,17 @@
                 <div class="py-3">
                     <ul class="list-group list-group-flush" id="productList">
 
-                        <li class="list-group-item py-3 px-0 border-top">
+                        <li v-for="product in cartList" :key="product.id" class="list-group-item py-3 px-0 border-top">
                             <div class="row align-items-center">
                                 <div class="col-2">
-                                    <img :src="`images/products'/`" alt="Ecommerce" class="img-fluid">
+                                    <img :src="`/images/products/${product.image}`" alt="Ecommerce" class="img-fluid">
                                 </div>
                                 <div class="col-5">
-                                    <h6 class="mb-0">${product['product']['name']}</h6>
+                                    <h6 class="mb-0">{{ product.name }}</h6>
                                     <span><small class="text-muted">.98 / lb</small></span>
                                     <div class="mt-2 small">
-                                        <button class="bg-none btn btn-sm text-danger">
+                                        <button @click="removeCartItem(product.id)"
+                                            class="bg-none btn btn-sm text-danger">
                                             <span class="me-1">
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
                                                     viewBox="0 0 24 24" fill="none" stroke="currentColor"
@@ -54,8 +58,7 @@
                                         <input type="button" value="-"
                                             class="button-minus form-control  text-center flex-xl-none w-xl-30 w-xxl-10 px-0  "
                                             data-field="quantity">
-                                        <input type="number" step="1" max="10" value="${product['quantity']}"
-                                            name="quantity"
+                                        <input type="number" step="1" max="10" :value="product.quantity" name="quantity"
                                             class="quantity-field form-control text-center flex-xl-none w-xl-30 w-xxl-10 px-0 ">
                                         <input type="button" value="+"
                                             class="button-plus form-control  text-center flex-xl-none w-xl-30  w-xxl-10 px-0  "
@@ -63,7 +66,7 @@
                                     </div>
                                 </div>
                                 <div class="col-2 text-end">
-                                    <span class="fw-bold">${product['product']['price']}</span>
+                                    <span class="fw-bold">{{ product.price }}</span>
                                 </div>
                             </div>
                         </li>

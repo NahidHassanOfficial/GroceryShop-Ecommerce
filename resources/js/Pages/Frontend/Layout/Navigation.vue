@@ -4,6 +4,7 @@ import LocationModal from '../Modals/LocationModal.vue';
 import LoginModal from '../Modals/LoginModal.vue';
 import ProductCartModal from '../Modals/ProductCartModal.vue';
 
+import { cartList, removeCartItem } from '../Components/Utils/CartWishManage';
 </script>
 
 <template>
@@ -112,12 +113,12 @@ import ProductCartModal from '../Modals/ProductCartModal.vue';
                 <div class="row w-100 align-items-center g-3">
                     <div class="col-xxl-2 col-lg-3">
                         <Link class="navbar-brand d-none d-lg-block" :href="route('index')">
-                        <img :src="'images/freshcart-logo.svg'" alt="FreshCart - Grocery Shop">
+                        <img :src="'/images/freshcart-logo.svg'" alt="FreshCart - Grocery Shop">
 
                         </Link>
                         <div class="d-flex justify-content-between w-100 d-lg-none">
                             <Link class="navbar-brand" :href="route('index')">
-                            <img :src="'images/freshcart-logo.svg'" alt="FreshCart - Grocery Shop">
+                            <img :src="'/images/freshcart-logo.svg'" alt="FreshCart - Grocery Shop">
 
                             </Link>
 
@@ -304,7 +305,7 @@ import ProductCartModal from '../Modals/ProductCartModal.vue';
                 <div class="offcanvas offcanvas-start p-4 p-lg-0" id="navbar-default">
 
                     <div class="d-flex justify-content-between align-items-center mb-2 d-block d-lg-none">
-                        <div><img :src="'images/freshcart-logo.svg'" alt="FreshCart - Grocery Shop">
+                        <div><img :src="'/images/freshcart-logo.svg'" alt="FreshCart - Grocery Shop">
                         </div>
                         <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
                     </div>
@@ -413,7 +414,7 @@ import ProductCartModal from '../Modals/ProductCartModal.vue';
                                         </div>
                                         <div class="col-lg-3 col-12 mb-4 mb-lg-0">
                                             <div class="card border-0">
-                                                <img :src="'images/menu-banner.jpg'" alt="FreshCart - Grocery Shop"
+                                                <img :src="'/images/menu-banner.jpg'" alt="FreshCart - Grocery Shop"
                                                     class="img-fluid rounded-3">
                                                 <div class="position-absolute ps-6 mt-8">
                                                     <h5 class=" mb-0 ">Dont miss this <br>offer today.</h5>
@@ -544,5 +545,5 @@ import ProductCartModal from '../Modals/ProductCartModal.vue';
 
     <LocationModal />
     <LoginModal />
-    <ProductCartModal />
+    <ProductCartModal :cartList=cartList :removeCartItem="removeCartItem" />
 </template>
