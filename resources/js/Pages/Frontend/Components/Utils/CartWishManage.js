@@ -19,11 +19,16 @@ export function addToWishList(product_id) {
 
 import { ref, watch } from "vue";
 export const cartList = ref(
-    localStorage.getItem("cartList") ? JSON.parse(localStorage.getItem("cartList")): []
+    localStorage.getItem("cartList")
+        ? JSON.parse(localStorage.getItem("cartList"))
+        : []
 );
-watch( cartList,(newCartList) => {
+watch(
+    cartList,
+    (newCartList) => {
         localStorage.setItem("cartList", JSON.stringify(newCartList));
-    },{ deep: true }
+    },
+    { deep: true }
 );
 
 export function addToCart(product, quantity = 1) {
@@ -34,7 +39,10 @@ export function addToCart(product, quantity = 1) {
         price: product.sale_price,
         quantity,
     };
-    cartList.value.unshift(item);
+    //check if cartlist have item with the same product.id then just increse the quantity
+    const index = cartList.value.findIndex((item) => item.id === product.id);
+    if (index != -1) cartList.value[index].quantity++;
+    else cartList.value.unshift(item);
     toast.success("Added to cart");
 }
 
