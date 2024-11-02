@@ -14,7 +14,7 @@ class WishListController extends Controller
         $userId = $request->header('id');
         $products = WishList::with(['product:id,name,category_id,image,price,sale_price,stock,status,slug', 'product.category:id,slug'])
             ->where('user_id', $userId)
-            ->select('id', 'product_id')->get();
+            ->select('id', 'product_id')->orderByDesc('id')->get();
 
         return Inertia::render('Frontend/Profile/WishList', ['products' => $products]);
     }
