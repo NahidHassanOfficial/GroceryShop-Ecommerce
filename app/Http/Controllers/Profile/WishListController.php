@@ -26,11 +26,16 @@ class WishListController extends Controller
         ]);
 
         try {
-            WishList::create([
-                'user_id' => $request->header('id'),
-                'product_id' => $validatedRequest['product_id'],
-            ]);
-            return back();
+            $wishList = WishList::where('product_id', $request->input('product_id'))->where('user_id', $request->header('id'))->first();
+            if ($wishList) {
+                return back();
+            } else {
+                WishList::create([
+                    'user_id' => $request->header('id'),
+                    'product_id' => $validatedRequest['product_id'],
+                ]);
+                return back();
+            }
         } catch (\Exception $e) {
             return back()->withErrors(['message' => 'Something Wrong!']);
         }
