@@ -24,7 +24,7 @@
                     <div class="offset-lg-1 col-lg-10 py-8 py-xl-0">
                         <div class="mb-10 mb-xxl-0">
                             <!-- img -->
-                            <a href="../index.html"><img src="/images/freshcart-logo.svg" alt="" /></a>
+                            <img src="/images/freshcart-logo.svg" alt="" />
                         </div>
                         <div class="row justify-content-center align-items-center">
                             <!-- content -->
