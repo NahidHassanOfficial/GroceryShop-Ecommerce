@@ -5,7 +5,8 @@ defineOptions({
 })
 
 defineProps({
-    products: Array,
+    category: Object,
+    products: Array
 })
 
 import ProductComponent from './Components/ProductComponent.vue';
@@ -570,14 +571,14 @@ import ProductComponent from './Components/ProductComponent.vue';
                         <div class="card mb-4 bg-light border-0">
                             <!-- card body -->
                             <div class="card-body p-9">
-                                <h2 class="mb-0 fs-1">Snacks &amp; Munchies</h2>
+                                <h2 class="mb-0 fs-1">{{ category.name }}</h2>
                             </div>
                         </div>
                         <!-- list icon -->
                         <div class="d-lg-flex justify-content-between align-items-center">
                             <div class="mb-3 mb-lg-0">
                                 <p class="mb-0">
-                                    <span class="text-dark">24</span>
+                                    <span class="text-dark">{{ products.length }}</span>
                                     Products found
                                 </p>
                             </div>

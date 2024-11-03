@@ -2,7 +2,7 @@
 defineProps({
     categories: Array,
 });
-import { onMounted, ref } from 'vue';
+import { onMounted } from 'vue';
 // import 'slick-carousel';
 // import "slick-carousel/slick/slick.css";
 // import "slick-carousel/slick/slick-theme.css";
@@ -54,15 +54,15 @@ onMounted(() => {
             </div>
             <div class="category-slider ">
                 <div class="item" v-for="category in categories" :key="category.slug">
-                    <a :href="route('category.view', category.slug)" class="text-decoration-none text-inherit">
-                        <div class="card card-product mb-4">
-                            <div class="card-body text-center py-8">
-                                <img :src="`images/categories/${category.image}`" alt="Grocery Ecommerce Template"
-                                    class="mb-3 img-fluid">
-                                <div>{{ category.name }}</div>
-                            </div>
+                    <Link :href="route('category.view', category.slug)" class="text-decoration-none text-inherit">
+                    <div class="card card-product mb-4">
+                        <div class="card-body text-center py-8">
+                            <img :src="`images/categories/${category.image}`" alt="Grocery Ecommerce Template"
+                                class="mb-3 img-fluid">
+                            <div>{{ category.name }}</div>
                         </div>
-                    </a>
+                    </div>
+                    </Link>
                 </div>
             </div>
         </div>
