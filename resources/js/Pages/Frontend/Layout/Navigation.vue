@@ -200,19 +200,21 @@ import { cartList, totalAmmount, removeCartItem } from '../Components/Utils/Cart
                     </div>
                     <div class="col-xxl-6 col-lg-5 d-none d-lg-block">
 
-                        <form action="#" class="search-header">
-
-
+                        <form action="#">
                             <div class="input-group">
-                                <input type="text" class="form-control border-end.0" placeholder="Search for products.."
-                                    aria-label="Search for products.." aria-describedby="basic-addon2">
-                                <span class="input-group-text bg-transparent" id="basic-addon2">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
-                                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                        stroke-linejoin="round" class="feather feather-search">
-                                        <circle cx="11" cy="11" r="8"></circle>
-                                        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-                                    </svg></span>
+                                <input class="form-control rounded" type="search" placeholder="Search for products">
+                                <span class="input-group-append">
+                                    <button class="btn bg-white border border-start-0 ms-n10 rounded-0 rounded-end"
+                                        type="button">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                            stroke-linecap="round" stroke-linejoin="round"
+                                            class="feather feather-search">
+                                            <circle cx="11" cy="11" r="8"></circle>
+                                            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                                        </svg>
+                                    </button>
+                                </span>
                             </div>
                         </form>
                     </div>
@@ -332,7 +334,34 @@ import { cartList, totalAmmount, removeCartItem } from '../Components/Utils/Cart
                         <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
                     </div>
 
-                    <div class="d-block d-lg-none mb-2 pt-2">
+                    <div class="d-block d-lg-none mb-4 mt-5">
+                        <form action="#">
+                            <div class="input-group">
+                                <input class="form-control rounded" type="search" placeholder="Search for products">
+                                <span class="input-group-append">
+                                    <button class="btn bg-white border border-start-0 ms-n10 rounded-0 rounded-end"
+                                        type="button">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                            stroke-linecap="round" stroke-linejoin="round"
+                                            class="feather feather-search">
+                                            <circle cx="11" cy="11" r="8"></circle>
+                                            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                                        </svg>
+                                    </button>
+                                </span>
+                            </div>
+                        </form>
+                        <div class="mt-2">
+                            <button type="button" class="btn btn-outline-gray-400 text-muted w-100"
+                                data-bs-toggle="modal" data-bs-target="#locationModal">
+                                <i class="feather-icon icon-map-pin me-2"></i>
+                                Pick Location
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="d-block d-lg-none mb-2">
                         <a class="btn btn-primary w-100 d-flex justify-content-center align-items-center"
                             data-bs-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false"
                             aria-controls="collapseExample">
@@ -359,13 +388,6 @@ import { cartList, totalAmmount, removeCartItem } from '../Components/Utils/Cart
                                 </ul>
                             </div>
                         </div>
-                    </div>
-
-                    <div class="d-lg-none d-block mb-3">
-                        <button type="button" class="btn  btn-outline-gray-400 text-muted w-100 " data-bs-toggle="modal"
-                            data-bs-target="#locationModal">
-                            <i class="feather-icon icon-map-pin me-2"></i>Pick Location
-                        </button>
                     </div>
                     <div class="d-none d-lg-block">
                         <ul class="navbar-nav ">
@@ -436,8 +458,8 @@ import { cartList, totalAmmount, removeCartItem } from '../Components/Utils/Cart
                                         </div>
                                         <div class="col-lg-3 col-12 mb-4 mb-lg-0">
                                             <div class="card border-0">
-                                                <img :src="'/images/menu-banner.jpg'" alt="FreshCart - Grocery Shop"
-                                                    class="img-fluid rounded-3">
+                                                <img :src="'/images/banner/menu-banner.jpg'"
+                                                    alt="FreshCart - Grocery Shop" class="img-fluid rounded-3">
                                                 <div class="position-absolute ps-6 mt-8">
                                                     <h5 class=" mb-0 ">Dont miss this <br>offer today.</h5>
                                                     <a href="#" class="btn btn-primary btn-sm mt-3">Shop Now</a>

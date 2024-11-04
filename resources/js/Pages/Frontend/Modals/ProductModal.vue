@@ -1,3 +1,33 @@
+<script setup>
+const props = defineProps({
+    product: Object,
+})
+
+import { onBeforeMount, onMounted, ref } from 'vue';
+const images = ref([]);
+onBeforeMount(() => {
+    images.value = JSON.parse(props.product.image);
+});
+
+import { tns } from "tiny-slider";
+import "tiny-slider/dist/tiny-slider.css";
+onMounted(() => {
+    tns({
+        container: '#productModal',
+        items: 1,
+        navContainer: '#productModalThumbnails',
+        navAsThumbnails: true,
+        autoplay: false,
+        controls: false,
+        autoplayButtonOutput: false,
+        loop: false,
+        swipeAngle: false,
+        speed: 1500,
+    });
+});
+
+</script>
+
 <template>
     <!-- Modal -->
     <div class="modal fade" id="productViewModal" tabindex="-1" aria-hidden="true">
@@ -73,8 +103,8 @@
                         </div>
                         <div class="col-lg-6">
                             <div class="ps-lg-8 mt-6 mt-lg-0">
-                                <a href="#!" class="mb-4 d-block" id="categoryTitle">Bakery Biscuits</a>
-                                <h2 class="mb-1 h1" id="productTitle">${product.name }
+                                <a href="#" class="mb-4 d-block" id="categoryTitle">{{ product.category.name }}</a>
+                                <h2 class="mb-1 h1" id="productTitle">{{ product.name }}
                                 </h2>
                                 <div class="mb-4">
                                     <small class="text-warning">
@@ -166,55 +196,3 @@
         </div>
     </div>
 </template>
-<script setup>
-// Event listener for when the modal is about to be shown
-$('#productViewModal').on('show.bs.modal', function (event) {
-    // `event.relatedTarget` is the element that triggered the modal
-    let button = $(event.relatedTarget);
-    let productID = button.data('id'); // Get the product ID from `data-id`
-    console.log(productID)
-
-    async function addProductCart() {
-        let response = await axios.post(route('add.cart'), {
-            productID,
-            'quantity': document.getElementById('quantity').value,
-        })
-        if (response.data.status === 'success') {
-            successToast('Added to cart')
-        }
-    }
-});
-
-async function productId(id) {
-    let response = await axios.get(`api/product/${id}`);
-    let product = response.data
-
-    document.getElementById('productTitle').innerText = product.name;
-    document.getElementById('salePrice').innerText = `$${product.sale_price}`;
-    document.getElementById('price').innerText = `$${product.price}`;
-    // document.getElementById('.product-description').innerText = product.description;
-    // document.getElementById('.product-availability').innerText = product.stock ? "In Stock" :
-    "Out of Stock";
-    // Update images dynamically
-    // document.getElementById('productModal').innerHTML = product.image.map(image => `
-    //     <div class="zoom" onmousemove="zoom(event)" style="background-image: url(${image})">
-    //         <img src="${image}" alt="${product.name}" />
-    //     </div>
-    // `).join('');
-
-    new bootstrap.Modal(document.getElementById('productViewModal')).show();
-
-
-}
-
-
-
-async function addProductWishList() {
-    let response = await axios.post(route('add.wish-list'), {
-        productID: productID
-    })
-    if (response.data['status'] === 'success') {
-        successToast('Added to Wish List')
-    }
-}
-</script>

@@ -28,5 +28,5 @@ defineProps({
     <PopularProduct :products="products" />
     <DailyBestSell />
 
-    <ProductModal />
+    <ProductModal :product="products[0]" />
 </template>

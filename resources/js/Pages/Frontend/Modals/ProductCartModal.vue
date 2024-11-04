@@ -66,7 +66,7 @@ function quantityUpdate(product, incOrDec) {
                                         <input @click="quantityUpdate(product, 0)" type="button" value="-"
                                             class="button-minus btn btn-sm" :disabled="product.quantity === 1"
                                             data-field="quantity">
-                                        <input type="text" v-model="product.quantity" name="quantity"
+                                        <input type="number" v-model="product.quantity" name="quantity"
                                             class="quantity-field form-control-sm form-input">
                                         <input @click="quantityUpdate(product, 1)" type="button" value="+"
                                             class="button-plus btn btn-sm" data-field="quantity">

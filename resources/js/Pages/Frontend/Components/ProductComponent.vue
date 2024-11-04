@@ -16,15 +16,15 @@ import { addToWishList, addToCart } from './Utils/CartWishManage';
                         <span class="badge bg-danger">{{ product.tag ? product.tag : ''
                             }}</span>
                     </div>
-                    <a :href="route('product.view', [product.category.slug, product.slug])">
-                        <img :src="`/images/products/${JSON.parse(product.image)[0]}`" alt="Grocery Ecommerce Template"
-                            class="mb-3 img-fluid"></a>
+                    <Link :href="route('product.view', [product.category.slug, product.slug])">
+                    <img :src="`/images/products/${JSON.parse(product.image)[0]}`" alt="Grocery Ecommerce Template"
+                        class="mb-3 img-fluid"></Link>
 
 
                     <div class="card-product-action">
-                        <a href="#!" class="btn-action" data-bs-toggle="modal" data-bs-target="#productViewModal"
-                            data-id="{{ product.id }}"><i class="bi bi-eye" data-bs-toggle="tooltip" data-bs-html="true"
-                                title="Quick View"></i></a>
+                        <a href="#" @click="console.log(product)" class="btn-action" data-bs-toggle="modal"
+                            data-bs-target="#productViewModal" data-id=""><i class="bi bi-eye" data-bs-toggle="tooltip"
+                                data-bs-html="true" title="Quick View"></i></a>
                         <a @click="addToWishList(product.id)" class="btn-action" title="Wishlist"><i
                                 class="bi bi-heart"></i></a>
                         <a href="#!" class="btn-action" data-bs-toggle="tooltip" data-bs-html="true" title="Compare"><i

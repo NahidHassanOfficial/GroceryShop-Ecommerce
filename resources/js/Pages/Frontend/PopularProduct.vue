@@ -20,7 +20,7 @@ import ProductComponent from './Components/ProductComponent.vue';
             </div>
 
             <div class="row g-4 row-cols-lg-5 row-cols-2 row-cols-md-3">
-                <ProductComponent v-for="product in products" :key="product.slug" :product="product" />
+                <ProductComponent v-for="product in products" :key="product.id" :product="product" />
             </div>
         </div>
     </section>

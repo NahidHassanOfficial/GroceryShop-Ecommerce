@@ -16,9 +16,8 @@ import "bootstrap-icons/font/bootstrap-icons.min.css";
 
 import "@/css/feather-icons.css";
 
-// import "simplebar/dist/simplebar.min.css";
-// import "nouislider/dist/nouislider.min.css";
-// import "tiny-slider/dist/tiny-slider.css";
+import "simplebar/dist/simplebar.min.css";
+import "nouislider/dist/nouislider.min.css";
 
 createInertiaApp({
     resolve: (name) => {

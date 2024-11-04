@@ -4,17 +4,17 @@ namespace App\Http\Controllers;
 
 use App\Models\Product;
 use Illuminate\Http\Request;
+use Inertia\Inertia;
 
 class ProductController extends Controller
 {
     public function productView(Request $request, $categorySlug, $productSlug)
     {
+        $product = Product::where('slug', $productSlug)
+            ->with(['category:id,name,slug'])
+            ->firstOrFail();
 
-        $product = Product::select('products.*', 'categories.name as categoryName', 'categories.slug as categorySlug')
-            ->join('categories', 'products.category_id', '=', 'categories.id')
-            ->where('products.slug', $productSlug)
-            ->first();
-        return view('components.front-end.product-page', compact('product'));
+        return Inertia::render('Frontend/ProductPage', ['product' => $product]);
     }
 
     public function productInfo($id)
