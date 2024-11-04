@@ -1,7 +1,9 @@
 <script setup>
+import "simplebar";
+import "simplebar/dist/simplebar.min.css";
 </script>
 <template>
-    <nav class="navbar navbar-expand-lg navbar-glass">
+    <nav class="navbar navbar-expand-lg navbar-glass" style="position: fixed;">
         <div class="container-fluid">
             <div class="d-flex justify-content-between align-items-center w-100">
                 <div class="d-flex align-items-center">
@@ -73,8 +75,7 @@
                                                                 class="list-group-item px-5 py-4 list-group-item-action active">
                                                                 <a href="#!" class="text-muted">
                                                                     <div class="d-flex">
-                                                                        <img src="http://127.0.0.1:8001/images/avatar.png"
-                                                                            alt=""
+                                                                        <img :src="'/images/users/avatar-4.jpg'" alt=""
                                                                             class="avatar avatar-md rounded-circle">
                                                                         <div class="ms-4">
                                                                             <p class="mb-1">
@@ -105,7 +106,7 @@
                                                                 class="list-group-item px-5 py-4 list-group-item-action">
                                                                 <a href="#!" class="text-muted">
                                                                     <div class="d-flex">
-                                                                        <img src="" alt=""
+                                                                        <img :src="'/images/users/avatar-4.jpg'" alt=""
                                                                             class="avatar avatar-md rounded-circle">
                                                                         <div class="ms-4">
                                                                             <p class="mb-1">
@@ -137,7 +138,7 @@
                                                                 class="list-group-item px-5 py-4 list-group-item-action">
                                                                 <a href="#!" class="text-muted">
                                                                     <div class="d-flex">
-                                                                        <img :src="'/images/avatar/avatar-2.jpg'" alt=""
+                                                                        <img :src="'/images/users/avatar-4.jpg'" alt=""
                                                                             class="avatar avatar-md rounded-circle">
                                                                         <div class="ms-4">
                                                                             <p class="mb-1">
@@ -185,8 +186,7 @@
                         </li>
                         <li class="dropdown ms-4">
                             <a href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                <img src="http://127.0.0.1:8001/images/avatar-1.jpg" alt=""
-                                    class="avatar avatar-md rounded-circle">
+                                <img :src="'/images/users/avatar-4.jpg'" alt="" class="avatar avatar-md rounded-circle">
                             </a>
 
                             <div class="dropdown-menu dropdown-menu-end p-0">
@@ -225,52 +225,52 @@
         <nav class="navbar-vertical-nav d-none d-xl-block">
             <div class="navbar-vertical">
                 <div class="px-4 py-5">
-                    <a :href="route('index')" class="navbar-brand">
-                        <img :src="'images/freshcart-logo.svg'" alt="" />
-                    </a>
+                    <Link :href="route('index')" class="navbar-brand">
+                    <img :src="'/images/freshcart-logo.svg'" alt="" />
+                    </Link>
                 </div>
                 <div class="navbar-vertical-content flex-grow-1" data-simplebar="">
                     <ul class="navbar-nav flex-column" id="sideNavbar">
                         <li class="nav-item">
-                            <a class="nav-link  active " :href="route('dashboard')">
-                                <div class="d-flex align-items-center">
-                                    <span class="nav-link-icon"><i class="bi bi-house"></i></span>
-                                    <span class="nav-link-text">Dashboard</span>
-                                </div>
-                            </a>
+                            <Link class="nav-link  active " :href="route('dashboard')">
+                            <div class="d-flex align-items-center">
+                                <span class="nav-link-icon"><i class="bi bi-house"></i></span>
+                                <span class="nav-link-text">Dashboard</span>
+                            </div>
+                            </Link>
                         </li>
                         <li class="nav-item mt-6 mb-3">
                             <span class="nav-label">Store Managements</span>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link " :href="route('dash.products')">
-                                <div class="d-flex align-items-center">
-                                    <span class="nav-link-icon"><i class="bi bi-cart"></i></span>
-                                    <span class="nav-link-text">Products</span>
-                                </div>
-                            </a>
+                            <Link class="nav-link " :href="route('dash.products')">
+                            <div class="d-flex align-items-center">
+                                <span class="nav-link-icon"><i class="bi bi-cart"></i></span>
+                                <span class="nav-link-text">Products</span>
+                            </div>
+                            </Link>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link " :href="route('dash.categories')">
-                                <div class="d-flex align-items-center">
-                                    <span class="nav-link-icon"><i class="bi bi-list-task"></i></span>
-                                    <span class="nav-link-text">Categories</span>
-                                </div>
-                            </a>
+                            <Link class="nav-link " :href="route('dash.categories')">
+                            <div class="d-flex align-items-center">
+                                <span class="nav-link-icon"><i class="bi bi-list-task"></i></span>
+                                <span class="nav-link-text">Categories</span>
+                            </div>
+                            </Link>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link  collapsed " href="#" data-bs-toggle="collapse"
+                            <Link class="nav-link  collapsed " href="#" data-bs-toggle="collapse"
                                 data-bs-target="#navCategoriesOrders" aria-expanded="false"
                                 aria-controls="navCategoriesOrders">
-                                <div class="d-flex align-items-center">
-                                    <span class="nav-link-icon"><i class="bi bi-bag"></i></span>
-                                    <span class="nav-link-text">Orders</span>
-                                </div>
-                            </a>
+                            <div class="d-flex align-items-center">
+                                <span class="nav-link-icon"><i class="bi bi-bag"></i></span>
+                                <span class="nav-link-text">Orders</span>
+                            </div>
+                            </Link>
                             <div id="navCategoriesOrders" class="collapse " data-bs-parent="#sideNavbar">
                                 <ul class="nav flex-column">
                                     <li class="nav-item">
-                                        <a class="nav-link " :href="route('dash.orders')">List</a>
+                                        <Link class="nav-link " :href="route('dash.orders')">List</Link>
                                     </li>
                                 </ul>
                             </div>
@@ -288,7 +288,7 @@
                             <div id="navCustomer" class="collapse " data-bs-parent="#sideNavbar">
                                 <ul class="nav flex-column">
                                     <li class="nav-item">
-                                        <a class="nav-link" :href="route('dash.customers')">Customers</a>
+                                        <Link class="nav-link" :href="route('dash.customers')">Customers</Link>
                                     </li>
                                     <!-- Nav item -->
                                     <li class="nav-item">
@@ -371,39 +371,39 @@
         <nav class="navbar-vertical-nav offcanvas offcanvas-start navbar-offcanvac" tabindex="-1" id="offcanvasExample">
             <div class="navbar-vertical">
                 <div class="px-4 py-5 d-flex justify-content-between align-items-center">
-                    <a :href="route('index')" class="navbar-brand">
-                        <img :src="'images/freshcart-logo.svg'" alt="" />
-                    </a>
+                    <Link :href="route('index')" class="navbar-brand">
+                    <img :src="'/images/freshcart-logo.svg'" alt="" />
+                    </Link>
                     <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
                 </div>
                 <div class="navbar-vertical-content flex-grow-1" data-simplebar="">
                     <ul class="navbar-nav flex-column">
                         <li class="nav-item">
-                            <a class="nav-link  active " :href="route('dashboard')">
-                                <div class="d-flex align-items-center">
-                                    <span class="nav-link-icon"><i class="bi bi-house"></i></span>
-                                    <span>Dashboard</span>
-                                </div>
-                            </a>
+                            <Link class="nav-link  active " :href="route('dashboard')">
+                            <div class="d-flex align-items-center">
+                                <span class="nav-link-icon"><i class="bi bi-house"></i></span>
+                                <span>Dashboard</span>
+                            </div>
+                            </Link>
                         </li>
                         <li class="nav-item mt-6 mb-3">
                             <span class="nav-label">Store Managements</span>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link " :href="route('dash.products')">
-                                <div class="d-flex align-items-center">
-                                    <span class="nav-link-icon"><i class="bi bi-cart"></i></span>
-                                    <span class="nav-link-text">Products</span>
-                                </div>
-                            </a>
+                            <Link class="nav-link " :href="route('dash.products')">
+                            <div class="d-flex align-items-center">
+                                <span class="nav-link-icon"><i class="bi bi-cart"></i></span>
+                                <span class="nav-link-text">Products</span>
+                            </div>
+                            </Link>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link " :href="route('dash.categories')">
-                                <div class="d-flex align-items-center">
-                                    <span class="nav-link-icon"><i class="bi bi-list-task"></i></span>
-                                    <span class="nav-link-text">Categories</span>
-                                </div>
-                            </a>
+                            <Link class="nav-link " :href="route('dash.categories')">
+                            <div class="d-flex align-items-center">
+                                <span class="nav-link-icon"><i class="bi bi-list-task"></i></span>
+                                <span class="nav-link-text">Categories</span>
+                            </div>
+                            </Link>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link  collapsed " href="" data-bs-toggle="collapse"
@@ -416,7 +416,7 @@
                             <div id="navOrders" class="collapse " data-bs-parent="#sideNavbar">
                                 <ul class="nav flex-column">
                                     <li class="nav-item">
-                                        <a class="nav-link " :href="route('dash.orders')">List</a>
+                                        <Link class="nav-link " :href="route('dash.orders')">List</Link>
                                     </li>
                                 </ul>
                             </div>
@@ -430,15 +430,15 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link " :href="route('dash.customers')">
-                                <div class="d-flex align-items-center">
-                                    <span class="nav-link-icon"><i class="bi bi-people"></i></span>
-                                    <span class="nav-link-text">Customers</span>
-                                </div>
-                            </a>
+                            <Link class="nav-link " :href="route('dash.customers')">
+                            <div class="d-flex align-items-center">
+                                <span class="nav-link-icon"><i class="bi bi-people"></i></span>
+                                <span class="nav-link-text">Customers</span>
+                            </div>
+                            </Link>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link " href="../dashboard/reviews.html">
+                            <a class="nav-link " href="#">
                                 <div class="d-flex align-items-center">
                                     <span class="nav-link-icon"><i class="bi bi-star"></i></span>
                                     <span class="nav-link-text">Reviews</span>
@@ -576,6 +576,6 @@
                 </div>
             </div>
         </nav>
-        <slot></slot>
+        <slot />
     </div>
 </template>

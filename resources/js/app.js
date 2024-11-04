@@ -11,13 +11,9 @@ import $ from "jquery";
 window.$ = $;
 
 import "bootstrap";
-// import "../css/bootstrap-customized.scss";
 import "bootstrap-icons/font/bootstrap-icons.min.css";
 
 import "@/css/feather-icons.css";
-
-import "simplebar/dist/simplebar.min.css";
-import "nouislider/dist/nouislider.min.css";
 
 createInertiaApp({
     resolve: (name) => {
