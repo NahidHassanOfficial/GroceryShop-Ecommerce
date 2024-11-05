@@ -95,7 +95,7 @@ class AdminProductController extends Controller
     {
         $categories = Category::select('id', 'name')->get();
 
-        return view('Admin/Products', compact('categories'));
+        return Inertia::render('Backend/AddProduct', ['categories' => $categories]);
     }
     public function createProduct(ProductRequests $request)
     {
@@ -107,8 +107,8 @@ class AdminProductController extends Controller
             $product->name = $request->name;
             $product->category_id = $request->category_id;
             $product->weight = $request->weight;
-            $product->size = $request->sizes == null ? null : json_encode($request->sizes);
-            $product->colors = $request->colors == null ? null : json_encode($request->colors);
+            $product->sizes = $request->sizes == null ? null : $request->sizes;
+            $product->colors = $request->colors == null ? null : $request->colors;
             $product->description = $request->description;
             $product->price = $request->price;
             $product->sale_price = $request->sale_price;
@@ -116,14 +116,14 @@ class AdminProductController extends Controller
             $product->product_sku = $request->product_sku;
             $product->tag = $request->tag;
             $product->stock = $request->stock;
-            $product->status = $request->status == null ? 0 : 1;
+            $product->status = $request->status;
             $product->slug = $request->slug;
             $product->meta_title = $request->meta_title;
             $product->meta_description = $request->meta_description;
 
             $imagesName = [];
-            if ($request->hasFile('image')) {
-                foreach ($request->file('image') as $index => $image) {
+            if ($request->hasFile('images')) {
+                foreach ($request->file('images') as $index => $image) {
                     $fileName = 'product-img-' . time() . $index . '.' . $image->getClientOriginalExtension();
                     $image->move(public_path('images/products'), $fileName);
                     $imagesName[] = $fileName;
@@ -135,10 +135,7 @@ class AdminProductController extends Controller
             return redirect()->back();
 
         } catch (\Exception $e) {
-            dd($e);
-
-            return redirect()->back();
-
+            return back()->withErrors(['message' => 'Something Wrong!']);
         }
     }
 }

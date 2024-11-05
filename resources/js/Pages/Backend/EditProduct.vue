@@ -21,7 +21,7 @@ const editProductForm = useForm({
     sale_price: props.product.sale_price,
     product_code: props.product.product_code,
     product_sku: props.product.product_sku,
-    tag: props.product.tag,
+    tag: props.product.tag || "",
     stock: props.product.stock,
     status: props.product.status == 1 ? true : false,
     slug: props.product.slug,
@@ -38,7 +38,8 @@ const submit = () => {
             toast.success('Product Updated');
         },
         onError: () => {
-            toast.error(editProductForm.errors.message);
+            if (editProductForm.errors.message)
+                toast.error(editProductForm.errors.message);
         },
     });
 }
@@ -250,7 +251,7 @@ onMounted(() => {
                                         </label>
                                         <input @input="handleFileInput" type="file" accept="image/*" name="image[]"
                                             id="attachment" class="col-md-5 col-sm-10 d-none" multiple>
-                                        <div class="text-danger">{{ editProductForm.errors.images }}</div>
+                                        <div class="text-danger">{{ ' need to fix' }}</div>
                                     </div>
 
                                     <!-- Product Descriptions -->
@@ -301,7 +302,7 @@ onMounted(() => {
                                         <div class="mb-3">
                                             <label class="form-label">Tag</label>
                                             <select v-model="editProductForm.tag" class="form-select" name="tag">
-                                                <option selected>Select Tag</option>
+                                                <option value="">Select Tag</option>
                                                 <option value="Hot">Hot</option>
                                                 <option value="Sale">Sale</option>
                                             </select>

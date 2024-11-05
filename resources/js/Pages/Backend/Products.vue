@@ -68,7 +68,7 @@ function deleteProduct(product_id) {
                         </div>
                         <!-- button -->
                         <div>
-                            <a :href="route('dash.product.add')" class="btn btn-primary">Add Product</a>
+                            <Link :href="route('dash.product.add')" class="btn btn-primary">Add Product</Link>
                         </div>
                     </div>
                 </div>
