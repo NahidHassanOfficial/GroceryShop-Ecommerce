@@ -35,10 +35,7 @@ const submit = () => {
     editProductForm.post(route('dash.product.edit', props.product.id), {
         forceFormData: true,
         onSuccess: () => {
-            setTimeout(() => {
-                window.location.href = route('login')
-            }, 1000);
-            toast.success('Registration Successfull');
+            toast.success('Product Updated');
         },
         onError: () => {
             toast.error(editProductForm.errors.message);

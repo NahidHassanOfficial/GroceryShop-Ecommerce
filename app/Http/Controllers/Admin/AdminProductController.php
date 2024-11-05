@@ -22,10 +22,10 @@ class AdminProductController extends Controller
                     }
                 }
                 $product->delete();
-                return 1;
+                return redirect()->back();
             }
         } catch (\Exception $e) {
-            return 0;
+            return redirect()->withErrors(['message' => 'Something Wrong!']);
         }
 
     }
@@ -75,7 +75,7 @@ class AdminProductController extends Controller
             return redirect()->back();
         }
 
-        return redirect()->back();
+        return redirect()->back()->withErrors(['message' => 'Something Wrong!']);
     }
 
     public function editProductPage($id)
@@ -88,7 +88,7 @@ class AdminProductController extends Controller
     }
     public function productsPage()
     {
-        $products = Product::with(['category:id,name,slug'])->get();
+        $products = Product::with(['category:id,name,slug'])->paginate(10);
         return Inertia::render('Backend/Products', ['products' => $products]);
     }
     public function productCreatePage()

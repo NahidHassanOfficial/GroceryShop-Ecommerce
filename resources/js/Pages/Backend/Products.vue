@@ -1,4 +1,51 @@
 <script setup>
+import MasterBackend from './Layout/MasterBackend.vue';
+import Pagination from './Components/Pagination.vue';
+defineOptions({
+    layout: MasterBackend
+})
+const props = defineProps({
+    products: Array,
+})
+
+//implemented search and status filter
+import { computed, ref } from 'vue';
+const search = ref('');
+const selectedStatus = ref('');
+
+const filteredProducts = computed(() => {
+    let newProducts = props.products.data;
+
+    if (search.value) {
+        const searchText = search.value.toLowerCase();
+        newProducts = newProducts.filter(product => {
+            return product.name.toLowerCase().includes(searchText) ||
+                product.category.name.toLowerCase().includes(searchText);
+        });
+    }
+
+    if (selectedStatus.value != '') {
+        newProducts = newProducts.filter(product => {
+            return product.status == selectedStatus.value;
+        });
+    }
+
+    return newProducts;
+});
+
+//product item delete function
+import toast from 'vue3-toastify';
+import { useForm } from '@inertiajs/vue3';
+function deleteProduct(product_id) {
+    useForm({}).get(route('dash.product.delete', product_id), {
+        onSuccess: () => {
+            toast.success('Product deleted successfully');
+        },
+        onError: () => {
+            toast.error('Failed to delete product');
+        }
+    })
+}
 </script>
 <template>
     <main class="main-content-wrapper">
@@ -12,7 +59,9 @@
                             <!-- breacrumb -->
                             <nav aria-label="breadcrumb">
                                 <ol class="breadcrumb mb-0">
-                                    <li class="breadcrumb-item"><a href="#" class="text-inherit">Dashboard</a></li>
+                                    <li class="breadcrumb-item">
+                                        <Link :href="route('dashboard')" class="text-inherit">Dashboard</Link>
+                                    </li>
                                     <li class="breadcrumb-item active" aria-current="page">Products</li>
                                 </ol>
                             </nav>
@@ -34,17 +83,16 @@
                                 <!-- form -->
                                 <div class="col-lg-4 col-md-6 col-12 mb-2 mb-lg-0">
                                     <form class="d-flex" role="search">
-                                        <input class="form-control" type="search" placeholder="Search Products"
-                                            aria-label="Search" />
+                                        <input v-model="search" class="form-control" type="search"
+                                            placeholder="Search Products" aria-label="Search" />
                                     </form>
                                 </div>
                                 <!-- select option -->
                                 <div class="col-lg-2 col-md-4 col-12">
-                                    <select class="form-select">
-                                        <option selected>Status</option>
+                                    <select v-model="selectedStatus" class="form-select">
+                                        <option value="">Status</option>
                                         <option value="1">Active</option>
-                                        <option value="2">Deactive</option>
-                                        <option value="3">Draft</option>
+                                        <option value="0">Deactive</option>
                                     </select>
                                 </div>
                             </div>
@@ -74,7 +122,7 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr v-for="product in products">
+                                        <tr v-for="product in filteredProducts" :key="product.id">
                                             <td>
                                                 <div class="form-check">
                                                     <input class="form-check-input" type="checkbox" value=""
@@ -83,23 +131,25 @@
                                                 </div>
                                             </td>
                                             <td>
-                                                <a href="#!"><img
-                                                        :src="`images/products/${JSON.parse(product.image[0])}`" alt=""
+                                                <a href="#"><img
+                                                        :src="`/images/products/${JSON.parse(product.image)[0]}`" alt=""
                                                         class="icon-shape icon-md" /></a>
                                             </td>
-                                            <td><a :href="route('product.view', [product.category.slug, product.slug])"
-                                                    class="text-reset">{{ product.name }}</a></td>
+                                            <td>
+                                                <Link
+                                                    :href="route('product.view', [product.category.slug, product.slug])"
+                                                    class="text-reset">{{ product.name }}</Link>
+                                            </td>
                                             <td>{{ product.category.name }}</td>
 
                                             <td>
-                                                @if (product.status)
-                                                <span class="badge bg-light-primary text-dark-primary">Published</span>
-                                                @else
-                                                <span class="badge bg-light-danger text-dark-danger">Unpublished</span>
-                                                @endif
+                                                <span v-if="product.status"
+                                                    class="badge bg-light-primary text-dark-primary">Published</span>
+                                                <span v-else
+                                                    class="badge bg-light-danger text-dark-danger">Unpublished</span>
                                             </td>
                                             <td>{{ product.price }}</td>
-                                            <td>{{ product.created_at.format('d M Y') }}</td>
+                                            <td>{{ new Date(product.updated_at).toLocaleString() }}</td>
                                             <td>
                                                 <div class="dropdown">
                                                     <a href="#" class="text-reset" data-bs-toggle="dropdown"
@@ -108,17 +158,17 @@
                                                     </a>
                                                     <ul class="dropdown-menu">
                                                         <li>
-                                                            <a class="dropdown-item" onclick="deleteProduct()">
+                                                            <a class="dropdown-item" @click="deleteProduct(product.id)">
                                                                 <i class="bi bi-trash me-3"></i>
                                                                 Delete
                                                             </a>
                                                         </li>
                                                         <li>
-                                                            <a class="dropdown-item"
+                                                            <Link class="dropdown-item"
                                                                 :href="route('dash.product.edit', product.id)">
-                                                                <i class="bi bi-pencil-square me-3"></i>
-                                                                Edit
-                                                            </a>
+                                                            <i class="bi bi-pencil-square me-3"></i>
+                                                            Edit
+                                                            </Link>
                                                         </li>
                                                     </ul>
                                                 </div>
@@ -128,19 +178,7 @@
                                 </table>
                             </div>
                         </div>
-                        <div class="border-top d-md-flex justify-content-between align-items-center px-6 py-6">
-                            <span>Showing 1 to 8 of 12 entries</span>
-                            <nav class="mt-2 mt-md-0">
-                                <ul class="pagination mb-0">
-                                    <li class="page-item disabled"><a class="page-link" href="#!">Previous</a>
-                                    </li>
-                                    <li class="page-item"><a class="page-link active" href="#!">1</a></li>
-                                    <li class="page-item"><a class="page-link" href="#!">2</a></li>
-                                    <li class="page-item"><a class="page-link" href="#!">3</a></li>
-                                    <li class="page-item"><a class="page-link" href="#!">Next</a></li>
-                                </ul>
-                            </nav>
-                        </div>
+                        <Pagination :paginator="products" :scrollPreserve="false" />
                     </div>
                 </div>
             </div>
