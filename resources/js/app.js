@@ -2,7 +2,7 @@ import "./bootstrap";
 
 import { createApp, h } from "vue";
 import { createInertiaApp, Head, Link } from "@inertiajs/vue3";
-import { ZiggyVue } from "../../vendor/tightenco/ziggy";
+import { ZiggyVue } from "/vendor/tightenco/ziggy";
 import MasterLayout from "./Pages/Master.vue";
 
 import "vue3-toastify/dist/index.css";
