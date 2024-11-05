@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\ProductRequests;
 use App\Models\Category;
 use App\Models\Product;
+use Inertia\Inertia;
 
 class AdminProductController extends Controller
 {
@@ -36,8 +37,8 @@ class AdminProductController extends Controller
         $product->name = $request->name;
         $product->category_id = $request->category_id;
         $product->weight = $request->weight;
-        $product->size = $request->size == null ? null : json_encode($request->size);
-        $product->colors = $request->colors == null ? null : json_encode($request->colors);
+        $product->sizes = $request->sizes == null ? null : $request->sizes;
+        $product->colors = $request->colors == null ? null : $request->colors;
         $product->description = $request->description;
         $product->price = $request->price;
         $product->sale_price = $request->sale_price;
@@ -50,18 +51,16 @@ class AdminProductController extends Controller
         $product->meta_title = $request->meta_title;
         $product->meta_description = $request->meta_description;
 
-        if ($request->hasFile('image')) {
+        if ($request->hasFile('images')) {
             $imagesName = [];
-            if ($request->hasFile('image')) {
-                foreach ($request->file('image') as $index => $image) {
-                    $fileName = 'product-img-' . time() . $index . '.' . $image->getClientOriginalExtension();
-                    $image->move(public_path('images/products'), $fileName);
-                    $imagesName[] = $fileName;
-                }
+            foreach ($request->file('images') as $index => $image) {
+                $fileName = 'product-img-' . time() . $index . '.' . $image->getClientOriginalExtension();
+                $image->move(public_path('images/products'), $fileName);
+                $imagesName[] = $fileName;
             }
             $product->image = json_encode($imagesName);
         }
-        if ($product->isDirty() || $request->hasFile('image')) {
+        if ($product->isDirty() || $request->hasFile('images')) {
             $product->save();
             return redirect()->back();
         }
@@ -74,21 +73,19 @@ class AdminProductController extends Controller
         $product = Product::find($id);
         $categories = Category::select('id', 'name')->get();
 
-        return view('components.back-end.edit-product', compact('product', 'categories'));
+        return Inertia::render('Backend/EditProduct', ['product' => $product, 'categories' => $categories]);
 
     }
     public function productsPage()
     {
-        $products = Product::with(['category' => function ($query) {
-            $query->select('id', 'name', 'slug');
-        }])->get();
-        return view('components.back-end.product', compact('products'));
+        $products = Product::with(['category:id,name,slug'])->get();
+        return Inertia::render('Backend/Products', ['products' => $products]);
     }
     public function productCreatePage()
     {
         $categories = Category::select('id', 'name')->get();
 
-        return view('components.back-end.add-product', compact('categories'));
+        return view('Admin/Products', compact('categories'));
     }
     public function createProduct(ProductRequests $request)
     {
@@ -100,7 +97,7 @@ class AdminProductController extends Controller
             $product->name = $request->name;
             $product->category_id = $request->category_id;
             $product->weight = $request->weight;
-            $product->size = $request->size == null ? null : json_encode($request->size);
+            $product->size = $request->sizes == null ? null : json_encode($request->sizes);
             $product->colors = $request->colors == null ? null : json_encode($request->colors);
             $product->description = $request->description;
             $product->price = $request->price;

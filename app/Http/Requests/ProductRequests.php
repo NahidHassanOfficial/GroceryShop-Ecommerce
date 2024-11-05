@@ -25,8 +25,8 @@ class ProductRequests extends FormRequest
             'name' => 'required|string',
             'category_id' => 'required|exists:categories,id',
             'weight' => 'required|numeric',
-            'size' => 'nullable|array',
-            'colors' => 'nullable|array',
+            'sizes' => 'nullable|json',
+            'colors' => 'nullable|json',
             'description' => 'required|string',
             'price' => 'required|numeric',
             'sale_price' => 'nullable|numeric',
@@ -41,15 +41,15 @@ class ProductRequests extends FormRequest
             $id = $this->route(param: 'id');
 
             $rules['id'] = 'numeric|exist:products,id';
-            $rules['image'] = 'array|max:5';
-            $rules['image.*'] = 'image|max:2048';
+            $rules['images'] = 'array|max:5';
+            $rules['images.*'] = 'image|max:2048';
             $rules['product_code'] = 'required|string|unique:products,product_code,' . $id . ',id';
             $rules['product_sku'] = 'required|string|unique:products,product_sku,' . $id;
             $rules['slug'] = 'required|unique:products,slug,' . $id;
 
         } else if ($this->route()->getName() === 'dash.product.add') {
-            $rules['image'] = 'array|min:1|max:5';
-            $rules['image.*'] = 'required|filled|image|max:2048';
+            $rules['images'] = 'array|min:1|max:5';
+            $rules['images.*'] = 'required|filled|image|max:2048';
             $rules['product_code'] = 'required|string|unique:products,product_code';
             $rules['product_sku'] = 'required|string|unique:products,product_sku';
             $rules['slug'] = 'required|unique:products,slug';
