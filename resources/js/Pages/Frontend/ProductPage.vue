@@ -262,9 +262,7 @@ function quantitySelect(incOrDec) {
                                 aria-labelledby="product-tab" tabindex="0">
                                 <div class="my-8">
 
-                                    <div class="mb-5">
-                                        {{ product.description }}
-                                    </div>
+                                    <div class="mb-5" v-html="product.description"> </div>
                                     <!-- content -->
                                     <div class="mb-5">
                                         <h5 class="mb-1">Unit</h5>

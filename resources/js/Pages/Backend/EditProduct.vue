@@ -97,7 +97,12 @@ onMounted(() => {
             theme: "snow"
         });
     }
-})
+    quill.root.innerHTML = editProductForm.description;
+
+    quill.on('text-change', () => {
+        editProductForm.description = quill.root.innerHTML;
+    });
+});
 
 </script>
 
@@ -255,8 +260,6 @@ onMounted(() => {
                                     <div class="mb-3 col-lg-12 mt-5">
                                         <h4 class="mb-3 h5">Product Descriptions</h4>
                                         <div class="py-8" id="editor"></div>
-                                        <textarea name="description" id="description"
-                                            hidden>{{ editProductForm.description }}</textarea>
                                         <div class="text-danger">{{ editProductForm.errors.description }}</div>
 
                                     </div>
