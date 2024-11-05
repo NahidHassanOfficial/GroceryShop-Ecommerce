@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('name');
             $table->foreignId('category_id')->constrained('categories')->onDelete('cascade');
             $table->decimal('weight', 8, 2);
-            $table->json('size')->nullable();
+            $table->json('sizes')->nullable();
             $table->json('colors')->nullable();
             $table->json('image');
             $table->text('description');
