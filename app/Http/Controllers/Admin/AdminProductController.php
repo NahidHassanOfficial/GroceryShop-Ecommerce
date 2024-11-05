@@ -51,6 +51,8 @@ class AdminProductController extends Controller
         $product->meta_title = $request->meta_title;
         $product->meta_description = $request->meta_description;
 
+        $oldImg_Files = $product->image;
+
         if ($request->hasFile('images')) {
             $imagesName = [];
             foreach ($request->file('images') as $index => $image) {
@@ -62,6 +64,14 @@ class AdminProductController extends Controller
         }
         if ($product->isDirty() || $request->hasFile('images')) {
             $product->save();
+
+            foreach (json_decode($oldImg_Files) as $img) {
+                $oldFile = public_path('images/products/' . $img);
+                if (file_exists($oldFile)) {
+                    unlink($oldFile);
+                }
+            }
+
             return redirect()->back();
         }
 
