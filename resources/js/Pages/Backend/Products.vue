@@ -34,7 +34,7 @@ const filteredProducts = computed(() => {
 });
 
 //product item delete function
-import toast from 'vue3-toastify';
+import { toast } from 'vue3-toastify';
 import { useForm } from '@inertiajs/vue3';
 function deleteProduct(product_id) {
     useForm({}).get(route('dash.product.delete', product_id), {

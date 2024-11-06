@@ -324,9 +324,9 @@ onMounted(() => {
 
                                         <div class="mb-3">
                                             <label class="form-label">Meta Description</label>
-                                            <textarea class="form-control" placeholder="Enter Meta Description"
-                                                name="meta_description">{{
-                                                    editProductForm.meta_description }}</textarea>
+                                            <textarea v-model="editProductForm.meta_description" class="form-control"
+                                                placeholder="Enter Meta Description"
+                                                name="meta_description"> </textarea>
                                             <div class="text-danger">{{ editProductForm.errors.meta_description }}</div>
 
                                         </div>

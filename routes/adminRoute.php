@@ -19,7 +19,7 @@ Route::middleware([AdminAuthMiddleware::class])->group(function () {
     Route::inertia('/dashboard/category/new', 'Backend/AddCategory')->name('dash.category.add');
     Route::post('/dashboard/category/new', [AdminCategoryController::class, 'createCategory'])->name('dash.category.add');
     Route::get('/dashboard/category/edit/{id}', [AdminCategoryController::class, 'editCategoryPage'])->name('dash.category.editPage');
-    Route::post('/dashboard/category/edit', [AdminCategoryController::class, 'editCategory'])->name('dash.category.edit');
+    Route::post('/dashboard/category/edit/{id}', [AdminCategoryController::class, 'editCategory'])->name('dash.category.edit');
     Route::get('/dashboard/category/delete/{id}', [AdminCategoryController::class, 'deleteCategory'])->name('dash.category.delete');
 
     Route::get('/dashboard/products', [AdminProductController::class, 'productsPage'])->name('dash.products');

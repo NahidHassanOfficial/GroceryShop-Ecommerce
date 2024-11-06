@@ -12,7 +12,7 @@ class AdminProductController extends Controller
 {
     public function productsPage()
     {
-        $products = Product::with(['category:id,name,slug'])->paginate(10);
+        $products = Product::with(['category:id,name,slug'])->orderByDesc('id')->paginate(10);
         return Inertia::render('Backend/Products', ['products' => $products]);
     }
 
