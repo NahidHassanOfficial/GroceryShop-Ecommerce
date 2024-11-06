@@ -17,6 +17,9 @@ class Category extends Model
         'meta_title',
         'meta_description',
     ];
+
+    protected $hidden = ['created_at', 'deleted_at'];
+
     public function products()
     {
         return $this->hasMany(Product::class);

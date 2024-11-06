@@ -11,6 +11,8 @@ class User extends Model
     use HasFactory, SoftDeletes;
     protected $fillable = ['firstName', 'lastName', 'email', 'phone', 'password'];
 
+    protected $hidden = ['password', 'created_at', 'deleted_at'];
+
     public function carts()
     {
         return $this->hasMany(Cart::class);

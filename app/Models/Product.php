@@ -26,6 +26,8 @@ class Product extends Model
         'meta_description',
     ];
 
+    protected $hidden = ['created_at', 'deleted_at'];
+
     public function category()
     {
         return $this->belongsTo(Category::class);
