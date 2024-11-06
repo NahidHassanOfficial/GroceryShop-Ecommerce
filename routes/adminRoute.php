@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\admin\AdminCategoryController;
+use App\Http\Controllers\Admin\AdminCustomerManageController;
+use App\Http\Controllers\Admin\AdminOrdersController;
 use App\Http\Controllers\admin\AdminProductController;
 use App\Http\Controllers\Auth\AdminAuthController;
 use App\Http\Middleware\AdminAuthMiddleware;
@@ -32,11 +34,11 @@ Route::middleware([AdminAuthMiddleware::class])->group(function () {
     Route::get('/dashboard/product/delete/{id}', [AdminProductController::class, 'deleteProduct'])->name('dash.product.delete');
 
     //manage customers
-    Route::inertia('/dashboard/customers', 'Backend/Customers')->name('dash.customers');
-    Route::inertia('/dashboard/customers/edit', 'Backend/EditCustomer')->name('dash.customers.edit');
+    Route::get('/dashboard/customers', [AdminCustomerManageController::class, 'customersPage'])->name('dash.customers');
+    Route::get('/dashboard/customers/edit', [AdminCustomerManageController::class, 'editCustomerPage'])->name('dash.customers.edit');
 
     //manage orders
-    Route::inertia('/dashboard/orders', 'Backend/Orders')->name('dash.orders');
-    Route::inertia('/dashboard/order/{orderId}', 'Backend/OrderView')->name('dash.orders.single');
+    Route::get('/dashboard/orders', [AdminOrdersController::class, 'ordersPage'])->name('dash.orders');
+    Route::get('/dashboard/order/{orderId}', [AdminOrdersController::class, 'orderView'])->name('dash.orders.single');
 
 });
