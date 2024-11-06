@@ -15,13 +15,15 @@ Route::get('/admin/logout', [AdminAuthController::class, 'logout'])->name('admin
 Route::middleware([AdminAuthMiddleware::class])->group(function () {
     Route::inertia('/dashboard', 'Backend/Summary')->name('dashboard');
 
+    //manage categories
     Route::get('/dashboard/categories', [AdminCategoryController::class, 'categoriesPage'])->name('dash.categories');
-    Route::inertia('/dashboard/category/new', 'Backend/AddCategory')->name('dash.category.add');
+    Route::get('/dashboard/category/new', [AdminCategoryController::class, 'createCategoryPage'])->name('dash.category.add');
     Route::post('/dashboard/category/new', [AdminCategoryController::class, 'createCategory'])->name('dash.category.add');
     Route::get('/dashboard/category/edit/{id}', [AdminCategoryController::class, 'editCategoryPage'])->name('dash.category.editPage');
     Route::post('/dashboard/category/edit/{id}', [AdminCategoryController::class, 'editCategory'])->name('dash.category.edit');
     Route::get('/dashboard/category/delete/{id}', [AdminCategoryController::class, 'deleteCategory'])->name('dash.category.delete');
 
+    //manage products
     Route::get('/dashboard/products', [AdminProductController::class, 'productsPage'])->name('dash.products');
     Route::get('/dashboard/product/new', [AdminProductController::class, 'productCreatePage'])->name('dash.product.add');
     Route::post('/dashboard/product/new', [AdminProductController::class, 'createProduct'])->name('dash.product.add');
@@ -29,9 +31,11 @@ Route::middleware([AdminAuthMiddleware::class])->group(function () {
     Route::post('/dashboard/product/edit/{id}', [AdminProductController::class, 'editProduct'])->name('dash.product.edit');
     Route::get('/dashboard/product/delete/{id}', [AdminProductController::class, 'deleteProduct'])->name('dash.product.delete');
 
+    //manage customers
     Route::inertia('/dashboard/customers', 'Backend/Customers')->name('dash.customers');
     Route::inertia('/dashboard/customers/edit', 'Backend/EditCustomer')->name('dash.customers.edit');
 
+    //manage orders
     Route::inertia('/dashboard/orders', 'Backend/Orders')->name('dash.orders');
     Route::inertia('/dashboard/order/{orderId}', 'Backend/OrderView')->name('dash.orders.single');
 
