@@ -291,10 +291,7 @@ import "simplebar/dist/simplebar.min.css";
                                         <Link class="nav-link" :href="route('dash.customers')">Customers</Link>
                                     </li>
                                     <!-- Nav item -->
-                                    <li class="nav-item">
-                                        <a class="nav-link " href="">Edit
-                                            Customers</a>
-                                    </li>
+
                                 </ul>
                             </div>
                         </li>
@@ -430,12 +427,15 @@ import "simplebar/dist/simplebar.min.css";
                             </a>
                         </li>
                         <li class="nav-item">
-                            <Link class="nav-link " :href="route('dash.customers')">
-                            <div class="d-flex align-items-center">
-                                <span class="nav-link-icon"><i class="bi bi-people"></i></span>
-                                <span class="nav-link-text">Customers</span>
+                            <div id="navCustomer" class="collapse " data-bs-parent="#sideNavbar">
+                                <ul class="nav flex-column">
+                                    <li class="nav-item">
+                                        <Link class="nav-link" :href="route('dash.customers')">Customers</Link>
+                                    </li>
+                                    <!-- Nav item -->
+
+                                </ul>
                             </div>
-                            </Link>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link " href="#">

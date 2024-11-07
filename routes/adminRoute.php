@@ -35,7 +35,7 @@ Route::middleware([AdminAuthMiddleware::class])->group(function () {
 
     //manage customers
     Route::get('/dashboard/customers', [AdminCustomerManageController::class, 'customersPage'])->name('dash.customers');
-    Route::get('/dashboard/customers/edit', [AdminCustomerManageController::class, 'editCustomerPage'])->name('dash.customers.edit');
+    Route::get('/dashboard/customers/edit/{id}', [AdminCustomerManageController::class, 'editCustomerPage'])->name('dash.customers.editPage');
 
     //manage orders
     Route::get('/dashboard/orders', [AdminOrdersController::class, 'ordersPage'])->name('dash.orders');

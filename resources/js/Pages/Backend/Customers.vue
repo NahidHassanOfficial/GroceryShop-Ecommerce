@@ -57,7 +57,7 @@ let props = defineProps({
                                             </th>
                                             <th>Name</th>
                                             <th>Email</th>
-                                            <th>Purchase Date</th>
+                                            <th>Last Purchase Date</th>
                                             <th>Phone</th>
                                             <th>Spent</th>
 
@@ -81,14 +81,14 @@ let props = defineProps({
                                                     <div class="ms-2">
                                                         <a href="#!" class="text-inherit" data-bs-toggle="offcanvas"
                                                             data-bs-target="#offcanvasRight"
-                                                            aria-controls="offcanvasRight">Bonnie Howe</a>
+                                                            aria-controls="offcanvasRight">{{ customer.name }}</a>
                                                     </div>
                                                 </div>
                                             </td>
-                                            <td>bonniehowe@gmail.com</td>
+                                            <td>{{ customer.email }}</td>
 
                                             <td>17 May, 2023 at 3:18pm</td>
-                                            <td>-</td>
+                                            <td>{{ customer.phone }}</td>
                                             <td>$49.00</td>
 
                                             <td>
@@ -105,10 +105,11 @@ let props = defineProps({
                                                             </a>
                                                         </li>
                                                         <li>
-                                                            <a class="dropdown-item" href="#">
-                                                                <i class="bi bi-pencil-square me-3"></i>
-                                                                Edit
-                                                            </a>
+                                                            <Link class="dropdown-item"
+                                                                :href="route('dash.customers.editPage', customer.id)">
+                                                            <i class="bi bi-pencil-square me-3"></i>
+                                                            Edit
+                                                            </Link>
                                                         </li>
                                                     </ul>
                                                 </div>

@@ -1,5 +1,48 @@
-<template>
+<script setup>
+import MasterBackend from './Layout/MasterBackend.vue';
+defineOptions({
+    layout: MasterBackend
+})
 
+const props = defineProps({
+    customer: Object
+});
+
+import { useForm } from '@inertiajs/vue3';
+const editCustomerForm = useForm({
+    name: props.customer.name,
+    description: props.customer.description,
+    status: props.customer.status == 1 ? true : false,
+    slug: props.customer.slug,
+    meta_title: props.customer.meta_title,
+    meta_description: props.customer.meta_description,
+    image: null,
+});
+
+import { toast } from 'vue3-toastify';
+const submit = () => {
+    editCustomerForm.post(route('dash.customer.edit', props.customer.id), {
+        onSuccess: () => {
+            toast.success('Product Updated');
+        },
+        onError: () => {
+            if (editCustomerForm.errors.message)
+                toast.error(editCustomerForm.errors.message);
+        },
+    });
+}
+
+function formatDate(timestamp) {
+    const date = new Date(timestamp);
+
+    const day = date.getDate();
+    const month = date.toLocaleString('en-US', { month: 'short' });
+    const year = date.getFullYear();
+
+    return `${day} ${month} ${year}`;
+}
+</script>
+<template>
     <main class="main-content-wrapper">
         <div class="container">
             <div class="row mb-8">
@@ -11,8 +54,7 @@
                             <nav aria-label="breadcrumb">
                                 <ol class="breadcrumb mb-0">
                                     <li class="breadcrumb-item"><a href="#" class="text-inherit">Dashboard</a></li>
-                                    <li class="breadcrumb-item"><a href="#" class="text-inherit">Customer Name</a>
-                                    </li>
+                                    <li class="breadcrumb-item"><a href="#" class="text-inherit">Customer Name</a></li>
                                     <li class="breadcrumb-item active" aria-current="page">Edit</li>
                                 </ol>
                             </nav>
@@ -31,19 +73,19 @@
                             <div
                                 class="d-flex flex-column flex-md-row align-items-center mb-4 file-input-wrapper gap-2">
                                 <div>
-                                    <img class="image avatar avatar-lg rounded-3"
-                                        src="../assets/images/docs/placeholder-img.jpg" alt="Image" />
+                                    <img class="image avatar avatar-lg rounded-3" :src="'/images/placeholder-img.jpg'"
+                                        alt="Image" />
                                 </div>
 
                                 <div class="file-upload btn btn-light ms-md-4">
-                                    <input type="file" class="file-input opacity-0" />
+                                    <input type="file" class="file-input opacity-0" disabled />
                                     Upload Photo
                                 </div>
 
                                 <span class="ms-md-2">JPG, GIF or PNG. 1MB Max.</span>
                             </div>
 
-                            <div class="d-flex flex-column gap-4">
+                            <div class="d-flex flex-column gap-4" style="pointer-events: none; opacity: 0.5;">
                                 <h4 class="mb-0 h6">Customer Information</h4>
                                 <form class="row g-3 needs-validation" novalidate>
                                     <div class="col-lg-6 col-12">
@@ -53,9 +95,10 @@
                                                 Name
                                                 <span class="text-danger">*</span>
                                             </label>
-                                            <input type="text" class="form-control" id="customerEditName"
-                                                placeholder="Customer Name" required />
-                                            <div class="invalid-feedback">Please enter category name</div>
+                                            <input :value="customer.firstName + ' ' + customer.lastName" type="text"
+                                                class="form-control" id="customerEditName" placeholder="Customer Name"
+                                                required />
+                                            <div class="invalid-feedback">Please enter customer name</div>
                                         </div>
                                     </div>
                                     <div class="col-lg-6 col-12">
@@ -65,8 +108,8 @@
                                                 Email
                                                 <span class="text-danger">*</span>
                                             </label>
-                                            <input type="email" class="form-control" id="customerEditEmail"
-                                                placeholder="Email Address" required />
+                                            <input :value="customer.email" type="email" class="form-control"
+                                                id="customerEditEmail" placeholder="Email Address" required />
                                             <div class="invalid-feedback">Please enter email</div>
                                         </div>
                                     </div>
@@ -74,8 +117,8 @@
                                         <div>
                                             <!-- input -->
                                             <label for="customerEditPhone" class="form-label">Phone</label>
-                                            <input type="text" class="form-control" id="customerEditPhone"
-                                                placeholder="Number" required />
+                                            <input :value="customer.phone" type="text" class="form-control"
+                                                id="customerEditPhone" placeholder="Number" required />
                                             <div class="invalid-feedback">Please enter phone</div>
                                         </div>
                                     </div>
@@ -89,7 +132,7 @@
                                     <div>
                                         <div class="col-12 mt-3">
                                             <div class="d-flex flex-column flex-md-row gap-2">
-                                                <button class="btn btn-primary" type="submit">Create New
+                                                <button class="btn btn-primary" type="submit">Update
                                                     Customer</button>
                                                 <button class="btn btn-secondary" type="submit">Cancel</button>
                                             </div>
@@ -109,11 +152,11 @@
                             <div class="d-flex flex-column gap-3">
                                 <div class="d-flex flex-row justify-content-between">
                                     <span class="fw-medium text-dark">Created at</span>
-                                    <span class="fw-medium">8 month ago</span>
+                                    <span class="fw-medium">{{ formatDate(customer.created_at) }}</span>
                                 </div>
                                 <div class="d-flex flex-row justify-content-between">
                                     <span class="fw-medium text-dark">Last modified at</span>
-                                    <span class="fw-medium">2 month ago</span>
+                                    <span class="fw-medium">{{ formatDate(customer.updated_at) }}</span>
                                 </div>
                             </div>
                         </div>
@@ -250,12 +293,10 @@
                                             <ul class="pagination mb-0">
                                                 <li class="page-item disabled"><a class="page-link"
                                                         href="#!">Previous</a></li>
-                                                <li class="page-item"><a class="page-link active" href="#!">1</a>
-                                                </li>
+                                                <li class="page-item"><a class="page-link active" href="#!">1</a></li>
                                                 <li class="page-item"><a class="page-link" href="#!">2</a></li>
                                                 <li class="page-item"><a class="page-link" href="#!">3</a></li>
-                                                <li class="page-item"><a class="page-link" href="#!">Next</a>
-                                                </li>
+                                                <li class="page-item"><a class="page-link" href="#!">Next</a></li>
                                             </ul>
                                         </nav>
                                     </div>
@@ -454,12 +495,10 @@
                                             <ul class="pagination mb-0">
                                                 <li class="page-item disabled"><a class="page-link"
                                                         href="#!">Previous</a></li>
-                                                <li class="page-item"><a class="page-link active" href="#!">1</a>
-                                                </li>
+                                                <li class="page-item"><a class="page-link active" href="#!">1</a></li>
                                                 <li class="page-item"><a class="page-link" href="#!">2</a></li>
                                                 <li class="page-item"><a class="page-link" href="#!">3</a></li>
-                                                <li class="page-item"><a class="page-link" href="#!">Next</a>
-                                                </li>
+                                                <li class="page-item"><a class="page-link" href="#!">Next</a></li>
                                             </ul>
                                         </nav>
                                     </div>
@@ -616,7 +655,7 @@
                             </svg>
                         </div>
                         <div class="d-flex flex-column gap-2 text-center">
-                            <h3 class="mb-0 h4">Delete Customer name</h3>
+                            <h3 class="mb-0 h4">Delete Customer</h3>
                             <p class="mb-0">are you sure you would like to to this?</p>
                         </div>
                         <div class="d-flex flex-row gap-2">

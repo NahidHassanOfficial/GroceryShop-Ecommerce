@@ -15,8 +15,9 @@ class AdminCustomerManageController extends Controller
         return Inertia::render("Backend/Customers", ['customers' => $customers]);
     }
 
-    public function editCustomerPage(Request $request)
+    public function editCustomerPage($id)
     {
-        return Inertia::render("Backend/EditCustomer");
+        $customer = User::findOrFail($id)->makeVisible('created_at');
+        return Inertia::render("Backend/EditCustomer", ["customer" => $customer]);
     }
 }
