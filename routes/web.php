@@ -13,4 +13,6 @@ Route::group(['middleware' => ['check.auth']], function () {
     Route::get('/', [IndexController::class, 'index'])->name('index');
     Route::get('/category/{categorySlug}', [CategoryController::class, 'categoryView'])->name('category.view');
     Route::get('/{categorySlug}/product/{productSlug}', [ProductController::class, 'productView'])->name('product.view');
+
+    Route::inertia('/cart', 'Frontend/ConfirmCart')->name('cartPage');
 });

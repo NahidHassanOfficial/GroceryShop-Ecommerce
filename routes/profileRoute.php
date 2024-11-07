@@ -34,4 +34,6 @@ Route::group(['middleware' => ['user.auth', 'check.auth']], function () {
 
     Route::post('/wish-list/product/add', [WishListController::class, 'addWishList'])->name('add.wish-list');
     Route::post('/wish-list/product/remove', [WishListController::class, 'removeWishListItem'])->name('remove.wish-list.item');
+
+    Route::inertia('/order/checkout', 'Frontend/Checkout')->name('checkoutPage');
 });
