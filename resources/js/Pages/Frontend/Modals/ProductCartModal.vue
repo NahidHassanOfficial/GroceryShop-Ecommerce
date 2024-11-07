@@ -66,14 +66,14 @@ function quantityUpdate(product, incOrDec) {
                                         <input @click="quantityUpdate(product, 0)" type="button" value="-"
                                             class="button-minus btn btn-sm" :disabled="product.quantity === 1"
                                             data-field="quantity">
-                                        <input type="number" v-model="product.quantity" name="quantity"
+                                        <input type="text" v-model="product.quantity" name="quantity"
                                             class="quantity-field form-control-sm form-input">
                                         <input @click="quantityUpdate(product, 1)" type="button" value="+"
                                             class="button-plus btn btn-sm" data-field="quantity">
                                     </div>
                                 </div>
                                 <div class="col-2 text-end">
-                                    <span class="fw-bold">{{ product.price * product.quantity }}</span>
+                                    <span class="fw-bold">{{ (product.price * product.quantity).toFixed(2) }}</span>
                                 </div>
                             </div>
                         </li>
@@ -82,10 +82,10 @@ function quantityUpdate(product, incOrDec) {
                 </div>
                 <div class="d-grid">
 
-                    <button class="btn btn-primary btn-lg d-flex justify-content-between align-items-center"
-                        type="submit">
+                    <a :href="route('checkoutPage')"
+                        class="btn btn-primary btn-lg d-flex justify-content-between align-items-center">
                         Go to Checkout <span class="fw-bold" id="totalAmmount">{{ totalAmmount }}</span>
-                    </button>
+                    </a>
                 </div>
             </div>
         </div>

@@ -29,7 +29,11 @@ watch(
         localStorage.setItem("cartList", JSON.stringify(newCartList));
         totalAmmount.value = 0;
         newCartList.forEach((product) => {
-            totalAmmount.value += product.price * product.quantity;
+            totalAmmount.value = Number(
+                (totalAmmount.value + product.price * product.quantity).toFixed(
+                    2
+                )
+            );
         });
     },
     { deep: true }
@@ -44,7 +48,7 @@ export function addToCart(product, quantity = 1) {
         id: product.id,
         name: product.name,
         image: JSON.parse(product.image)[0],
-        price: product.sale_price || product.price,
+        price: Number(product.sale_price) || Number(product.price),
         quantity: Number(quantity),
     };
     //check if cartlist have item with the same product.id then just increse the quantity
