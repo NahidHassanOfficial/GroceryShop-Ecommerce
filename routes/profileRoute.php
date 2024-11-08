@@ -9,11 +9,14 @@ use Illuminate\Support\Facades\Route;
 
 //views auth
 Route::inertia('/register', 'Auth/Signup')->name('user.register');
-Route::inertia('/reset-password', 'Auth/ResetPassword')->name('user.resetpwd');
 Route::inertia('/login', 'Auth/Login')->name('user.login');
+Route::inertia('/reset-password', 'Auth/ResetPassword')->name('user.resetpwd');
+Route::inertia('/otp/verify', 'Auth/OTPVerify')->name('user.OTPPage');
 
 Route::post('/login', [UserAuthController::class, 'login'])->name('user.login.post');
+Route::post('/register/verify', [UserAuthController::class, 'registerVerification'])->name('user.register.verify');
 Route::post('/register', [UserAuthController::class, 'register'])->name('user.register.post');
+Route::post('/reset-password/verify', [UserAuthController::class, 'resetVerification'])->name('user.resetpwd.verify');
 Route::post('/reset-password', [UserAuthController::class, 'resetPassword'])->name('user.resetpwd.post');
 Route::get('/logout', [UserAuthController::class, 'logout'])->name('logout');
 

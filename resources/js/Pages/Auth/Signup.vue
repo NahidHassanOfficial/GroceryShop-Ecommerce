@@ -14,12 +14,13 @@ const form = useForm({
 });
 
 const submit = () => {
-    form.post(route('user.register.post'), {
+    form.post(route('user.register.verify'), {
         onSuccess: () => {
-            setTimeout(() => {
-                window.location.href = route('login')
-            }, 1000);
-            toast.success('Registration Successfull');
+            // setTimeout(() => {
+            //     window.location.href = route('user.login')
+            // }, 1000);
+            sessionStorage.setItem('source', 'user.register.post');
+            toast.success('Verify your email');
         },
         onError: () => {
             toast.error(form.errors.message);

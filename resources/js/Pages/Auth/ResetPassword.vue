@@ -1,8 +1,21 @@
 <script setup>
+import { useForm } from '@inertiajs/vue3';
 import Master from '../Master.vue'
 defineOptions({
     layout: Master,
 })
+
+const resetForm = useForm({
+    email: null,
+})
+const submit = () => {
+    resetForm.post(route("user.resetpwd.verify"), {
+        onSuccess: () => {
+            sessionStorage.setItem('source', 'user.resetpwd.post');
+            toast.success('OTP Verification mail sent');
+        }
+    });
+};
 
 </script>
 
@@ -49,7 +62,7 @@ defineOptions({
                                     to reset your password.</p>
                             </div>
                             <!-- form -->
-                            <form class="needs-validation" novalidate>
+                            <form @submit.prevent="submit" class="needs-validation">
                                 <!-- row -->
                                 <div class="row g-3">
                                     <!-- col -->
@@ -57,9 +70,9 @@ defineOptions({
                                         <!-- input -->
                                         <label for="formForgetEmail" class="form-label visually-hidden">Email
                                             address</label>
-                                        <input type="email" class="form-control" id="formForgetEmail"
-                                            placeholder="Email" required />
-                                        <div class="invalid-feedback">Please enter correct password.</div>
+                                        <input v-model="resetForm.email" type="email" class="form-control"
+                                            id="formForgetEmail" placeholder="Email" required />
+                                        <div class="text-danger">{{ resetForm.errors.email }}</div>
                                     </div>
 
                                     <!-- btn -->
