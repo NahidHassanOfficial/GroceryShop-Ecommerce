@@ -5,7 +5,6 @@ namespace Database\Seeders;
 use App\Models\Product;
 use Faker\Factory as Faker;
 use Illuminate\Database\Seeder;
-use Str;
 
 class ProductSeeder extends Seeder
 {
@@ -27,7 +26,7 @@ class ProductSeeder extends Seeder
 
         for ($i = 0; $i < 50; $i++) {
             $name = $faker->word() . ' ' . $faker->word();
-            $slug = Str::slug($name);
+            $slug = fake()->unique()->slug();
 
             Product::create([
                 'name' => $name,

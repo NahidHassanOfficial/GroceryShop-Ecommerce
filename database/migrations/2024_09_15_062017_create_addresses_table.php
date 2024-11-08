@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('district');
             $table->string('address');
             $table->enum('address_type', ['home', 'office']);
+            $table->boolean('is_default')->default(false);
             $table->timestamps();
         });
     }

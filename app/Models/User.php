@@ -18,4 +18,8 @@ class User extends Model
         return $this->hasMany(Cart::class);
     }
 
+    public function addresses()
+    {
+        return $this->hasMany(Address::class);
+    }
 }

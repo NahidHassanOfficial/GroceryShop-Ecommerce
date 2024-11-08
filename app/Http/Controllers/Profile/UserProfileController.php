@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Profile;
 
 use App\Http\Controllers\Controller;
+use App\Models\Address;
 use App\Models\Order;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -11,6 +12,17 @@ use Inertia\Inertia;
 
 class UserProfileController extends Controller
 {
+    public function updateDefaultAddress(Request $request)
+    {
+        $addresses = Address::where('user_id', $request->header('id'))->get();
+
+        foreach ($addresses as $address) {
+            $address->is_default = $address->is_default ? 0 : 1;
+            $address->save();
+        }
+
+        return back();
+    }
     public function userAddress()
     {
         return Inertia::render('Frontend/Profile/UserAddress');

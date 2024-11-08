@@ -1,10 +1,31 @@
 <script setup>
+import { ref } from 'vue';
 import MasterFrontend from './Layout/MasterFrontend.vue';
+import CheckoutCart from './Components/CheckoutCart.vue';
 defineOptions({
     layout: MasterFrontend,
 })
 
+defineProps({
+    user: Object,
+    homeAddress: Object,
+    officeAddress: Object,
+})
+
 import flatpickr from 'flatpickr';
+import { useForm } from '@inertiajs/vue3';
+
+let addressUpdate = useForm({});
+function updateDefault() {
+    addressUpdate.get(route('addressDefault.update'), {
+        onSuccess: () => {
+            toast.success("Default address updated");
+        },
+        onError: () => {
+            toast.error(form.errors.message);
+        },
+    });
+}
 </script>
 <template>
     <main>
@@ -73,24 +94,28 @@ import flatpickr from 'flatpickr';
                                                     <div class="card card-body p-6">
                                                         <div class="form-check mb-4">
                                                             <input class="form-check-input" type="radio"
-                                                                name="flexRadioDefault" id="homeRadio" checked />
+                                                                name="flexRadioDefault" id="homeRadio"
+                                                                :checked="homeAddress.is_default" />
                                                             <label class="form-check-label text-dark"
-                                                                for="homeRadio">Home</label>
+                                                                for="homeRadio">Home
+                                                            </label>
                                                         </div>
                                                         <!-- address -->
                                                         <address>
-                                                            <strong>Jitu Chauhan</strong>
+                                                            <strong>{{ user.firstName + ' ' + user.lastName }}</strong>
+                                                            <br />
+                                                            {{ homeAddress.address }},
+                                                            <br />
+                                                            {{ homeAddress.district }}, {{ homeAddress.city }}, {{
+                                                                homeAddress.country }},
                                                             <br />
 
-                                                            4450 North Avenue Oakland,
-                                                            <br />
-
-                                                            Nebraska, United States,
-                                                            <br />
-
-                                                            <abbr title="Phone">P: 402-776-1106</abbr>
+                                                            <abbr title="Phone">Phone: {{ user.phone }}</abbr>
                                                         </address>
-                                                        <span class="text-danger">Default address</span>
+
+                                                        <button @click="updateDefault" v-if="!homeAddress.is_default"
+                                                            class="btn btn-outline-danger btn-sm col-6">Make Default
+                                                            address </button>
                                                     </div>
                                                 </div>
                                                 <div class="col-xl-6 col-lg-12 col-md-6 col-12 mb-4">
@@ -98,20 +123,27 @@ import flatpickr from 'flatpickr';
                                                     <div class="card card-body p-6">
                                                         <div class="form-check mb-4">
                                                             <input class="form-check-input" type="radio"
-                                                                name="flexRadioDefault" id="officeRadio" />
+                                                                name="flexRadioDefault" id="officeRadio"
+                                                                :checked="officeAddress.is_default" />
                                                             <label class="form-check-label text-dark"
-                                                                for="officeRadio">Office</label>
+                                                                for="officeRadio">Office </label>
+
                                                         </div>
                                                         <address>
-                                                            <strong>Nitu Chauhan</strong>
+                                                            <strong>{{ user.firstName + ' ' + user.lastName }}</strong>
                                                             <br />
-                                                            3853 Coal Road,
+                                                            {{ officeAddress.address }},
                                                             <br />
-                                                            Tannersville, Pennsylvania, 18372, USA,
+                                                            {{ officeAddress.district }}, {{ officeAddress.city }}, {{
+                                                                officeAddress.country }},
                                                             <br />
 
-                                                            <abbr title="Phone">P: 402-776-1106</abbr>
+                                                            <abbr title="Phone">Phone: {{ user.phone }}</abbr>
                                                         </address>
+                                                        <button @click="updateDefault" v-if="!officeAddress.is_default"
+                                                            class="btn btn-outline-danger btn-sm col-6">Make Default
+                                                            address</button>
+
                                                     </div>
                                                 </div>
                                             </div>
@@ -119,7 +151,7 @@ import flatpickr from 'flatpickr';
                                     </div>
                                 </div>
                                 <!-- accordion item -->
-                                <div class="accordion-item py-4">
+                                <div class="accordion-item py-4" style="pointer-events: none; opacity: 0.5;">
                                     <a href="#" class="text-inherit collapsed h5" data-bs-toggle="collapse"
                                         data-bs-target="#flush-collapseTwo" aria-expanded="false"
                                         aria-controls="flush-collapseTwo">
@@ -1135,7 +1167,7 @@ import flatpickr from 'flatpickr';
                                     </div>
                                 </div>
                                 <!-- accordion item -->
-                                <div class="accordion-item py-4">
+                                <div class="accordion-item py-4" style="pointer-events: none; opacity: 0.5;">
                                     <a href="#" class="text-inherit h5" data-bs-toggle="collapse"
                                         data-bs-target="#flush-collapseThree" aria-expanded="false"
                                         aria-controls="flush-collapseThree">
@@ -1180,7 +1212,8 @@ import flatpickr from 'flatpickr';
                                         data-bs-parent="#accordionFlushExample">
                                         <div class="mt-5">
                                             <div>
-                                                <div class="card card-bordered shadow-none mb-2">
+                                                <div class="card card-bordered shadow-none mb-2"
+                                                    style="pointer-events: none; opacity: 0.5;">
                                                     <!-- card body -->
                                                     <div class="card-body p-6">
                                                         <div class="d-flex">
@@ -1201,7 +1234,8 @@ import flatpickr from 'flatpickr';
                                                     </div>
                                                 </div>
                                                 <!-- card -->
-                                                <div class="card card-bordered shadow-none mb-2">
+                                                <div class="card card-bordered shadow-none mb-2"
+                                                    style="pointer-events: none; opacity: 0.5;">
                                                     <!-- card body -->
                                                     <div class="card-body p-6">
                                                         <div class="d-flex mb-4">
@@ -1281,9 +1315,11 @@ import flatpickr from 'flatpickr';
                                                             </div>
                                                             <div>
                                                                 <!-- title -->
-                                                                <h5 class="mb-1 h6">Pay with Payoneer</h5>
-                                                                <p class="mb-0 small">You will be redirected to Payoneer
-                                                                    website to complete your purchase securely.</p>
+                                                                <h5 class="mb-1 h6">Pay with Bkash/Nagad/Upay/Rocket
+                                                                </h5>
+                                                                <p class="mb-0 small">You will be redirected to
+                                                                    SSLCOMMERZ
+                                                                    Gateway to complete your purchase securely.</p>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -1323,121 +1359,7 @@ import flatpickr from 'flatpickr';
                                 </div>
                             </div>
                         </div>
-
-                        <div class="col-md-12 offset-xl-1 col-xl-4 col-lg-6">
-                            <div class="mt-4 mt-lg-0">
-                                <div class="card shadow-sm">
-                                    <h5 class="px-6 py-4 bg-transparent mb-0">Order Details</h5>
-                                    <ul class="list-group list-group-flush">
-                                        <!-- list group item -->
-                                        <li class="list-group-item px-4 py-3">
-                                            <div class="row align-items-center">
-                                                <div class="col-2 col-md-2">
-                                                    <img src="../assets/images/products/product-img-1.jpg"
-                                                        alt="Ecommerce" class="img-fluid" />
-                                                </div>
-                                                <div class="col-5 col-md-5">
-                                                    <h6 class="mb-0">Haldiram's Sev Bhujia</h6>
-                                                    <span><small class="text-muted">.98 / lb</small></span>
-                                                </div>
-                                                <div class="col-2 col-md-2 text-center text-muted">
-                                                    <span>1</span>
-                                                </div>
-                                                <div class="col-3 text-lg-end text-start text-md-end col-md-3">
-                                                    <span class="fw-bold">$5.00</span>
-                                                </div>
-                                            </div>
-                                        </li>
-                                        <!-- list group item -->
-                                        <li class="list-group-item px-4 py-3">
-                                            <div class="row align-items-center">
-                                                <div class="col-2 col-md-2">
-                                                    <img src="../assets/images/products/product-img-2.jpg"
-                                                        alt="Ecommerce" class="img-fluid" />
-                                                </div>
-                                                <div class="col-5 col-md-5">
-                                                    <h6 class="mb-0">NutriChoice Digestive</h6>
-                                                    <span><small class="text-muted">250g</small></span>
-                                                </div>
-                                                <div class="col-2 col-md-2 text-center text-muted">
-                                                    <span>1</span>
-                                                </div>
-                                                <div class="col-3 text-lg-end text-start text-md-end col-md-3">
-                                                    <span class="fw-bold">$20.00</span>
-                                                    <div class="text-decoration-line-through text-muted small">$26.00
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </li>
-                                        <!-- list group item -->
-                                        <li class="list-group-item px-4 py-3">
-                                            <div class="row align-items-center">
-                                                <div class="col-2 col-md-2">
-                                                    <img src="../assets/images/products/product-img-3.jpg"
-                                                        alt="Ecommerce" class="img-fluid" />
-                                                </div>
-                                                <div class="col-5 col-md-5">
-                                                    <h6 class="mb-0">Cadbury 5 Star Chocolate</h6>
-                                                    <span><small class="text-muted">1 kg</small></span>
-                                                </div>
-                                                <div class="col-2 col-md-2 text-center text-muted">
-                                                    <span>1</span>
-                                                </div>
-                                                <div class="col-3 text-lg-end text-start text-md-end col-md-3">
-                                                    <span class="fw-bold">$15.00</span>
-                                                    <div class="text-decoration-line-through text-muted small">$20.00
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </li>
-                                        <!-- list group item -->
-                                        <li class="list-group-item px-4 py-3">
-                                            <div class="row align-items-center">
-                                                <div class="col-2 col-md-2">
-                                                    <img src="../assets/images/products/product-img-4.jpg"
-                                                        alt="Ecommerce" class="img-fluid" />
-                                                </div>
-                                                <div class="col-5 col-md-5">
-                                                    <h6 class="mb-0">Onion Flavour Potato</h6>
-                                                    <span><small class="text-muted">250g</small></span>
-                                                </div>
-                                                <div class="col-2 col-md-2 text-center text-muted">
-                                                    <span>1</span>
-                                                </div>
-                                                <div class="col-3 text-lg-end text-start text-md-end col-md-3">
-                                                    <span class="fw-bold">$15.00</span>
-                                                    <div class="text-decoration-line-through text-muted small">$20.00
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </li>
-
-                                        <!-- list group item -->
-                                        <li class="list-group-item px-4 py-3">
-                                            <div class="d-flex align-items-center justify-content-between mb-2">
-                                                <div>Item Subtotal</div>
-                                                <div class="fw-bold">$70.00</div>
-                                            </div>
-                                            <div class="d-flex align-items-center justify-content-between">
-                                                <div>
-                                                    Service Fee
-                                                    <i class="feather-icon icon-info text-muted"
-                                                        data-bs-toggle="tooltip" title="Default tooltip"></i>
-                                                </div>
-                                                <div class="fw-bold">$3.00</div>
-                                            </div>
-                                        </li>
-                                        <!-- list group item -->
-                                        <li class="list-group-item px-4 py-3">
-                                            <div class="d-flex align-items-center justify-content-between fw-bold">
-                                                <div>Subtotal</div>
-                                                <div>$73.00</div>
-                                            </div>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
+                        <CheckoutCart />
                     </div>
                 </div>
             </div>
