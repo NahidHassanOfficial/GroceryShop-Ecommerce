@@ -44,7 +44,7 @@ const submitOtp = () => {
 
 <template>
     <div class="container d-flex justify-content-center align-items-center min-vh-100">
-        <div class="card p-4 text-center shadow w-50 py-10 px-10">
+        <div class="card p-4 text-center shadow col-sm-12 col-md-4  py-10 px-10">
             <!-- Logo and Header -->
             <div class="mb-3">
                 <img :src="'/images/freshcart-logo.svg'" alt="Your Logo" class="img-fluid mb-2">
