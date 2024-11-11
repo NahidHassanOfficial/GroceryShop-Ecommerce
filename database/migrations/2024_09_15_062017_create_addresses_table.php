@@ -15,9 +15,9 @@ return new class extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained('users');
             $table->string('country')->default('Bangladesh');
-            $table->string('city');
-            $table->string('district');
-            $table->string('address');
+            $table->string('city')->default('');
+            $table->string('district')->default('');
+            $table->string('address')->default('');
             $table->enum('address_type', ['home', 'office']);
             $table->boolean('is_default')->default(false);
             $table->timestamps();

@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('products', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->foreignId('category_id')->constrained('categories')->onDelete('cascade');
+            $table->foreignId('category_id')->constrained('categories')->onDelete('restrict');
             $table->decimal('weight', 8, 2);
             $table->json('sizes')->nullable();
             $table->json('colors')->nullable();
@@ -22,7 +22,7 @@ return new class extends Migration
             $table->text('description');
             $table->decimal('price', 10, 2);
             $table->decimal('sale_price', 10, 2)->nullable();
-            $table->string('product_code');
+            $table->string('product_code')->unique();
             $table->string('product_sku')->unique();
             $table->enum('tag', ['Sale', 'Hot'])->nullable();
             $table->integer('stock');
@@ -31,7 +31,6 @@ return new class extends Migration
             $table->text('meta_description');
             $table->timestamps();
             $table->softDeletes();
-
         });
     }
 
