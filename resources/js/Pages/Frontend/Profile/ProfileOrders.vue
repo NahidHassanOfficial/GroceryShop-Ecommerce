@@ -43,26 +43,27 @@ defineProps({
                     </thead>
                     <tbody>
                         <!-- Table body -->
-                        <tr v-for="order in orders" :key="order.id">
+                        <tr v-if="orders" v-for="order in orders" :key="order.id">
                             <td class="align-middle border-top-0 w-0">
-                                <a href="#"><img :src="`images/products/${JSON.parse(order.product.image)[0]}`"
+                                <a href="#"><img
+                                        :src="`images/products/${JSON.parse(order.invoice_orders[0].product.image)[0]}`"
                                         alt="Ecommerce" class="icon-shape icon-xl" /></a>
                             </td>
                             <td class="align-middle border-top-0">
                                 <a href="#" class="fw-semibold text-inherit">
-                                    <h6 class="mb-0">Haldiram's Nagpur Aloo Bhujia</h6>
+                                    <h6 class="mb-0">{{ order.invoice_orders[0].product.name + '...' }}</h6>
                                 </a>
                                 <span><small class="text-muted">400g</small></span>
                             </td>
                             <td class="align-middle border-top-0">
-                                <a href="#" class="text-inherit">#14899</a>
+                                <a href="#" class="text-inherit">{{ order.id }}</a>
                             </td>
                             <td class="align-middle border-top-0">March 5, 2023</td>
                             <td class="align-middle border-top-0">1</td>
                             <td class="align-middle border-top-0">
                                 <span class="badge bg-warning">Processing</span>
                             </td>
-                            <td class="align-middle border-top-0">$15.00</td>
+                            <td class="align-middle border-top-0">{{ order.total }}</td>
                             <td class="text-muted align-middle border-top-0">
                                 <a href="#" class="text-inherit" data-bs-toggle="tooltip" data-bs-placement="top"
                                     data-bs-title="View"><i class="feather-icon icon-eye"></i></a>

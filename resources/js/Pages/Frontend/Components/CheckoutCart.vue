@@ -8,7 +8,11 @@ cartList.value = localStorage.getItem("cartList")
     : [];
 
 cartList.value.forEach((product) => {
-    totalAmmount.value += product.price * product.quantity;
+    totalAmmount.value = Number(
+        (totalAmmount.value + product.price * product.quantity).toFixed(
+            2
+        )
+    );
 });
 
 </script>
@@ -22,7 +26,7 @@ cartList.value.forEach((product) => {
                     <li v-for="product in cartList" :key="product.id" class="list-group-item px-4 py-3">
                         <div class="row align-items-center">
                             <div class="col-2 col-md-2">
-                                <img :src="'/images/products/product-img-1.jpg'" alt="Ecommerce" class="img-fluid" />
+                                <img :src="'/images/products/' + product.image" alt="Ecommerce" class="img-fluid" />
                             </div>
                             <div class="col-5 col-md-5">
                                 <h6 class="mb-0">{{ product.name }}</h6>
