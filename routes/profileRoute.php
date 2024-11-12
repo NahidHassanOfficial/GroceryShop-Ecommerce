@@ -2,7 +2,7 @@
 
 use App\Http\Controllers\Auth\UserAuthController;
 use App\Http\Controllers\CartController;
-use App\Http\Controllers\Profile\OrderConfirmController;
+use App\Http\Controllers\Profile\CheckOutController;
 use App\Http\Controllers\Profile\UserProfileController;
 use App\Http\Controllers\Profile\WishListController;
 use Illuminate\Support\Facades\Route;
@@ -23,13 +23,18 @@ Route::get('/logout', [UserAuthController::class, 'logout'])->name('logout');
 Route::group(['middleware' => ['user.auth', 'check.auth']], function () {
     //views user account info
     Route::get('/profile', [UserProfileController::class, 'userOrders'])->name('profile');
-    Route::get('/profile/setting', [UserProfileController::class, 'userInfo'])->name('profile.setting');
-    Route::get('/profile/address', [UserProfileController::class, 'userAddress'])->name('profile.address');
     Route::get('/wish-list', [WishListController::class, 'wishList'])->name('profile.wish-list');
 
+    Route::get('/profile/setting', [UserProfileController::class, 'userInfo'])->name('profile.setting');
     Route::post('/profile/setting', [UserProfileController::class, 'updateProfileInfo'])->name('profile.info.update');
     Route::post('/profile/setting/password-update', [UserProfileController::class, 'updateProfilePasswd'])->name('profile.passwd.update');
     Route::post('/profile/setting/account-delete', [UserProfileController::class, 'profileDelete'])->name('profile.delete');
+
+    Route::get('/profile/address', [UserProfileController::class, 'userAddress'])->name('profile.address');
+    //Route::post('/profile/address/create', [UserProfileController::class, 'userAddressCreate'])->name('profile.address.add');
+    Route::post('/profile/address/update', [UserProfileController::class, 'userAddressUpdate'])->name('profile.address.update');
+    Route::get('/profile/address/default', [UserProfileController::class, 'updateDefaultAddress'])->name('addressDefault.update');
+    Route::get('/profile/address/delete/{id}', [UserProfileController::class, 'deleteAddress'])->name('address.delete');
 
     //api actions cart
     Route::get('/profile/cart/info', [CartController::class, 'cartInfo'])->name('cart.info');
@@ -39,7 +44,5 @@ Route::group(['middleware' => ['user.auth', 'check.auth']], function () {
     Route::post('/wish-list/product/add', [WishListController::class, 'addWishList'])->name('add.wish-list');
     Route::post('/wish-list/product/remove', [WishListController::class, 'removeWishListItem'])->name('remove.wish-list.item');
 
-    Route::get('/profile/address/default', [UserProfileController::class, 'updateDefaultAddress'])->name('addressDefault.update');
-
-    Route::get('/order/checkout', [OrderConfirmController::class, 'checkoutPage'])->name('checkoutPage');
+    Route::get('/order/checkout', [CheckOutController::class, 'checkoutPage'])->name('checkoutPage');
 });

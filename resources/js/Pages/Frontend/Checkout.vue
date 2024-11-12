@@ -6,7 +6,7 @@ defineOptions({
     layout: MasterFrontend,
 })
 
-defineProps({
+const props = defineProps({
     user: Object,
     homeAddress: Object,
     officeAddress: Object,
@@ -26,6 +26,23 @@ function updateDefault() {
         },
     });
 }
+
+import AddressModal from './Components/AddressModal.vue';
+
+const showModal = ref(false);
+const newProps = ref('');
+const openModal = (types) => {
+    if (types == 'new') newProps.value = {};
+    else if (types == 'editHome') newProps.value = props.homeAddress;
+    else newProps.value = props.officeAddress;
+
+    showModal.value = true;
+};
+
+function deleteAddress(id) {
+    useForm({}).get(route('address.delete', id))
+}
+
 </script>
 <template>
     <main>
@@ -81,15 +98,15 @@ function updateDefault() {
                                             Add delivery address
                                         </a>
                                         <!-- btn -->
-                                        <a href="#" class="btn btn-outline-primary btn-sm" data-bs-toggle="modal"
-                                            data-bs-target="#addAddressModal">Add a new address</a>
+                                        <a @click="openModal('new')" class="btn btn-outline-primary btn-sm">Add a new
+                                            address</a>
                                         <!-- collapse -->
                                     </div>
                                     <div id="flush-collapseOne" class="accordion-collapse collapse show"
                                         data-bs-parent="#accordionFlushExample">
                                         <div class="mt-5">
                                             <div class="row">
-                                                <div class="col-xl-6 col-lg-12 col-md-6 col-12 mb-4">
+                                                <div v-if="homeAddress" class="col-xl-6 col-lg-12 col-md-6 col-12 mb-4">
                                                     <!-- form -->
                                                     <div class="card card-body p-6">
                                                         <div class="form-check mb-4">
@@ -116,9 +133,16 @@ function updateDefault() {
                                                         <button @click="updateDefault" v-if="!homeAddress.is_default"
                                                             class="btn btn-outline-danger btn-sm col-6">Make Default
                                                             address </button>
+                                                        <div class="mt-4">
+                                                            <a @click="openModal('editHome')"
+                                                                class="text-inherit">Edit</a>
+                                                            <a @click="deleteAddress(homeAddress.id)"
+                                                                class="text-danger ms-3">Delete</a>
+                                                        </div>
                                                     </div>
                                                 </div>
-                                                <div class="col-xl-6 col-lg-12 col-md-6 col-12 mb-4">
+                                                <div v-if="officeAddress"
+                                                    class="col-xl-6 col-lg-12 col-md-6 col-12 mb-4">
                                                     <!-- input -->
                                                     <div class="card card-body p-6">
                                                         <div class="form-check mb-4">
@@ -143,12 +167,19 @@ function updateDefault() {
                                                         <button @click="updateDefault" v-if="!officeAddress.is_default"
                                                             class="btn btn-outline-danger btn-sm col-6">Make Default
                                                             address</button>
+                                                        <div class="mt-4">
+                                                            <a @click="openModal('editOffice')"
+                                                                class="text-inherit">Edit</a>
+                                                            <a @click="deleteAddress(officeAddress.id)"
+                                                                class="text-danger ms-3">Delete</a>
+                                                        </div>
 
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
+                                    <AddressModal :address="newProps" v-if="showModal" @close="showModal = false" />
                                 </div>
                                 <!-- accordion item -->
                                 <div class="accordion-item py-4" style="pointer-events: none; opacity: 0.5;">
@@ -1315,7 +1346,29 @@ function updateDefault() {
                                                             </div>
                                                             <div>
                                                                 <!-- title -->
-                                                                <h5 class="mb-1 h6">Pay with Bkash/Nagad/Upay/Rocket
+                                                                <h5 class="mb-1 h6">Pay with Bkash/Nagad
+                                                                </h5>
+                                                                <p class="mb-0 small">You will be redirected to
+                                                                    Payment
+                                                                    Gateway to complete your purchase securely.</p>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="card card-bordered shadow-none mb-2">
+                                                    <!-- card body -->
+                                                    <div class="card-body p-6">
+                                                        <!-- check input -->
+                                                        <div class="d-flex">
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="radio"
+                                                                    name="flexRadioDefault" id="payoneer" />
+                                                                <label class="form-check-label ms-2"
+                                                                    for="payoneer"></label>
+                                                            </div>
+                                                            <div>
+                                                                <!-- title -->
+                                                                <h5 class="mb-1 h6">Pay with other Banks
                                                                 </h5>
                                                                 <p class="mb-0 small">You will be redirected to
                                                                     SSLCOMMERZ

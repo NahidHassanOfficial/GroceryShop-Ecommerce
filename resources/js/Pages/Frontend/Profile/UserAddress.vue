@@ -3,6 +3,40 @@ import MasterProfile from './Layout/MasterProfile.vue';
 defineOptions({
     layout: MasterProfile,
 })
+
+const props = defineProps({
+    homeAddress: Object,
+    officeAddress: Object,
+})
+
+import { useForm } from '@inertiajs/vue3';
+let addressUpdate = useForm({});
+function updateDefault() {
+    addressUpdate.get(route('addressDefault.update'), {
+        onSuccess: () => {
+            toast.success("Default address updated");
+        },
+        onError: () => {
+            toast.error(form.errors.message);
+        },
+    });
+}
+
+import AddressModal from '../Components/AddressModal.vue';
+import { ref } from 'vue';
+const showModal = ref(false);
+const newProps = ref('');
+const openModal = (types) => {
+    if (types == 'new') newProps.value = {};
+    else if (types == 'editHome') newProps.value = props.homeAddress;
+    else newProps.value = props.officeAddress;
+
+    showModal.value = true;
+};
+
+function deleteAddress(id) {
+    useForm({}).get(route('address.delete', id))
+}
 </script>
 <template>
     <div class="col-lg-9 col-md-8 col-12">
@@ -11,56 +45,67 @@ defineOptions({
                 <!-- heading -->
                 <h2 class="mb-0">Address</h2>
                 <!-- button -->
-                <a href="#" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#addAddressModal">Add
-                    a
-                    new address</a>
+                <a @click="openModal('new')" class="btn btn-outline-primary btn-sm">Add a new
+                    address</a>
             </div>
             <div class="row">
                 <!-- col -->
-                <div class="col-xl-5 col-lg-6 col-xxl-4 col-12 mb-4">
+                <div v-if="homeAddress" class="col-xl-5 col-lg-6 col-xxl-4 col-12 mb-4">
                     <!-- form -->
-                    <div class="card">
-                        <div class="card-body p-6">
-                            <div class="form-check mb-4">
-                                <input class="form-check-input" type="radio" name="flexRadioDefault" id="homeRadio"
-                                    checked />
-                                <label class="form-check-label text-dark fw-semibold" for="homeRadio">Home</label>
-                            </div>
-                            <!-- address -->
-                            <p class="mb-6" id="home-address">
+                    <div class="card card-body p-6">
+                        <div class="form-check mb-4">
+                            <input class="form-check-input" type="radio" name="flexRadioDefault" id="homeRadio"
+                                :checked="homeAddress.is_default" />
+                            <label class="form-check-label text-dark" for="homeRadio">Home
+                            </label>
+                        </div>
+                        <!-- address -->
+                        <address>
+                            <br />
+                            {{ homeAddress.address }},
+                            <br />
+                            {{ homeAddress.district }}, {{ homeAddress.city }}, {{
+                                homeAddress.country }},
+                            <br />
 
-                            </p>
-                            <!-- btn -->
-                            <a href="#" class="btn btn-info btn-sm">Default address</a>
-                            <div class="mt-4">
-                                <a href="#" class="text-inherit">Edit</a>
-                                <a href="#" class="text-danger ms-3" data-bs-toggle="modal"
-                                    data-bs-target="#deleteModal">Delete</a>
-                            </div>
+                        </address>
+
+                        <button @click="updateDefault" v-if="!homeAddress.is_default"
+                            class="btn btn-outline-danger btn-sm col-6">Make Default
+                            address </button>
+                        <div class="mt-4">
+                            <a @click="openModal('editHome')" class="text-inherit">Edit</a>
+                            <a @click="deleteAddress(homeAddress.id)" class="text-danger ms-3">Delete</a>
+                            <!-- data-bs-toggle="modal" data-bs-target="#deleteModal" -->
                         </div>
                     </div>
                 </div>
-                <div class="col-xk-5 col-lg-6 col-xxl-4 col-12 mb-4">
+                <div v-if="officeAddress" class="col-xk-5 col-lg-6 col-xxl-4 col-12 mb-4">
                     <!-- input -->
-                    <div class="card">
-                        <div class="card-body p-6">
-                            <div class="form-check mb-4">
-                                <input class="form-check-input" type="radio" name="flexRadioDefault" id="officeRadio" />
-                                <label class="form-check-label text-dark fw-semibold" for="officeRadio">Office</label>
-                            </div>
-                            <!-- nav item -->
-                            <p class="mb-6" id="office-address">
+                    <div class="card card-body p-6">
+                        <div class="form-check mb-4">
+                            <input class="form-check-input" type="radio" name="flexRadioDefault" id="officeRadio"
+                                :checked="officeAddress.is_default" />
+                            <label class="form-check-label text-dark" for="officeRadio">Office </label>
 
-                            </p>
-                            <!-- link -->
-                            <a href="#" class="link-primary">Set as Default</a>
-                            <div class="mt-4">
-                                <a href="#" class="text-inherit">Edit</a>
-                                <!-- btn -->
-                                <a href="#" class="text-danger ms-3" data-bs-toggle="modal"
-                                    data-bs-target="#deleteModal">Delete</a>
-                            </div>
                         </div>
+                        <address>
+                            <br />
+                            {{ officeAddress.address }},
+                            <br />
+                            {{ officeAddress.district }}, {{ officeAddress.city }}, {{
+                                officeAddress.country }},
+                            <br />
+
+                        </address>
+                        <button @click="updateDefault" v-if="!officeAddress.is_default"
+                            class="btn btn-outline-danger btn-sm col-6">Make Default
+                            address</button>
+                        <div class="mt-4">
+                            <a @click="openModal('editOffice')" class="text-inherit">Edit</a>
+                            <a @click="deleteAddress(officeAddress.id)" class="text-danger ms-3">Delete</a>
+                        </div>
+
                     </div>
                 </div>
             </div>
@@ -81,16 +126,7 @@ defineOptions({
                 <div class="modal-body">
                     <h6>Are you sure you want to delete this address?</h6>
                     <p class="mb-6">
-                        Jitu Chauhan
-                        <br />
 
-                        4450 North Avenue Oakland,
-                        <br />
-
-                        Nebraska, United States,
-                        <br />
-
-                        402-776-1106
                     </p>
                 </div>
                 <!-- modal footer -->
@@ -103,84 +139,6 @@ defineOptions({
         </div>
     </div>
     <!-- Modal -->
-    <div class="modal fade" id="addAddressModal" tabindex="-1" aria-labelledby="addAddressModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-            <!-- modal content -->
-            <div class="modal-content">
-                <!-- modal body -->
-                <div class="modal-body p-6">
-                    <div class="d-flex justify-content-between mb-5">
-                        <div>
-                            <!-- heading -->
-                            <h5 class="mb-1" id="addAddressModalLabel">New Shipping Address</h5>
-                            <p class="small mb-0">Add new shipping address for your order delivery.</p>
-                        </div>
-                        <div>
-                            <!-- button -->
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                    </div>
-                    <!-- row -->
-                    <div class="row g-3">
-
-
-                        <!-- col -->
-                        <div class="col-12">
-                            <!-- form select -->
-                            <select class="form-select">
-                                <option selected="">Country</option>
-                                <option value="1">Bangladesh</option>
-                                <option value="2">USA</option>
-                                <option value="3">UAE</option>
-                            </select>
-                        </div>
-
-                        <!-- col -->
-                        <div class="col-12">
-                            <!-- input -->
-                            <select class="form-select">
-                                <option selected="">City</option>
-                                <option value="1">Dhaka</option>
-                                <option value="2">Chittagong</option>
-                                <option value="3">Sylhet</option>
-                            </select>
-                        </div>
-
-                        <!-- col -->
-                        <div class="col-12">
-                            <!-- form select -->
-                            <select class="form-select">
-                                <option selected="">District</option>
-                                <option value="1">Dhaka</option>
-                                <option value="2">Chittagong</option>
-                                <option value="3">Sylhet</option>
-                            </select>
-                        </div>
-
-                        <div class="col-12">
-                            <!-- input -->
-                            <input type="text" class="form-control" placeholder="Road, House Number" />
-                        </div>
-
-                        <!-- col -->
-                        <div class="col-12">
-                            <!-- form check -->
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" />
-                                <label class="form-check-label" for="flexCheckDefault">Set as Default</label>
-                            </div>
-                        </div>
-                        <!-- col -->
-                        <div class="col-12 text-end">
-                            <button type="button" class="btn btn-outline-primary"
-                                data-bs-dismiss="modal">Cancel</button>
-                            <button class="btn btn-primary" type="button">Save Address</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+    <AddressModal :address="newProps" v-if="showModal" @close="showModal = false" />
 
 </template>

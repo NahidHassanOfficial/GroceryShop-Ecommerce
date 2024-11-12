@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Profile;
 
 use App\Http\Controllers\Controller;
 use App\Models\Address;
-use App\Models\Order;
+use App\Models\Invoice;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
@@ -12,6 +12,86 @@ use Inertia\Inertia;
 
 class UserProfileController extends Controller
 {
+    public function userAddress()
+    {
+        $addresses = Address::where('user_id', request()->header('id'))->get();
+
+        $homeAddress = null;
+        $officeAddress = null;
+
+        foreach ($addresses as $address) {
+            if ($address->address_type === 'home') {
+                $homeAddress = $address;
+            } elseif ($address->address_type === 'office') {
+                $officeAddress = $address;
+            }
+        }
+
+        return Inertia::render("Frontend/Profile/UserAddress", ['homeAddress' => $homeAddress,
+            'officeAddress' => $officeAddress,
+        ]);
+    }
+
+    public function userAddressUpdate(Request $request)
+    {
+        $validatedRequest = $request->validate([
+            'country' => 'required|max:20',
+            'city' => 'required|max:20',
+            'district' => 'required|max:20',
+            'address' => 'required|max:20',
+            'address_type' => 'required|in:home,office',
+            'is_default' => 'required|boolean',
+        ]);
+
+        $checkIfExisted = Address::where('user_id', $request->header('id'))->where('address_type', $request->address_type)->first();
+        if ($checkIfExisted) {
+            $checkIfExisted->country = request()->country;
+            $checkIfExisted->city = request()->city;
+            $checkIfExisted->district = request()->district;
+            $checkIfExisted->address = request()->address;
+            $checkIfExisted->address_type = request()->address_type;
+            $checkIfExisted->is_default = request()->is_default;
+
+            if ($checkIfExisted->isDirty()) {
+                $checkIfExisted->save();
+            }
+            return back();
+        } else {
+            $validatedRequest['user_id'] = $request->header('id');
+            Address::create($validatedRequest);
+            return back();
+        }
+
+    }
+    // public function userAddressUpdate(Request $request)
+    // {
+    //     $request->validate([
+    //         'country' => 'required|max:20',
+    //         'city' => 'required|max:20',
+    //         'district' => 'required|max:20',
+    //         'address' => 'required|max 20',
+    //         'address_type' => 'required|in:home,office',
+    //         'is_default' => 'required|boolean',
+    //     ]);
+
+    //     $checkIfExisted = Address::where('user_id', $request->header('id'))->where('address_type', $request->address_type)->first();
+    //     if ($checkIfExisted) {
+    //         $checkIfExisted->country = request()->country;
+    //         $checkIfExisted->city = request()->city;
+    //         $checkIfExisted->district = request()->district;
+    //         $checkIfExisted->address = request()->address;
+    //         $checkIfExisted->address_type = request()->address_type;
+    //         $checkIfExisted->is_default = request()->is_default;
+
+    //         if ($checkIfExisted->isDirty()) {
+    //             $checkIfExisted->save();
+    //         }
+    //         return back();
+    //     } else {
+    //         return back()->withErrors(['message' => 'Something Wrong!']);
+    //     }
+    // }
+
     public function updateDefaultAddress(Request $request)
     {
         $addresses = Address::where('user_id', $request->header('id'))->get();
@@ -23,16 +103,26 @@ class UserProfileController extends Controller
 
         return back();
     }
-    public function userAddress()
+
+    public function deleteAddress(Request $request)
     {
-        return Inertia::render('Frontend/Profile/UserAddress');
+        $address = Address::where('user_id', $request->header('id'))->where('id', $request->id)->first();
+        if ($address) {
+            $address->delete();
+            return back();
+        } else {
+            return back()->withErrors(['message' => 'Address not found!']);
+        }
     }
+
     public function userOrders()
     {
-        $orders =
-        $orders = Order::with(['product:id,name,image,slug', 'product.category:id,name,slug'])
+        $orders = Invoice::with(['invoiceOrders.product:id,name,image'])
             ->where('user_id', request()->header('id'))
+            ->select('id', 'total')
             ->get();
+
+        // dd($orders[0]->invoiceOrders[0]->product->name);
 
         return Inertia::render('Frontend/Profile/ProfileOrders', ['orders' => $orders]);
     }
