@@ -3,6 +3,7 @@
 use App\Http\Controllers\Auth\UserAuthController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\Profile\CheckOutController;
+use App\Http\Controllers\Profile\InvoiceController;
 use App\Http\Controllers\Profile\UserProfileController;
 use App\Http\Controllers\Profile\WishListController;
 use Illuminate\Support\Facades\Route;
@@ -45,4 +46,5 @@ Route::group(['middleware' => ['user.auth', 'check.auth']], function () {
     Route::post('/wish-list/product/remove', [WishListController::class, 'removeWishListItem'])->name('remove.wish-list.item');
 
     Route::get('/order/checkout', [CheckOutController::class, 'checkoutPage'])->name('checkoutPage');
+    Route::post('/order/checkout', [InvoiceController::class, 'createInvoice'])->name('create.invoice');
 });

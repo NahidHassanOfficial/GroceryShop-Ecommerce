@@ -24,6 +24,13 @@ return Application::configure(basePath: dirname(__DIR__))
             'user.auth' => TokenVerificationMiddleware::class,
         ]);
 
+        $middleware->validateCsrfTokens(except: [
+            '/payment/success',
+            '/payment/failed',
+            '/payment/canceled',
+            '/payment/ipn',
+        ]);
+
     })
     ->withExceptions(function (Exceptions $exceptions) {
         //

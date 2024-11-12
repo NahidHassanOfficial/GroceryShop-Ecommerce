@@ -3,6 +3,7 @@
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\IndexController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\Profile\InvoiceController;
 use Illuminate\Support\Facades\Route;
 
 require base_path('routes/adminRoute.php');
@@ -16,3 +17,10 @@ Route::group(['middleware' => ['check.auth']], function () {
 
     Route::inertia('/cart', 'Frontend/ConfirmCart')->name('cartPage');
 });
+
+//payment gateway routes | SSLCOMMERZ
+Route::get('/create', [InvoiceController::class, 'createInvoice']);
+Route::post("/payment/success", [InvoiceController::class, 'paymentSuccess']);
+Route::post("/payment/failed", [InvoiceController::class, 'paymentCancel']);
+Route::post("/payment/canceled", [InvoiceController::class, 'paymentFail']);
+Route::post("/payment/ipn", [InvoiceController::class, 'paymentIPN']);

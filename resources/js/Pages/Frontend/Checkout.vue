@@ -1,5 +1,7 @@
 <script setup>
 import { ref } from 'vue';
+import flatpickr from 'flatpickr';
+import { useForm } from '@inertiajs/vue3';
 import MasterFrontend from './Layout/MasterFrontend.vue';
 import CheckoutCart from './Components/CheckoutCart.vue';
 defineOptions({
@@ -10,10 +12,19 @@ const props = defineProps({
     user: Object,
     homeAddress: Object,
     officeAddress: Object,
+    paymentOptions: Array,
 })
 
-import flatpickr from 'flatpickr';
-import { useForm } from '@inertiajs/vue3';
+import AddressModal from './Components/AddressModal.vue';
+const showModal = ref(false);
+const newProps = ref('');
+const openModal = (types) => {
+    if (types == 'new') newProps.value = {};
+    else if (types == 'editHome') newProps.value = props.homeAddress;
+    else newProps.value = props.officeAddress;
+
+    showModal.value = true;
+};
 
 let addressUpdate = useForm({});
 function updateDefault() {
@@ -27,22 +38,46 @@ function updateDefault() {
     });
 }
 
-import AddressModal from './Components/AddressModal.vue';
-
-const showModal = ref(false);
-const newProps = ref('');
-const openModal = (types) => {
-    if (types == 'new') newProps.value = {};
-    else if (types == 'editHome') newProps.value = props.homeAddress;
-    else newProps.value = props.officeAddress;
-
-    showModal.value = true;
-};
-
 function deleteAddress(id) {
     useForm({}).get(route('address.delete', id))
 }
 
+//checkout methods
+const isAddress = ref(props.homeAddress?.is_default || props.officeAddress?.is_default);
+const paymentMethod = ref(null);
+const checkOutForm = useForm({
+    products: JSON.parse(localStorage.getItem("cartList")).map(product => {
+        return { id: product.id, quantity: product.quantity }
+    }),
+    payment_method: paymentMethod.value,
+});
+
+function checkout() {
+    checkOutForm.post(route('create.invoice'), {
+        preserveScroll: true,
+        onSuccess: () => {
+            if (checkOutForm.payment_method == 'bkash') {
+                openPaymentModal();
+            }
+            else if (checkOutForm.payment_method == 'cod') {
+                toast.success('Order Placed!');
+                window.location.href = '/profile';
+            }
+            checkOutForm.reset();
+            localStorage.removeItem("cartList");
+            props.paymentOptions = "";
+        },
+        onError: () => {
+            toast.error(checkOutForm.errors.message);
+        },
+    });
+}
+
+import PaymentOptionModal from './Components/PaymentOptionModal.vue';
+const showPaymentModal = ref(false);
+const openPaymentModal = () => {
+    showPaymentModal.value = true;
+};
 </script>
 <template>
     <main>
@@ -1339,14 +1374,15 @@ function deleteAddress(id) {
                                                         <!-- check input -->
                                                         <div class="d-flex">
                                                             <div class="form-check">
-                                                                <input class="form-check-input" type="radio"
-                                                                    name="flexRadioDefault" id="payoneer" />
+                                                                <input v-model="checkOutForm.payment_method"
+                                                                    value="bkash" class="form-check-input" type="radio"
+                                                                    name="flexRadioDefault" id="bkash" />
                                                                 <label class="form-check-label ms-2"
-                                                                    for="payoneer"></label>
+                                                                    for="bkash"></label>
                                                             </div>
                                                             <div>
                                                                 <!-- title -->
-                                                                <h5 class="mb-1 h6">Pay with Bkash/Nagad
+                                                                <h5 class="mb-1 h6">Pay with Bkash/Rocket
                                                                 </h5>
                                                                 <p class="mb-0 small">You will be redirected to
                                                                     Payment
@@ -1361,10 +1397,11 @@ function deleteAddress(id) {
                                                         <!-- check input -->
                                                         <div class="d-flex">
                                                             <div class="form-check">
-                                                                <input class="form-check-input" type="radio"
-                                                                    name="flexRadioDefault" id="payoneer" />
+                                                                <input v-model="checkOutForm.payment_method"
+                                                                    value="others" class="form-check-input" type="radio"
+                                                                    name="flexRadioDefault" id="others" />
                                                                 <label class="form-check-label ms-2"
-                                                                    for="payoneer"></label>
+                                                                    for="others"></label>
                                                             </div>
                                                             <div>
                                                                 <!-- title -->
@@ -1383,7 +1420,8 @@ function deleteAddress(id) {
                                                         <!-- check input -->
                                                         <div class="d-flex">
                                                             <div class="form-check">
-                                                                <input class="form-check-input" type="radio"
+                                                                <input v-model="checkOutForm.payment_method" value="cod"
+                                                                    class="form-check-input" type="radio"
                                                                     name="flexRadioDefault" id="cashonDelivery" />
                                                                 <label class="form-check-label ms-2"
                                                                     for="cashonDelivery"></label>
@@ -1404,7 +1442,13 @@ function deleteAddress(id) {
                                                         aria-expanded="false" aria-controls="flush-collapseThree">
                                                         Prev
                                                     </a>
-                                                    <a href="#" class="btn btn-primary ms-2">Place Order</a>
+                                                    <button
+                                                        :disabled="checkOutForm.payment_method == null || !isAddress"
+                                                        @click="checkout" class="btn btn-primary ms-2">Place
+                                                        Order</button>
+
+                                                    <PaymentOptionModal :paymentOptions="paymentOptions"
+                                                        v-if="showPaymentModal" @close="showPaymentModal = false" />
                                                 </div>
                                             </div>
                                         </div>
