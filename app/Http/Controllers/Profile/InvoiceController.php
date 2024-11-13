@@ -31,11 +31,15 @@ class InvoiceController extends Controller
             // dd(vars: $profile->addresses->first()->city);
 
             $totalAmmount = 0;
+            $products = [];
             foreach ($cartList as $cart) {
                 // $totalAmmount += Product::where("id", $cart['id'])->value('price') * $cart['quantity'];
-                $totalAmmount += Product::where("id", $cart['id'])->where('status', 1)->where('stock', '>=', 1)
-                    ->select(DB::raw('IF(sale_price > 0, sale_price, price) as final_price'))
+                $product = Product::where("id", $cart['id'])->where('status', 1)->where('stock', '>=', 1)->first();
+                $totalAmmount += $product->select(DB::raw('IF(sale_price > 0, sale_price, price) as final_price'))
                     ->value('final_price') * $cart['quantity'];
+
+                //store product name and categoryname
+                $products[] = ['name' => $product->name, 'category' => $product->category->name];
             }
 
             $invoice = Invoice::create([
@@ -63,16 +67,9 @@ class InvoiceController extends Controller
                 ]);
             };
 
-            foreach ($cartList as $cart) {
-                Product::where("id", $cart['id'])
-                    ->where('status', 1)
-                    ->where('stock', '>=', $cart['quantity'])
-                    ->decrement('stock', $cart['quantity']);
-
-            };
-
             if ($request->payment_method != 'cod') {
-                $paymentMethod = SSLCOMMERZ::InitiatePayment($profile, $totalAmmount, $transaction_id);
+
+                $paymentMethod = SSLCOMMERZ::InitiatePayment($profile, $totalAmmount, $transaction_id, $products);
 
                 DB::commit();
 
@@ -99,6 +96,19 @@ class InvoiceController extends Controller
     public function paymentSuccess(Request $request)
     {
         SSLCommerz::InitiateSuccess(tran_id: $request->query('tran_id'));
+
+        $invoice_id = Invoice::where('transaction_id', $request->query('tran_id'))->select('id')->first();
+
+        $invoiceOrders = InvoiceOrder::where('invoice_id', $invoice_id)->select('product_id', 'quantity');
+
+        //update products stock on payment success
+        foreach ($invoiceOrders as $item) {
+            Product::where("id", $item['id'])
+                ->where('status', 1)
+                ->where('stock', '>=', $item['quantity'])
+                ->decrement('stock', $item['quantity']);
+        };
+
         return redirect('/profile');
     }
 
