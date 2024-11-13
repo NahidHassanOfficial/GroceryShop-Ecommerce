@@ -82,7 +82,7 @@ function quantityUpdate(product, incOrDec) {
                 </div>
                 <div class="d-grid">
 
-                    <a :href="route('checkoutPage')"
+                    <a v-if="totalAmmount" :href="route('checkoutPage')"
                         class="btn btn-primary btn-lg d-flex justify-content-between align-items-center">
                         Go to Checkout <span class="fw-bold" id="totalAmmount">{{ totalAmmount }}</span>
                     </a>

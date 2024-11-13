@@ -47,8 +47,9 @@ import { addToWishList, addToCart } from './Utils/CartWishManage';
                         <i class="bi bi-star-half"></i></small> <span class="text-muted small">4.5(149)</span>
                 </div>
                 <div class="d-flex justify-content-between align-items-center mt-3">
-                    <div><span class="text-dark">{{ product.sale_price }}</span> <span
-                            class="text-decoration-line-through text-muted">{{ product.price
+                    <div><span :show="product.sale_price" class="text-dark">{{ product.sale_price }}</span> <span
+                            :class="product.sale_price ? 'text-decoration-line-through text-muted' : 'text-dark'">{{
+                                product.price
                             }}</span>
                     </div>
                     <div><a @click="addToCart(product)" class="btn btn-primary btn-sm">
