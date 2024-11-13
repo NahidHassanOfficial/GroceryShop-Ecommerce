@@ -65,6 +65,13 @@ class InvoiceController extends Controller
                         ->select(DB::raw('IF(sale_price > 0, sale_price, price) as final_price'))
                         ->value('final_price') * $cart['quantity'],
                 ]);
+
+                //update the stocks
+                Product::where("id", $cart['id'])
+                    ->where('status', 1)
+                    ->where('stock', '>=', $cart['quantity'])
+                    ->decrement('stock', $cart['quantity']);
+
             };
 
             if ($request->payment_method != 'cod') {
@@ -96,31 +103,22 @@ class InvoiceController extends Controller
     public function paymentSuccess(Request $request)
     {
         SSLCommerz::InitiateSuccess(tran_id: $request->query('tran_id'));
-
-        $invoice_id = Invoice::where('transaction_id', $request->query('tran_id'))->select('id')->first();
-
-        $invoiceOrders = InvoiceOrder::where('invoice_id', $invoice_id)->select('product_id', 'quantity');
-
-        //update products stock on payment success
-        foreach ($invoiceOrders as $item) {
-            Product::where("id", $item['id'])
-                ->where('status', 1)
-                ->where('stock', '>=', $item['quantity'])
-                ->decrement('stock', $item['quantity']);
-        };
-
         return redirect('/profile');
     }
 
     public function paymentCancel(Request $request)
     {
         SSLCommerz::InitiateCancel($request->query('tran_id'));
+        $this->updateStocksOnCancel($request->query('tran_id'));
+
         return redirect('/profile');
     }
 
     public function paymentFail(Request $request)
     {
         SSLCommerz::InitiateFail($request->query('tran_id'));
+        $this->updateStocksOnCancel($request->query('tran_id'));
+
         return redirect('/profile');
     }
 
@@ -130,4 +128,16 @@ class InvoiceController extends Controller
         return SSLCommerz::InitiateIPN($request->input('tran_id'), $request->input('status'), $request->input('val_id'));
     }
 
+    public function updateStocksOnCancel($tran_id)
+    {
+        $invoice_id = Invoice::where('transaction_id', $tran_id)->value('id');
+        $invoiceOrders = InvoiceOrder::where('invoice_id', $invoice_id)->select('product_id', 'quantity')->get();
+
+        foreach ($invoiceOrders as $item) {
+            Product::where('id', $item['product_id'])
+                ->increment('stock', $item['quantity']);
+        };
+
+        return true;
+    }
 }

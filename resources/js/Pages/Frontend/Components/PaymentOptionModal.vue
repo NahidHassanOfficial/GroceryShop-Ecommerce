@@ -21,7 +21,7 @@ const props = defineProps({
 
 const filteredGateway = computed(() => {
     return props.paymentOptions.value.filter(method =>
-        method.name.includes('BKash') || method.name.includes('DBBL')
+        method.name.toLowerCase().includes('bkash') || method.name.toLowerCase().includes('dbbl')
     );
 });
 

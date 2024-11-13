@@ -68,13 +68,13 @@ class SSLCOMMERZ
 
     public static function InitiateFail($tran_id): int
     {
-        Invoice::where(['transaction_id' => $tran_id, 'val_id' => null])->update(['payment_status' => 'failed']);
+        Invoice::where(['transaction_id' => $tran_id, 'val_id' => null])->update(['payment_status' => 'failed', 'order_status' => 'failed']);
         return 1;
     }
 
     public static function InitiateCancel($tran_id): int
     {
-        Invoice::where(['transaction_id' => $tran_id, 'val_id' => null])->update(['payment_status' => 'canceled']);
+        Invoice::where(['transaction_id' => $tran_id, 'val_id' => null])->update(['payment_status' => 'canceled', 'order_status' => 'canceled']);
         return 1;
     }
 
