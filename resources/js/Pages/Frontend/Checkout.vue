@@ -57,11 +57,17 @@ function checkout() {
         preserveScroll: true,
         onSuccess: () => {
             if (checkOutForm.payment_method == 'bkash') {
+                props.paymentOptions.value = props.paymentOptions.desc
                 openPaymentModal();
             }
             else if (checkOutForm.payment_method == 'cod') {
                 toast.success('Order Placed!');
-                window.location.href = '/profile';
+                setTimeout(() => {
+                    window.location.href = route('profile');
+                }, 2000);
+            }
+            else {
+                window.location.href = props.paymentOptions.GatewayPageURL;
             }
             checkOutForm.reset();
             localStorage.removeItem("cartList");

@@ -33,15 +33,28 @@ class SSLCOMMERZ
                 "cus_name" => $user->firstName . ' ' . $user->lastName,
                 "cus_email" => $user->email,
                 "cus_add1" => $user->addresses->first()->address,
+                "cus_add2" => $user->addresses->first()->address,
                 "cus_city" => $user->addresses->first()->city,
+                "cus_state" => $user->addresses->first()->city,
+                "cus_postcode" => "1200",
                 "cus_country" => $user->addresses->first()->country,
                 "cus_phone" => $user->phone,
+                "cus_fax" => $user->phone,
+                "shipping_method" => "YES",
                 "ship_name" => $user->firstName . ' ' . $user->lastName,
                 "ship_add1" => $user->addresses->first()->address,
+                "ship_add2" => $user->addresses->first()->address,
                 "ship_city" => $user->addresses->first()->city,
+                "ship_state" => $user->addresses->first()->city,
                 "ship_country" => $user->addresses->first()->country,
+                "ship_postcode" => "12000",
+                "product_name" => "Apple Shop Product",
+                "product_category" => "Apple Shop Category",
+                "product_profile" => "Apple Shop Profile",
+                "product_amount" => $payable,
+
             ]);
-            return $response->json('desc');
+            return $response->json();
         } catch (\Exception $e) {
             return response()->json('Something Wrong!', 500);
         }

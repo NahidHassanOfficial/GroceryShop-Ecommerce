@@ -33,7 +33,7 @@ class InvoiceController extends Controller
             $totalAmmount = 0;
             foreach ($cartList as $cart) {
                 // $totalAmmount += Product::where("id", $cart['id'])->value('price') * $cart['quantity'];
-                $totalAmmount += Product::where("id", $cart['id'])
+                $totalAmmount += Product::where("id", $cart['id'])->where('status', 1)->where('stock', '>=', 1)
                     ->select(DB::raw('IF(sale_price > 0, sale_price, price) as final_price'))
                     ->value('final_price') * $cart['quantity'];
             }
@@ -57,24 +57,33 @@ class InvoiceController extends Controller
                     'product_id' => $cart['id'],
                     'user_id' => $user_id,
                     'quantity' => $cart['quantity'],
-                    'amount' => Product::where("id", $cart['id'])
+                    'amount' => Product::where("id", $cart['id'])->where('status', 1)->where('stock', '>=', 1)
                         ->select(DB::raw('IF(sale_price > 0, sale_price, price) as final_price'))
                         ->value('final_price') * $cart['quantity'],
                 ]);
-            }
-            if ($request->payment_method == 'bkash') {
+            };
+
+            foreach ($cartList as $cart) {
+                Product::where("id", $cart['id'])
+                    ->where('status', 1)
+                    ->where('stock', '>=', $cart['quantity'])
+                    ->decrement('stock', $cart['quantity']);
+
+            };
+
+            if ($request->payment_method != 'cod') {
                 $paymentMethod = SSLCOMMERZ::InitiatePayment($profile, $totalAmmount, $transaction_id);
 
                 DB::commit();
 
-                $filteredGateway = [];
-                foreach ($paymentMethod as $gateway) {
-                    if (str_contains($gateway['name'], "BKash") || str_contains($gateway['name'], "DBBL")) {
-                        $filteredGateway[] = $gateway;
-                    }
-                }
+                // $filteredGateway = [];
+                // foreach ($paymentMethod as $gateway) {
+                //     if (str_contains($gateway['name'], "BKash") || str_contains($gateway['name'], "DBBL")) {
+                //         $filteredGateway[] = $gateway;
+                //     }
+                // }
 
-                return Inertia::render("Frontend/Checkout", ['paymentOptions' => $filteredGateway]);
+                return Inertia::render("Frontend/Checkout", ['paymentOptions' => $paymentMethod]);
 
             } else {
                 DB::commit();

@@ -1,5 +1,5 @@
 <script setup>
-import { ref, defineEmits, onMounted } from 'vue';
+import { ref, onMounted, computed } from 'vue';
 
 const emit = defineEmits(['close']);
 const isOpen = ref(false);
@@ -8,12 +8,6 @@ onMounted(() => {
     isOpen.value = true;
 });
 
-const handleOverlayClick = (event) => {
-    if (event.target.classList.contains('modal-overlay')) {
-        closeModal();
-    }
-};
-
 const closeModal = () => {
     isOpen.value = false;
     setTimeout(() => emit('close'), 300); // Adjust timing to match transition duration
@@ -21,9 +15,15 @@ const closeModal = () => {
 //modal logics end
 
 
-defineProps({
+const props = defineProps({
     paymentOptions: Array,
 })
+
+const filteredGateway = computed(() => {
+    return props.paymentOptions.value.filter(method =>
+        method.name.includes('BKash') || method.name.includes('DBBL')
+    );
+});
 
 function redirectToGateway(url) {
     window.location.href = url;
@@ -40,7 +40,7 @@ function redirectToGateway(url) {
                             <h4 class="text-center mb-5"> Select a payment method
                             </h4>
                             <div class="d-flex flex-row gap-10">
-                                <div v-for="(method, index) in paymentOptions" :key="index"
+                                <div v-for="(method, index) in filteredGateway" :key="index"
                                     class="d-flex flex-column align-items-center">
                                     <img @click="redirectToGateway(method.redirectGatewayURL)" :src="method.logo"
                                         alt="Logo" class="payment-logo"
