@@ -30,6 +30,7 @@ createInertiaApp({
             .use(ZiggyVue)
             .use(Toast, {
                 autoClose: 2000,
+                pauseOnHover: false,
             })
             .component("Head", Head)
             .component("Link", Link)
