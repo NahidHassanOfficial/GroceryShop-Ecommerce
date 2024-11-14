@@ -32,10 +32,10 @@ defineProps({
                         <tr>
                             <th>&nbsp;</th>
                             <th>Product</th>
-                            <th>Order</th>
+                            <th>Invoice ID</th>
                             <th>Date</th>
                             <th>Items</th>
-                            <th>Status</th>
+                            <th>Order Status</th>
                             <th>Amount</th>
 
                             <th></th>
@@ -58,15 +58,27 @@ defineProps({
                             <td class="align-middle border-top-0">
                                 <a href="#" class="text-inherit">{{ order.id }}</a>
                             </td>
-                            <td class="align-middle border-top-0">March 5, 2023</td>
-                            <td class="align-middle border-top-0">1</td>
+                            <td class="align-middle border-top-0">{{ new
+                                Date(order.created_at).toLocaleDateString('en-GB', {
+                                    day: 'numeric', month: 'long',
+                                    year: 'numeric'
+                                }) }}
+                            </td>
+                            <td class="align-middle border-top-0">{{ order.invoice_orders.length }}</td>
                             <td class="align-middle border-top-0">
-                                <span class="badge bg-warning">Processing</span>
+                                <span class="badge bg-warning" :class="{
+                                    'bg-danger': order.order_status === 'canceled' || order.order_status === 'failed',
+                                    'bg-info': order.order_status === 'shipped',
+                                    'bg-success': order.order_status === 'delivered'
+                                }"> {{ order.order_status }}</span>
                             </td>
                             <td class="align-middle border-top-0">{{ order.total }}</td>
                             <td class="text-muted align-middle border-top-0">
-                                <a href="#" class="text-inherit" data-bs-toggle="tooltip" data-bs-placement="top"
-                                    data-bs-title="View"><i class="feather-icon icon-eye"></i></a>
+                                <a v-if="order.order_status != ('canceled' || 'failed')" href="#" class="text-inherit"
+                                    data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="View"><i
+                                        class="feather-icon icon-eye text-success"></i></a>
+                                <p v-else href="#" class="text-inherit" data-bs-toggle="tooltip" data-bs-placement="top"
+                                    data-bs-title="View"><i class="feather-icon icon-eye-off text-danger"></i></p>
                             </td>
                         </tr>
                     </tbody>

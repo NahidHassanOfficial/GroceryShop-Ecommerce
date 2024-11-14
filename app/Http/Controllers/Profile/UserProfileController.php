@@ -119,8 +119,8 @@ class UserProfileController extends Controller
     {
         $orders = Invoice::with(['invoiceOrders.product:id,name,image'])
             ->where('user_id', request()->header('id'))
-            ->select('id', 'total')
-            ->get();
+            ->select('id', 'total', 'transaction_id', 'order_status', 'created_at')
+            ->orderByDesc('id')->get();
 
         // dd($orders[0]->invoiceOrders[0]->product->name);
 

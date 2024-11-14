@@ -71,12 +71,12 @@ const props = defineProps({
                                             </th>
                                             <th>Image</th>
                                             <th>Invoice</th>
-                                            <th>Customer</th>
                                             <th>Date & TIme</th>
-                                            <th>Payment</th>
-                                            <th>Status</th>
-                                            <th>Amount</th>
-                                            <th></th>
+                                            <th>Payment Method</th>
+                                            <th>Payment Status</th>
+                                            <th>Order Status</th>
+                                            <th>Total Amount</th>
+                                            <th>Actions</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -93,16 +93,27 @@ const props = defineProps({
                                                         class="icon-shape icon-md" /></a>
                                             </td>
                                             <td><a :href="route('dash.orders.single', 'FC#1007')"
-                                                    class="text-reset">FC#1007</a></td>
-                                            <td>Jennifer Sullivan</td>
-
-                                            <td>01 May 2023 (10:12 am)</td>
-                                            <td>Paypal</td>
+                                                    class="text-reset">FC#{{ order.id }}</a></td>
+                                            <td>{{ new Date(order.created_at).toLocaleString('en-GB', {
+                                                day: '2-digit',
+                                                month: 'short',
+                                                year: 'numeric',
+                                                hour: '2-digit',
+                                                minute: '2-digit',
+                                                hour12: true
+                                            })
+                                                }}</td>
+                                            <td>{{ order.payment_method }}</td>
 
                                             <td>
-                                                <span class="badge bg-light-primary text-dark-primary">Success</span>
+                                                <span class="badge bg-light-primary text-dark-primary">{{
+                                                    order.payment_status }}</span>
                                             </td>
-                                            <td>$12.99</td>
+                                            <td>
+                                                <span class="badge bg-light-primary text-dark-primary">{{
+                                                    order.payment_status }}</span>
+                                            </td>
+                                            <td>{{ order.total }}</td>
 
                                             <td>
                                                 <div class="dropdown">
