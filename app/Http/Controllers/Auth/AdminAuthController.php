@@ -6,6 +6,7 @@ use App\Helper\JWTToken;
 use App\Http\Controllers\Controller;
 use App\Models\Administrator;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 
 class AdminAuthController extends Controller
 {
@@ -20,8 +21,8 @@ class AdminAuthController extends Controller
         try {
             $email = $request->input('email');
             $password = $request->input('password');
-            $user = Administrator::where('email', $email)->where('password', $password)->first();
-            if ($user) {
+            $user = Administrator::where('email', $email)->first();
+            if ($user && Hash::check($password, $user->password)) {
                 if ($request->input('remember') === true) {
                     $time = time() + 60 * 60 * 24 * 30;
                 } else {

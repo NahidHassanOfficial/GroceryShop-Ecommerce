@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use App\Models\Administrator;
 use App\Models\User;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Hash;
 
 class UserSeeder extends Seeder
 {
@@ -18,13 +19,13 @@ class UserSeeder extends Seeder
             'lastName' => fake()->lastName(),
             'email' => 'admin@admin',
             'phone' => fake()->phoneNumber(),
-            'password' => 'password',
+            'password' => Hash::make('password'),
         ]);
 
         Administrator::create([
             'name' => fake()->name(),
             'email' => 'admin@admin',
-            'password' => 'password',
+            'password' => Hash::make('password'),
             'role' => 'admin',
         ]);
 
@@ -34,7 +35,7 @@ class UserSeeder extends Seeder
                 'lastName' => fake()->lastName(),
                 'email' => fake()->email(),
                 'phone' => fake()->phoneNumber(),
-                'password' => 'password',
+                'password' => Hash::make('password'),
             ]);
         }
     }

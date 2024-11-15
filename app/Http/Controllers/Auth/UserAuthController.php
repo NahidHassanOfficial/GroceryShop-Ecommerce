@@ -8,6 +8,7 @@ use App\Mail\OTPMail;
 use App\Mail\PasswordResetMail;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Str;
 
@@ -23,6 +24,7 @@ class UserAuthController extends Controller
             'password' => 'required|min:8',
         ]);
         $otp = rand(132628, 979431);
+        $validatedRequest['password'] = Hash::make($validatedRequest['password']);
         session(['otp' => $otp, 'userInfo' => $validatedRequest]);
         Mail::to($request->email)->send(new OTPMail($otp));
 
@@ -61,9 +63,10 @@ class UserAuthController extends Controller
         try {
             if ($request->otp == session('otp')) {
                 $user = User::where('email', session('email'))->first();
-                $user->password = str()->password(length: 8, letters: true, numbers: true, symbols: true);
+                $newPassword = str()->password(length: 8, letters: true, numbers: true, symbols: true);
+                $user->password = Hash::make($newPassword);
                 $user->save();
-                Mail::to($user->email)->send(new PasswordResetMail($user->password));
+                Mail::to($user->email)->send(new PasswordResetMail($newPassword));
                 session()->flush();
 
                 return redirect()->route('user.login');
@@ -86,8 +89,8 @@ class UserAuthController extends Controller
         $email = $request->input('email');
         $password = $request->input('password');
 
-        $user = User::where('email', $email)->where('password', $password)->first();
-        if ($user) {
+        $user = User::where('email', $email)->first();
+        if ($user && Hash::check($password, $user->password)) {
             if ($request->input('remember') === true) {
                 $time = time() + 60 * 60 * 24 * 30;
             } else {
