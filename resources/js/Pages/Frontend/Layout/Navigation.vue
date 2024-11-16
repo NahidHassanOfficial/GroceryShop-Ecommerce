@@ -1,5 +1,6 @@
 <script setup>
 import { Link } from '@inertiajs/vue3';
+import Search from '../Components/Search.vue';
 import LocationModal from '../Modals/LocationModal.vue';
 import LoginModal from '../Modals/LoginModal.vue';
 import ProductCartModal from '../Modals/ProductCartModal.vue';
@@ -200,23 +201,8 @@ import { cartList, totalAmmount, removeCartItem } from '../Components/Utils/Cart
                     </div>
                     <div class="col-xxl-6 col-lg-5 d-none d-lg-block">
 
-                        <form action="#">
-                            <div class="input-group">
-                                <input class="form-control rounded" type="search" placeholder="Search for products">
-                                <span class="input-group-append">
-                                    <button class="btn bg-white border border-start-0 ms-n10 rounded-0 rounded-end"
-                                        type="button">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                                            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                                            stroke-linecap="round" stroke-linejoin="round"
-                                            class="feather feather-search">
-                                            <circle cx="11" cy="11" r="8"></circle>
-                                            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-                                        </svg>
-                                    </button>
-                                </span>
-                            </div>
-                        </form>
+                        <Search />
+
                     </div>
                     <div class="col-md-2 col-xxl-3 d-none d-lg-block">
                         <!-- Button trigger modal -->
@@ -335,23 +321,9 @@ import { cartList, totalAmmount, removeCartItem } from '../Components/Utils/Cart
                     </div>
 
                     <div class="d-block d-lg-none mb-4 mt-5">
-                        <form action="#">
-                            <div class="input-group">
-                                <input class="form-control rounded" type="search" placeholder="Search for products">
-                                <span class="input-group-append">
-                                    <button class="btn bg-white border border-start-0 ms-n10 rounded-0 rounded-end"
-                                        type="button">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                                            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                                            stroke-linecap="round" stroke-linejoin="round"
-                                            class="feather feather-search">
-                                            <circle cx="11" cy="11" r="8"></circle>
-                                            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-                                        </svg>
-                                    </button>
-                                </span>
-                            </div>
-                        </form>
+
+                        <Search />
+
                         <div class="mt-2">
                             <button type="button" class="btn btn-outline-gray-400 text-muted w-100"
                                 data-bs-toggle="modal" data-bs-target="#locationModal">

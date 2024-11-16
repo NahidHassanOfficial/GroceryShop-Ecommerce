@@ -18,4 +18,19 @@ class IndexController extends Controller
 
         return Inertia::render('Frontend/Home', ['categories' => $categories, 'products' => $products]);
     }
+
+    public function search()
+    {
+        $searchText = request()->searchText;
+        $products = "";
+        if ($searchText != "") {
+            $products = Product::where('name', 'like', "%" . $searchText . "%")
+                ->orWhere('description', 'like', "%" . $searchText . "%")
+                ->select('name', 'image', 'slug', 'category_id')
+                ->with(['category:id,name,slug'])
+                ->limit(5)->get();
+        }
+
+        return $products;
+    }
 }
