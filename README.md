@@ -19,4 +19,67 @@ An e-commerce platform for shopping groceries online, built with `Laravel 11` fo
 
 The platform is designed to provide a modern, secure, and seamless online grocery shopping experience, combining easy navigation, secure authentication, and smooth order management.
 
+___
+
+## Installation Instructions
+
+### Requirements
+- PHP 8.2 or higher
+- Composer
+- Node.js 20 or higher
+- MySQL Database
+
+### Setup Guide
+
+1. **Clone the Repository**
+   ```bash
+   git clone https://github.com/NahidHassanOfficial/GroceryShop-Ecommerce.git
+   cd GroceryShop-Ecommerce
+   ```
+2. **Install Backend Dependencies**
+   ```bash
+   composer install
+   ```
+3. **Install Frontend Dependencies**
+   ```bash
+   npm install
+   ```
+4. **Environment Configuration**
+   > Copy the .env.example file and rename it to .env
+   ```bash
+   cp .env.example .env
+   ```
+5. **Generate Key**
+   ```bash
+    php artisan key:generate
+   ```
+6. **Update the .env file with your configuration**
+   > - Database credentials <br>
+   > * Mail settings for OTP-based email verification<br>
+   > + Set JWT Key:
+   ```bash
+   JWT_KEY=your_random_generated_key
+   ```
+___
+
+### Running Guide
+
+1. **Migrate DB Tables**
+   > The --seed will generate some fake data in DB, you can skip that if you don't want to.
+   ```bash
+   php artisan migrate --seed
+   ```
+2. **Start the application**
+   ```bash
+   composer run dev
+   ```
+   or,
+   ```bash
+   php artisan serve
+   npm run dev
+   ```
+Hopefully the application is running smoothly on http://127.0.0.1:8000
+> [!NOTE]
+> If you’re not a developer, ensure you have a local server environment (e.g., XAMPP, WAMP, or Laragon) installed. Start the Apache and MySQL services before running the application.
+
 ![Hits](https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https://github.com/NahidHassanOfficial/GroceryShop-Ecommerce)
