@@ -3,6 +3,10 @@ import "@/css/theme.min.css";
 
 import Navigation from './Navigation.vue';
 import Footer from './Footer.vue';
+
+defineProps({
+    categories: Array,
+})
 </script>
 <template>
 
@@ -14,7 +18,7 @@ import Footer from './Footer.vue';
         <title>FreshCart - Online Grocery Shopping Platform</title>
     </Head>
 
-    <Navigation />
+    <Navigation :categories />
 
     <slot />
 

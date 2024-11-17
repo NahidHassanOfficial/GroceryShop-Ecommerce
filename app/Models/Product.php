@@ -21,7 +21,10 @@ class Product extends Model
         'sale_price',
         'product_code',
         'product_sku',
+        'tag',
         'stock',
+        'status',
+        'slug',
         'meta_title',
         'meta_description',
     ];

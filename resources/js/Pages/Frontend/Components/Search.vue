@@ -46,8 +46,8 @@ onUnmounted(() => {
             <li v-for="product in searchResult">
                 <a :href="route('product.view', [product.category.slug, product.slug])"
                     class="dropdown-item d-flex align-items-center">
-                    <img :src="'/images/products/' + JSON.parse(product.image)[0]" class="me-5"
-                        style="width: 24px; height: 24px;">
+                    <img :src="'/images/products/' + JSON.parse(product.image)[0]" class="me-5 img-thumbnail"
+                        style="max-width: 50px;">
                     <!-- Adjust width and height as needed -->
                     {{ product.name }}
                 </a>

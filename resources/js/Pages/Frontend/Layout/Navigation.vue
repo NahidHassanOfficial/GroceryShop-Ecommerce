@@ -6,6 +6,10 @@ import LoginModal from '../Modals/LoginModal.vue';
 import ProductCartModal from '../Modals/ProductCartModal.vue';
 
 import { cartList, totalAmmount, removeCartItem } from '../Components/Utils/CartWishManage';
+
+defineProps({
+    categories: Array,
+})
 </script>
 
 <template>
@@ -298,15 +302,12 @@ import { cartList, totalAmmount, removeCartItem } from '../Components/Utils/Cart
                                 <rect x="3" y="14" width="7" height="7"></rect>
                             </svg></span> All Departments
                     </button>
-                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                        <li><a class="dropdown-item" href="#">Dairy, Bread &amp; Eggs</a></li>
-                        <li><a class="dropdown-item" href="#">Snacks &amp; Munchies</a></li>
-                        <li><a class="dropdown-item" href="#">Fruits &amp; Vegetables</a></li>
-                        <li><a class="dropdown-item" href="#">Cold Drinks &amp; Juices</a></li>
-                        <li><a class="dropdown-item" href="#">Breakfast &amp; Instant Food</a></li>
-                        <li><a class="dropdown-item" href="#">Bakery &amp; Biscuits</a></li>
-
-                        <li><a class="dropdown-item" href="#">Chicken, Meat &amp; Fish</a></li>
+                    <ul class="dropdown-menu overflow-y-scroll" aria-labelledby="dropdownMenuButton1"
+                        style="max-height: 500px;">
+                        <li v-for="category in categories">
+                            <a class="dropdown-item" :href="route('category.view', category.slug)">{{ category.name
+                                }}</a>
+                        </li>
                     </ul>
                 </div>
 
