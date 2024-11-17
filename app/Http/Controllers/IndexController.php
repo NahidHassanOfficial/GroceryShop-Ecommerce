@@ -19,6 +19,12 @@ class IndexController extends Controller
         return Inertia::render('Frontend/Home', ['categories' => $categories, 'products' => $products]);
     }
 
+    public function categoryList()
+    {
+        $categories = Category::select('name', 'slug')->get();
+        return $categories;
+    }
+
     public function search()
     {
         $searchText = request()->searchText;

@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Route;
 require base_path('routes/adminRoute.php');
 require base_path('routes/profileRoute.php');
 
+Route::get('/category-list', [IndexController::class, 'categoryList'])->name('category.list');
 Route::post('/search', [IndexController::class, 'search'])->name('search');
 
 //views general

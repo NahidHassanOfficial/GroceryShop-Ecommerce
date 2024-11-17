@@ -1,5 +1,4 @@
 <script setup>
-import { Link } from '@inertiajs/vue3';
 import Search from '../Components/Search.vue';
 import LocationModal from '../Modals/LocationModal.vue';
 import LoginModal from '../Modals/LoginModal.vue';
@@ -7,8 +6,13 @@ import ProductCartModal from '../Modals/ProductCartModal.vue';
 
 import { cartList, totalAmmount, removeCartItem } from '../Components/Utils/CartWishManage';
 
-defineProps({
-    categories: Array,
+import { ref, onMounted } from 'vue';
+import axios from 'axios';
+const categories = ref('');
+
+onMounted(async () => {
+    const response = await axios.get(route('category.list'));
+    categories.value = ref(response.data);
 })
 </script>
 
@@ -304,7 +308,7 @@ defineProps({
                     </button>
                     <ul class="dropdown-menu overflow-y-scroll" aria-labelledby="dropdownMenuButton1"
                         style="max-height: 500px;">
-                        <li v-for="category in categories">
+                        <li v-for="category in categories.value">
                             <a class="dropdown-item" :href="route('category.view', category.slug)">{{ category.name
                                 }}</a>
                         </li>

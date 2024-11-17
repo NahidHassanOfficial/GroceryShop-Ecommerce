@@ -90,8 +90,8 @@ function quantitySelect(incOrDec) {
                     <div class="col-md-7 col-xl-6">
                         <div class="ps-lg-10 mt-6 mt-md-0">
                             <!-- content -->
-                            <a :href="route('category.view', [product.category.slug])" class="mb-4 d-block">{{
-                                product.category.name }}</a>
+                            <Link :href="route('category.view', [product.category.slug])" class="mb-4 d-block">{{
+                                product.category.name }}</Link>
                             <!-- heading -->
                             <h1 class="mb-1">{{ product.name }}</h1>
                             <div class="mb-4">
