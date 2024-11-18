@@ -75,8 +75,9 @@ import "simplebar/dist/simplebar.min.css";
                                                                 class="list-group-item px-5 py-4 list-group-item-action active">
                                                                 <a href="#!" class="text-muted">
                                                                     <div class="d-flex">
-                                                                        <img :src="'/images/users/avatar-4.jpg'" alt=""
-                                                                            class="avatar avatar-md rounded-circle">
+                                                                        <img :src="'/images/users/user_profile.svg'"
+                                                                            alt=""
+                                                                            class="avatar avatar-md rounded-circle  border">
                                                                         <div class="ms-4">
                                                                             <p class="mb-1">
                                                                                 <span class="text-dark">Your order is
@@ -106,8 +107,9 @@ import "simplebar/dist/simplebar.min.css";
                                                                 class="list-group-item px-5 py-4 list-group-item-action">
                                                                 <a href="#!" class="text-muted">
                                                                     <div class="d-flex">
-                                                                        <img :src="'/images/users/avatar-4.jpg'" alt=""
-                                                                            class="avatar avatar-md rounded-circle">
+                                                                        <img :src="'/images/users/user_profile.svg'"
+                                                                            alt=""
+                                                                            class="avatar avatar-md rounded-circle  border">
                                                                         <div class="ms-4">
                                                                             <p class="mb-1">
                                                                                 <span class="text-dark">Jitu
@@ -138,8 +140,9 @@ import "simplebar/dist/simplebar.min.css";
                                                                 class="list-group-item px-5 py-4 list-group-item-action">
                                                                 <a href="#!" class="text-muted">
                                                                     <div class="d-flex">
-                                                                        <img :src="'/images/users/avatar-4.jpg'" alt=""
-                                                                            class="avatar avatar-md rounded-circle">
+                                                                        <img :src="'/images/users/user_profile.svg'"
+                                                                            alt=""
+                                                                            class="avatar avatar-md rounded-circle border">
                                                                         <div class="ms-4">
                                                                             <p class="mb-1">
                                                                                 <span class="text-dark">You have new
@@ -186,7 +189,8 @@ import "simplebar/dist/simplebar.min.css";
                         </li>
                         <li class="dropdown ms-4">
                             <a href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                <img :src="'/images/users/avatar-4.jpg'" alt="" class="avatar avatar-md rounded-circle">
+                                <img :src="'/images/users/admin_user.svg'" alt=""
+                                    class="avatar avatar-md rounded-circle  border">
                             </a>
 
                             <div class="dropdown-menu dropdown-menu-end p-0">

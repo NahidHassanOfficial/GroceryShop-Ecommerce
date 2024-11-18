@@ -76,12 +76,13 @@ let props = defineProps({
 
                                             <td>
                                                 <div class="d-flex align-items-center">
-                                                    <img :src="'/images/users/avatar-1.jpg'" alt=""
+                                                    <img :src="'/images/users/user_profile.svg'" alt=""
                                                         class="avatar avatar-xs rounded-circle" />
                                                     <div class="ms-2">
                                                         <a href="#!" class="text-inherit" data-bs-toggle="offcanvas"
                                                             data-bs-target="#offcanvasRight"
-                                                            aria-controls="offcanvasRight">{{ customer.name }}</a>
+                                                            aria-controls="offcanvasRight">{{
+                                                                customer.firstName + ' ' + customer.lastName }}</a>
                                                     </div>
                                                 </div>
                                             </td>
@@ -134,7 +135,7 @@ let props = defineProps({
         <div class="offcanvas-body d-flex flex-column gap-4">
             <div class="d-flex flex-row align-items-center gap-4 w-100">
                 <div class="flex-shrink-0">
-                    <img :src="'/images/users/avatar-1.jpg'" alt="avatar" class="avatar avatar-xl rounded-circle" />
+                    <img :src="'/images/users/user_profile.svg'" alt="avatar" class="avatar avatar-xl rounded-circle" />
                 </div>
 
                 <div class="d-flex flex-column gap-1 flex-grow-1">
