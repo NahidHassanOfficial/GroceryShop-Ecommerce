@@ -40,6 +40,19 @@ function quantitySelect(incOrDec) {
 }
 </script>
 <template>
+
+    <Head>
+        <!-- Site Metas -->
+        <meta head-key="description" name="description" :content="product.meta_description" />
+        <meta head-key="keywords" name="keywords" content="" />
+
+        <meta head-key="og:title" property="og:title" :content="product.meta_title">
+        <meta head-key="og:description" property="og:description" :content="product.meta_description">
+        <meta head-key="og:image" property="og:image" :content="'/images/products/' + images[0]">
+
+        <title>{{ product.name }} - FreshCart</title>
+    </Head>
+
     <main>
         <div class="mt-4">
             <div class="container">

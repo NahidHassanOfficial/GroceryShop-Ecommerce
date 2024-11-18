@@ -9,9 +9,13 @@ import Footer from './Footer.vue';
 
     <Head>
         <!-- Site Metas -->
-        <meta name="keywords" content="" />
-        <meta name="description" content="" />
-        <meta name="author" content="" />
+        <meta head-key="description" name="description" content="" />
+        <meta head-key="keywords" name="keywords" content="" />
+
+        <meta head-key="og:title" property="og:title" content="">
+        <meta head-key="og:description" property="og:description" content="">
+        <meta head-key="og:image" property="og:image" content="">
+
         <title>FreshCart - Online Grocery Shopping Platform</title>
     </Head>
 

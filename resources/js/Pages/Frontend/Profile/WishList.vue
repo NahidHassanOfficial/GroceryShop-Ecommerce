@@ -1,5 +1,6 @@
 <script setup>
 import MasterProfile from './Layout/MasterProfile.vue';
+import { addToCart } from '../Components/Utils/CartWishManage';
 defineOptions({
     layout: MasterProfile,
 })
@@ -10,6 +11,7 @@ import { toast } from 'vue3-toastify';
 import { useForm } from '@inertiajs/vue3';
 
 function removeWishItem(wishItem_id) {
+    loader.show();
     const form = useForm({ wishItem_id });
 
     form.post(route('remove.wish-list.item'), {
@@ -20,6 +22,9 @@ function removeWishItem(wishItem_id) {
         onError: () => {
             toast.error(form.errors.message);
         },
+        onFinish: () => {
+            loader.hide();
+        }
     });
 }
 </script>
@@ -97,7 +102,7 @@ function removeWishItem(wishItem_id) {
                                             stock</span>
                                     </td>
                                     <td class="align-middle">
-                                        <button class="btn btn-primary btn-sm">
+                                        <button @click="addToCart(wishItem.product)" class="btn btn-primary btn-sm">
                                             Add to Cart
                                         </button>
                                     </td>

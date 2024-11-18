@@ -14,6 +14,19 @@ import ProductComponent from './Components/ProductComponent.vue';
 </script>
 
 <template>
+
+    <Head>
+        <!-- Site Metas -->
+        <meta head-key="description" name="description" :content="category.meta_description" />
+        <meta head-key="keywords" name="keywords" content="" />
+
+        <meta head-key="og:title" property="og:title" :content="category.meta_title">
+        <meta head-key="og:description" property="og:description" :content="category.meta_description">
+        <meta head-key="og:image" property="og:image" :content="'/images/categories/' + category.image">
+
+        <title>Category {{ category.name }} - FreshCart</title>
+    </Head>
+
     <main>
         <!-- section-->
         <div class="mt-4">
