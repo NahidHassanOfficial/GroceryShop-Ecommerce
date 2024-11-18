@@ -5,6 +5,9 @@ import { createInertiaApp, Head, Link } from "@inertiajs/vue3";
 import { ZiggyVue } from "/vendor/tightenco/ziggy";
 import MasterLayout from "./Pages/Master.vue";
 
+import loader from "../../public/js/loading-overlay";
+window.loader = loader;
+
 import Toast, { toast } from "vue3-toastify";
 window.toast = toast;
 import "vue3-toastify/dist/index.css";

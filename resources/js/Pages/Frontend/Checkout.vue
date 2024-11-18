@@ -53,6 +53,7 @@ const checkOutForm = useForm({
 });
 
 function checkout() {
+    loader.show();
     checkOutForm.post(route('create.invoice'), {
         preserveScroll: true,
         onSuccess: () => {
@@ -75,6 +76,9 @@ function checkout() {
         },
         onError: () => {
             toast.error(checkOutForm.errors.message);
+        },
+        onFinish: () => {
+            loader.hide();
         },
     });
 }

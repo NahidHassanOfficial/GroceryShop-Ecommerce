@@ -5,6 +5,7 @@ const wishForm = useForm({
 });
 
 export function addToWishList(product_id) {
+    loader.show();
     wishForm.product_id = product_id;
     wishForm.post(route("add.wish-list"), {
         preserveScroll: true,
@@ -15,6 +16,9 @@ export function addToWishList(product_id) {
         },
         onError: () => {
             toast.error(wishForm.errors.message);
+        },
+        onFinish: () => {
+            loader.hide();
         },
     });
 }

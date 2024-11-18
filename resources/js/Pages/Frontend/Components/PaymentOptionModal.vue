@@ -20,6 +20,7 @@ const props = defineProps({
 })
 
 const filteredGateway = computed(() => {
+    loader.hide();
     return props.paymentOptions.value.filter(method =>
         method.name.toLowerCase().includes('bkash') || method.name.toLowerCase().includes('dbbl')
     );
