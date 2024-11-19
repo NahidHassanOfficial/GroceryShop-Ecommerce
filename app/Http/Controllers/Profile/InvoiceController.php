@@ -32,11 +32,20 @@ class InvoiceController extends Controller
 
             $totalAmmount = 0;
             $products = [];
-            foreach ($cartList as $cart) {
-                // $totalAmmount += Product::where("id", $cart['id'])->value('price') * $cart['quantity'];
-                $product = Product::where("id", $cart['id'])->where('status', 1)->where('stock', '>=', 1)->first();
-                $totalAmmount += $product->select(DB::raw('IF(sale_price > 0, sale_price, price) as final_price'))
-                    ->value('final_price') * $cart['quantity'];
+            foreach ($cartList as &$cart) {
+                $product = Product::where('id', $cart['id'])->where('status', 1)->where('stock', '>=', $cart['quantity'])->first();
+
+                $itemTotalAmount = 0;
+                if ($product) {
+                    if ($product->sale_price > 0) {
+                        $itemTotalAmount = $product->sale_price * $cart['quantity'];
+                    } else {
+                        $itemTotalAmount = $product->price * $cart['quantity'];
+                    }
+                }
+
+                $totalAmmount += $itemTotalAmount;
+                $cart['totalAmount'] = $itemTotalAmount;
 
                 //store product name and categoryname
                 $products[] = ['name' => $product->name, 'category' => $product->category->name];
@@ -61,9 +70,7 @@ class InvoiceController extends Controller
                     'product_id' => $cart['id'],
                     'user_id' => $user_id,
                     'quantity' => $cart['quantity'],
-                    'amount' => Product::where("id", $cart['id'])->where('status', 1)->where('stock', '>=', 1)
-                        ->select(DB::raw('IF(sale_price > 0, sale_price, price) as final_price'))
-                        ->value('final_price') * $cart['quantity'],
+                    'amount' => $cart['totalAmount'],
                 ]);
 
                 //update the stocks
