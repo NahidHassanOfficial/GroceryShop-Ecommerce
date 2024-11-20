@@ -23,33 +23,33 @@ class InvoiceController extends Controller
 
         $user_id = $request->header('id');
         $cartList = $validatedRequest['products'];
+        $products = [];
+        $totalAmmount = 0;
+
+        foreach ($cartList as &$cart) {
+            $product = Product::where('id', $cart['id'])->where('status', 1)->where('stock', '>=', $cart['quantity'])->first();
+            if ($product) {
+                if ($product->sale_price > 0) {
+                    $cart['price'] = $product->sale_price;
+                    $cart['totalAmount'] = $cart['price'] * $cart['quantity'];
+                } else {
+                    $cart['price'] = $product->price;
+                    $cart['totalAmount'] = $cart['price'] * $cart['quantity'];
+                }
+                $totalAmmount += $cart['totalAmount'];
+
+                //store product name and categoryname
+                $products[] = ['name' => $product->name, 'category' => $product->category->name];
+            } else {
+                return back()->withErrors(['message' => 'Sorry! Product is not available.']);
+            }
+        }
 
         DB::beginTransaction();
         try {
             $transaction_id = uniqid();
             $profile = User::with('addresses')->where('id', $user_id)->first();
             // dd(vars: $profile->addresses->first()->city);
-
-            $totalAmmount = 0;
-            $products = [];
-            foreach ($cartList as &$cart) {
-                $product = Product::where('id', $cart['id'])->where('status', 1)->where('stock', '>=', $cart['quantity'])->first();
-
-                $itemTotalAmount = 0;
-                if ($product) {
-                    if ($product->sale_price > 0) {
-                        $itemTotalAmount = $product->sale_price * $cart['quantity'];
-                    } else {
-                        $itemTotalAmount = $product->price * $cart['quantity'];
-                    }
-                }
-
-                $totalAmmount += $itemTotalAmount;
-                $cart['totalAmount'] = $itemTotalAmount;
-
-                //store product name and categoryname
-                $products[] = ['name' => $product->name, 'category' => $product->category->name];
-            }
 
             $invoice = Invoice::create([
                 'user_id' => $user_id,
@@ -131,7 +131,6 @@ class InvoiceController extends Controller
 
     public function paymentIPN(Request $request)
     {
-        dd($request->input('val_id'));
         return SSLCommerz::InitiateIPN($request->input('tran_id'), $request->input('status'), $request->input('val_id'));
     }
 
