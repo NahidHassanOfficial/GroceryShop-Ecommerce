@@ -38,4 +38,9 @@ class AdminAuthController extends Controller
             return back()->withErrors(['message' => 'Something']);
         }
     }
+
+    public function logout()
+    {
+        return redirect(route('index'))->cookie('token', '', -1);
+    }
 }

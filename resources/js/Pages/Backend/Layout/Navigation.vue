@@ -212,7 +212,7 @@ import "simplebar/dist/simplebar.min.css";
                                     </li>
                                 </ul>
                                 <div class="border-top px-5 py-3">
-                                    <a href="http://127.0.0.1:8001/admin/logout">Log Out</a>
+                                    <a :href="route('admin.logout')">Log Out</a>
                                 </div>
                             </div>
                         </li>
