@@ -39,6 +39,4 @@ Route::middleware([AdminAuthMiddleware::class])->group(function () {
 
     //manage orders
     Route::get('/dashboard/orders', [AdminOrdersController::class, 'ordersPage'])->name('dash.orders');
-    Route::get('/dashboard/order/{orderId}', [AdminOrdersController::class, 'orderView'])->name('dash.orders.single');
-
 });

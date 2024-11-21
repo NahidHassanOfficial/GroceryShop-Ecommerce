@@ -16,9 +16,4 @@ class AdminOrdersController extends Controller
             ->orderByDesc('id')->paginate(10);
         return Inertia::render("Backend/Orders", ['orders' => $orders]);
     }
-
-    public function invoiceView(Request $request)
-    {
-        return Inertia::render('Backend/OrderView');
-    }
 }

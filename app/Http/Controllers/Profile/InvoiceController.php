@@ -14,6 +14,27 @@ use Inertia\Inertia;
 
 class InvoiceController extends Controller
 {
+    public function invoiceInfo(Request $request)
+    {
+        $invoice = false;
+        if ($request->header('role') === 'admin') {
+            $invoice = Invoice::where('id', $request->invoiceID)->select('id', 'user_id')->first();
+        } else {
+            $invoice = Invoice::where('id', $request->invoiceID)->where('user_id', $request->header('id'))->select('id', 'user_id')->first();
+        }
+
+        if (!$invoice) {
+            return false;
+        }
+
+        $invoiceOrders = InvoiceOrder::where('invoice_id', $invoice->id)
+            ->select('product_id', 'quantity', 'amount')
+            ->with('product:id,name,image')->get();
+        $user = User::where('id', $invoice->user_id)->select('firstName', 'lastName', 'email', 'phone')->first();
+
+        return response()->json(['user' => $user, 'invoiceOrders' => $invoiceOrders]);
+    }
+
     public function createInvoice(Request $request)
     {
         $validatedRequest = $request->validate([

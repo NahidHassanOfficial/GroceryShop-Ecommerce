@@ -21,7 +21,7 @@ return new class extends Migration
             $table->json('image');
             $table->text('description');
             $table->decimal('price', 10, 2);
-            $table->decimal('sale_price', 10, 2)->nullable();
+            $table->decimal('sale_price', 10, 2)->default(0)->nullable();
             $table->string('product_code')->unique();
             $table->string('product_sku')->unique();
             $table->enum('tag', ['Sale', 'Hot'])->nullable();

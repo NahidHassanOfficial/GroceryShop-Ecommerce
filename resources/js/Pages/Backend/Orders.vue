@@ -1,13 +1,22 @@
 <script setup>
 import MasterBackend from './Layout/MasterBackend.vue';
 import Pagination from './Components/Pagination.vue';
+import Badge from './Components/Badge.vue';
 defineOptions({
     layout: MasterBackend
 })
 
-const props = defineProps({
+defineProps({
     orders: Array
 })
+
+import InvoiceModal from './Components/InvoiceModal.vue'
+import { ref } from 'vue'
+const selectedInvoice = ref(null)
+
+const openInvoice = (invoice) => {
+    selectedInvoice.value = invoice
+}
 </script>
 <template>
     <!-- main wrapper -->
@@ -92,8 +101,10 @@ const props = defineProps({
                                                 <a href="#"><img :src="'/images/products/product-img-1.jpg'" alt=""
                                                         class="icon-shape icon-md" /></a>
                                             </td>
-                                            <td><a :href="route('dash.orders.single', 'FC#1007')"
-                                                    class="text-reset">FC#{{ order.id }}</a></td>
+                                            <td><a @click="openInvoice(order)" data-bs-toggle="modal"
+                                                    data-bs-target="#invoiceModal" class="text-reset">FC#{{ order.id
+                                                    }}</a>
+                                            </td>
                                             <td>{{ new Date(order.created_at).toLocaleString('en-GB', {
                                                 day: '2-digit',
                                                 month: 'short',
@@ -103,15 +114,13 @@ const props = defineProps({
                                                 hour12: true
                                             })
                                                 }}</td>
-                                            <td>{{ order.payment_method }}</td>
+                                            <td>{{ order.payment_method.toUpperCase() }}</td>
 
                                             <td>
-                                                <span class="badge bg-light-primary text-dark-primary">{{
-                                                    order.payment_status }}</span>
+                                                <Badge :status="order.payment_status" />
                                             </td>
                                             <td>
-                                                <span class="badge bg-light-primary text-dark-primary">{{
-                                                    order.payment_status }}</span>
+                                                <Badge :status="order.order_status" />
                                             </td>
                                             <td>{{ order.total }}</td>
 
@@ -148,4 +157,5 @@ const props = defineProps({
             </div>
         </div>
     </main>
+    <InvoiceModal :invoice="selectedInvoice" />
 </template>

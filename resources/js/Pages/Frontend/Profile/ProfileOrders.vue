@@ -16,6 +16,15 @@ onMounted(() => {
 defineProps({
     orders: Array,
 })
+
+import InvoiceModal from '../Modals/InvoiceModal.vue';
+import { ref } from 'vue'
+const showModal = ref(false)
+const selectedInvoice = ref(null)
+
+const openInvoice = (invoice) => {
+    selectedInvoice.value = invoice
+}
 </script>
 <template>
 
@@ -74,11 +83,14 @@ defineProps({
                             </td>
                             <td class="align-middle border-top-0">{{ order.total }}</td>
                             <td class="text-muted align-middle border-top-0">
-                                <a v-if="order.order_status != ('canceled' || 'failed')" href="#" class="text-inherit"
-                                    data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="View"><i
-                                        class="feather-icon icon-eye text-success"></i></a>
-                                <p v-else href="#" class="text-inherit" data-bs-toggle="tooltip" data-bs-placement="top"
-                                    data-bs-title="View"><i class="feather-icon icon-eye-off text-danger"></i></p>
+                                <a href="#" v-if="order.order_status != ('canceled' || 'failed')"
+                                    @click="openInvoice(order)" data-bs-toggle="modal" data-bs-target="#invoiceModal">
+                                    <i class="feather-icon icon-eye text-success"></i>
+                                </a>
+                                <p v-else class="text-inherit" data-bs-toggle="tooltip" data-bs-placement="top"
+                                    data-bs-title="View">
+                                    <i class="feather-icon icon-eye-off text-danger"></i>
+                                </p>
                             </td>
                         </tr>
                     </tbody>
@@ -86,4 +98,5 @@ defineProps({
             </div>
         </div>
     </div>
+    <InvoiceModal :invoice="selectedInvoice" />
 </template>

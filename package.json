@@ -22,6 +22,7 @@
         "feather-icons": "^4.29.2",
         "flatpickr": "^4.6.13",
         "jquery": "^3.7.1",
+        "puppeteer": "^23.9.0",
         "quill": "^2.0.2",
         "simplebar": "^6.2.7",
         "slick-carousel": "^1.8.1",
