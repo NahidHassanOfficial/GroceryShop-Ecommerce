@@ -1,8 +1,8 @@
 <?php
 
-use App\Http\Middleware\CheckJWTAuth;
+use App\Http\Middleware\CustomerAuthMiddleware;
 use App\Http\Middleware\HandleInertiaRequests;
-use App\Http\Middleware\TokenVerificationMiddleware;
+use App\Http\Middleware\LoggedInDataSharer;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
@@ -20,8 +20,8 @@ return Application::configure(basePath: dirname(__DIR__))
         ]);
 
         $middleware->alias([
-            'check.auth' => CheckJWTAuth::class,
-            'user.auth' => TokenVerificationMiddleware::class,
+            'shareData.auth' => LoggedInDataSharer::class,
+            'customer.auth' => CustomerAuthMiddleware::class,
         ]);
 
         $middleware->validateCsrfTokens(except: [

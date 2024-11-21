@@ -21,7 +21,7 @@ Route::post('/reset-password/verify', [UserAuthController::class, 'resetVerifica
 Route::post('/reset-password', [UserAuthController::class, 'resetPassword'])->name('user.resetpwd.post');
 Route::get('/logout', [UserAuthController::class, 'logout'])->name('logout');
 
-Route::group(['middleware' => ['user.auth', 'check.auth']], function () {
+Route::group(['middleware' => ['customer.auth', 'shareData.auth']], function () {
     //views user account info
     Route::get('/profile', [UserProfileController::class, 'userOrders'])->name('profile');
     Route::get('/wish-list', [WishListController::class, 'wishList'])->name('profile.wish-list');

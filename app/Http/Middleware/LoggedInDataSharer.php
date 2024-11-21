@@ -9,7 +9,7 @@ use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Symfony\Component\HttpFoundation\Response;
 
-class CheckJWTAuth
+class LoggedInDataSharer
 {
     /**
      * Handle an incoming request.
@@ -25,19 +25,17 @@ class CheckJWTAuth
             return $next($request);
         }
         try {
-            // Decode the JWT token
-            $decoded = JWTToken::verifyToken($token);
-            if ($decoded !== 'unauthorized') {
+            $result = JWTToken::verifyToken($token);
+            if ($result !== 'unauthorized' && $result->role === 'user') {
                 Inertia::share('isAuth', true);
-                $wishlistCount = WishList::where('user_id', $decoded->userID)->count();
+                $wishlistCount = WishList::where('user_id', $result->userID)->count();
                 Inertia::share('wishlistCount', $wishlistCount);
 
                 return $next($request);
             }
-
+            return $next($request);
         } catch (\Exception $e) {
             return $next($request);
         }
-        return $next($request);
     }
 }

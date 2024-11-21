@@ -20,11 +20,15 @@ class AdminAuthMiddleware
         $result = JWTToken::verifyToken($token);
         if ($result == "unauthorized") {
             return redirect()->guest(route('admin.loginPage'));
-        } else {
-            $request->headers->set('email', $result->userEmail);
-            $request->headers->set('id', $result->userID);
-            return $next($request);
         }
 
+        if ($result->role === 'admin') {
+            $request->headers->set('email', $result->userEmail);
+            $request->headers->set('id', $result->userID);
+            $request->headers->set('role', $result->role);
+            return $next($request);
+        } else {
+            return redirect()->guest(route('admin.loginPage'));
+        }
     }
 }

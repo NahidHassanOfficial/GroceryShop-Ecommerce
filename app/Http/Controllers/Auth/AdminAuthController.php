@@ -28,7 +28,7 @@ class AdminAuthController extends Controller
                 } else {
                     $time = time() + 60 * 60 * 24;
                 }
-                $token = JWTToken::createToken($email, $user->id, $time);
+                $token = JWTToken::createToken($email, $user->id, $user->role, $time);
                 return redirect()->intended(default:route('dashboard'))->cookie('token', $token, $time);
             } else {
                 return back()->withErrors(['message' => 'Invalid Credentials']);
