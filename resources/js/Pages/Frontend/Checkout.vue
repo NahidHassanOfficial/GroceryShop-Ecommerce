@@ -1,5 +1,5 @@
 <script setup>
-import { ref } from 'vue';
+import { ref, watch } from 'vue';
 import flatpickr from 'flatpickr';
 import { useForm } from '@inertiajs/vue3';
 import MasterFrontend from './Layout/MasterFrontend.vue';
@@ -44,6 +44,9 @@ function deleteAddress(id) {
 
 //checkout methods
 const isAddress = ref(props.homeAddress?.is_default || props.officeAddress?.is_default);
+watch(() => [props.homeAddress, props.officeAddress], () => {
+    isAddress.value = props.homeAddress?.is_default || props.officeAddress?.is_default;
+});
 const paymentMethod = ref(null);
 const checkOutForm = useForm({
     products: JSON.parse(localStorage.getItem("cartList")).map(product => {
