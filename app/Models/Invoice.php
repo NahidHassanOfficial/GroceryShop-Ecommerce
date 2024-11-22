@@ -25,4 +25,8 @@ class Invoice extends Model
         return $this->hasMany(InvoiceOrder::class);
     }
 
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'user_id');
+    }
 }

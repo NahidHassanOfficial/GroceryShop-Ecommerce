@@ -39,4 +39,6 @@ Route::middleware([AdminAuthMiddleware::class])->group(function () {
 
     //manage orders
     Route::get('/dashboard/orders', [AdminOrdersController::class, 'ordersPage'])->name('dash.orders');
+    Route::get('/customer/invoice/info/{userID}', [AdminCustomerManageController::class, 'customerInvoiceInfo'])->name('admin.invoice.get');
+    Route::get('/customer/addresses/{userID}', [AdminCustomerManageController::class, 'customerAddresses'])->name('address.data');
 });
