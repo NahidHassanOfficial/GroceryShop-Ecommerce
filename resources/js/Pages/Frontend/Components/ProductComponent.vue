@@ -22,9 +22,9 @@ import { addToWishList, addToCart } from './Utils/CartWishManage';
 
 
                     <div class="card-product-action">
-                        <a href="#" class="btn-action" data-bs-toggle="modal" data-bs-target="#productViewModal"
-                            data-id=""><i class="bi bi-eye" data-bs-toggle="tooltip" data-bs-html="true"
-                                title="Quick View"></i></a>
+                        <a @click="$emit('selectedProduct', product)" href="#" class="btn-action" data-bs-toggle="modal"
+                            data-bs-target="#productViewModal" data-id=""><i class="bi bi-eye" data-bs-toggle="tooltip"
+                                data-bs-html="true" title="Quick View"></i></a>
                         <a @click="addToWishList(product.id)" class="btn-action" title="Wishlist"><i
                                 class="bi bi-heart"></i></a>
                         <a href="#!" class="btn-action" data-bs-toggle="tooltip" data-bs-html="true" title="Compare"><i

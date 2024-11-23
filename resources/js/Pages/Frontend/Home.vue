@@ -10,10 +10,6 @@ import BoostDiscount from './BoostDiscount.vue';
 import PopularProduct from './PopularProduct.vue';
 import DailyBestSell from './DailyBestSell.vue';
 
-
-import ProductModal from './Modals/ProductModal.vue';
-
-// import { Modal } from 'bootstrap';
 defineProps({
     categories: Array,
     products: Array,
@@ -27,6 +23,4 @@ defineProps({
     <BoostDiscount />
     <PopularProduct :products="products" />
     <DailyBestSell />
-
-    <ProductModal :product="products[0]" />
 </template>

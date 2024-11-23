@@ -5,7 +5,12 @@ defineProps({
 
 import ProductComponent from './Components/ProductComponent.vue';
 
-
+import ProductModal from './Modals/ProductModal.vue';
+import { ref } from 'vue';
+const selectedProduct = ref({});
+function handleEmit(item) {
+    selectedProduct.value = item;
+}
 </script>
 <template>
     <AddProduct />
@@ -20,9 +25,11 @@ import ProductComponent from './Components/ProductComponent.vue';
             </div>
 
             <div class="row g-4 row-cols-lg-5 row-cols-2 row-cols-md-3">
-                <ProductComponent v-for="product in products" :key="product.id" :product="product" />
+                <ProductComponent @selected-product="handleEmit" v-for="product in products" :key="product.id"
+                    :product="product" />
             </div>
         </div>
     </section>
 
+    <ProductModal :product="selectedProduct" />
 </template>

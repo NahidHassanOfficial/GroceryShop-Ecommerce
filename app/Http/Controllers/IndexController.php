@@ -12,7 +12,8 @@ class IndexController extends Controller
     {
         $categories = Category::select('name', 'slug', 'image')->get();
 
-        $products = Product::select('id', 'name', 'image', 'price', 'sale_price', 'tag', 'slug', 'category_id')
+        $products = Product::where('stock', '>', 0)->where('status', 1)
+            ->select('id', 'name', 'image', 'price', 'sale_price', 'product_code', 'tag', 'stock', 'status', 'slug', 'category_id')
             ->with(['category:id,name,slug'])
             ->get();
 

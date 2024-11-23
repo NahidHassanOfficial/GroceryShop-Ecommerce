@@ -175,7 +175,8 @@ function quantitySelect(incOrDec) {
                                         </tr>
                                         <tr>
                                             <td>Availability:</td>
-                                            <td>In Stock</td>
+                                            <td v-if="product.stock > 0 && product.status != 0">In Stock</td>
+                                            <td v-else>Out of Stock</td>
                                         </tr>
                                         <tr>
                                             <td>Type:</td>
