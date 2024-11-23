@@ -40,7 +40,7 @@ import ProductComponent from './Components/ProductComponent.vue';
                             <ol class="breadcrumb mb-0">
                                 <li class="breadcrumb-item"><a href="#!">Home</a></li>
                                 <li class="breadcrumb-item"><a href="#!">Shop</a></li>
-                                <li class="breadcrumb-item active" aria-current="page">Snacks &amp; Munchies</li>
+                                <li class="breadcrumb-item active" aria-current="page">{{ category.name }}</li>
                             </ol>
                         </nav>
                     </div>
@@ -572,7 +572,7 @@ import ProductComponent from './Components/ProductComponent.vue';
                                     <!-- Banner Content -->
                                     <!-- Banner Image -->
                                     <!-- img -->
-                                    <img src="../assets/images/banner/assortment-citrus-fruits.png" alt=""
+                                    <img :src="'/images/banner/assortment-citrus-fruits.png'" alt=""
                                         class="img-fluid rounded">
                                     <!-- Banner Image -->
                                 </div>
