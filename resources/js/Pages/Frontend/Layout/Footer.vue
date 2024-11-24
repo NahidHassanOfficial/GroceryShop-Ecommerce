@@ -61,39 +61,45 @@
                         <ul class="list-inline mb-0">
                             <li class="list-inline-item text-dark">Payment Partners</li>
                             <li class="list-inline-item">
-                                <a href="#!"><img :src="'/images/sslcommerz.png'" style="width: 50px;" alt=""></a>
-                            </li>
-                            <li class="list-inline-item">
-                                <a href="#!"><img :src="'/images/bkash.svg'" style="" alt=""></a>
-                            </li>
-                            <li class="list-inline-item">
-                                <a href="#!"><img :src="'/images/nagad.svg'" style="" alt=""></a>
-                            </li>
-                            <li class="list-inline-item">
-                                <a href="#!"><img :src="'/images/amazonpay.svg'" alt=""></a>
-                            </li>
-                            <li class="list-inline-item">
-                                <a href="#!"><img :src="'/images/american-express.svg'" alt=""></a>
-                            </li>
-                            <li class="list-inline-item">
-                                <a href="#!"><img :src="'/images//mastercard.svg'" alt=""></a>
-                            </li>
-                            <li class="list-inline-item">
-                                <a href="#!"><img :src="'/images/paypal.svg'" alt=""></a>
-                            </li>
-                            <li class="list-inline-item">
-                                <a href="#!"><img :src="'/images/visa.svg'" alt=""></a>
+                                <div class="list-inline-item">
+                                    <a href="#!"><img :src="'/images/sslcommerz.png'" style="width: 50px;" alt=""></a>
+                                </div>
+                                <div class="list-inline-item">
+                                    <a href="#!"><img :src="'/images/bkash.svg'" style="" alt=""></a>
+                                </div>
+                                <div class="list-inline-item">
+                                    <a href="#!"><img :src="'/images/nagad.svg'" style="" alt=""></a>
+                                </div>
+                                <div class="list-inline-item">
+                                    <a href="#!"><img :src="'/images/amazonpay.svg'" alt=""></a>
+                                </div>
+                                <div class="list-inline-item">
+                                    <a href="#!"><img :src="'/images/american-express.svg'" alt=""></a>
+                                </div>
+                                <div class="list-inline-item">
+                                    <a href="#!"><img :src="'/images//mastercard.svg'" alt=""></a>
+                                </div>
+                                <div class="list-inline-item">
+                                    <a href="#!"><img :src="'/images/paypal.svg'" alt=""></a>
+                                </div>
+                                <div class="list-inline-item">
+                                    <a href="#!"><img :src="'/images/visa.svg'" alt=""></a>
+                                </div>
                             </li>
                         </ul>
                     </div>
                     <div class="col-lg-7 mt-4 mt-md-0">
                         <ul class="list-inline mb-0 text-lg-end text-center">
                             <li class="list-inline-item mb-2 mb-md-0 text-dark">Get deliveries with FreshCart</li>
-                            <li class="list-inline-item ms-4">
-                                <a href="#!"> <img :src="'/images/appstore-btn.svg'" alt="" style="width: 140px;"></a>
-                            </li>
                             <li class="list-inline-item">
-                                <a href="#!"> <img :src="'/images/googleplay-btn.svg'" alt="" style="width: 140px;"></a>
+                                <div class="list-inline-item ms-4">
+                                    <a href="#!"> <img :src="'/images/appstore-btn.svg'" alt=""
+                                            style="width: 140px;"></a>
+                                </div>
+                                <div class="list-inline-item">
+                                    <a href="#!"> <img :src="'/images/googleplay-btn.svg'" alt=""
+                                            style="width: 140px;"></a>
+                                </div>
                             </li>
                         </ul>
                     </div>
