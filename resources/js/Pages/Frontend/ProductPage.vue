@@ -32,6 +32,16 @@ onMounted(() => {
     });
 });
 
+function zoom(event) {
+    var target = event.currentTarget;
+    var offsetX, offsetY;
+    offsetX = event.offsetX || event.touches[0].pageX;
+    offsetY = event.offsetY || event.touches[0].pageY;
+    var x = offsetX / target.offsetWidth * 100;
+    var y = offsetY / target.offsetHeight * 100;
+    target.style.backgroundPosition = x + "% " + y + "%";
+}
+
 import { addToWishList, addToCart } from './Components/Utils/CartWishManage';
 const quantity = ref(1);
 function quantitySelect(incOrDec) {
@@ -81,7 +91,7 @@ function quantitySelect(incOrDec) {
                         <div class="product" id="product">
                             <div v-for="(image, index) in images" :key="index">
                                 <div class="zoom" @mousemove="zoom"
-                                    :style="{ backgroundImage: 'url(/images/products/' + image + ')' }">
+                                    :style="{ backgroundImage: 'url(/images/products/' + image + ')', backgroundSize: '150%' }">
                                     <!-- img -->
                                     <img :src="'/images/products/' + image" alt="" />
                                 </div>
