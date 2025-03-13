@@ -59,9 +59,9 @@ function checkout() {
     loader.show();
     checkOutForm.post(route('create.invoice'), {
         preserveScroll: true,
-        onSuccess: () => {
+        onSuccess: (response) => {
             if (checkOutForm.payment_method == 'bkash') {
-                props.paymentOptions.value = props.paymentOptions.desc
+                props.paymentOptions.value = response.props.paymentOptions.desc
                 openPaymentModal();
             }
             else if (checkOutForm.payment_method == 'cod') {
